@@ -78,7 +78,44 @@ endif()
 add_python_extension(_random ${WIN32_BUILTIN} SOURCES _randommodule.c)
 add_python_extension(strop ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES stropmodule.c)
 add_python_extension(_struct ${WIN32_BUILTIN} SOURCES _struct.c)
-add_python_extension(_testcapi NEVER_BUILTIN SOURCES _testcapimodule.c)
+set(testcapi_SOURCES _testcapimodule.c)
+if(PY_VERSION VERSION_LESS "3.12")
+  list(APPEND testcapi_SOURCES
+    abstract.c
+    buffer.c
+    bytearray.c
+    bytes.c
+    code.c
+    codec.c
+    complex.c
+    datetime.c
+    dict.c
+    docstring.c
+    exceptions.c
+    file.c
+    float.c
+    gc.c
+    getargs.c
+    heaptype.c
+    heaptype_relative.c
+    immortal.c
+    list.c
+    long.c
+    mem.c
+    numbers.c
+    pyos.c
+    pytime.c
+    set.c
+    structmember.c
+    sys.c
+    tuple.c
+    unicode.c
+    vectorcall.c
+    vectorcall_limited.c
+    watchers.c
+  )
+endif()
+add_python_extension(_testcapi NEVER_BUILTIN SOURCES ${testcapi_SOURCES})
 set(thread2_NAME thread)
 set(thread3_NAME _thread)
 set(thread2_SOURCES ${SRC_DIR}/Modules/threadmodule.c)
@@ -144,7 +181,9 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.6")
         _blake2/blake2s_impl.c
     )
     add_python_extension(_blake2 ${WIN32_BUILTIN} SOURCES ${_blake2_SOURCES})
-    add_python_extension(_sha3 ${WIN32_BUILTIN} SOURCES _sha3/sha3module.c)
+    if(PY_VERSION VERSION_LESS "3.12")
+        add_python_extension(_sha3 ${WIN32_BUILTIN} SOURCES _sha3/sha3module.c)
+    endif()
     add_python_extension(_testconsole ${WIN32_BUILTIN} REQUIRES WIN32 SOURCES ../PC/_testconsole.c)
 endif()
 
@@ -167,6 +206,11 @@ endif()
 # Python 3.9
 if(PY_VERSION VERSION_EQUAL "3.9")
     add_python_extension(_peg_parser ALWAYS_BUILTIN SOURCES _peg_parser.c)
+endif()
+
+# Python 3.12
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    add_python_extension(_testsinglephase BUILTIN SOURCES _testsinglephase.c)
 endif()
 
 # UNIX-only extensions
@@ -253,6 +297,13 @@ if(EXISTS ${module_src})
   set(HAS_DISTUTILS_FINDVS_MODULE_SRC 1)
 endif()
 add_python_extension(_distutils_findvs REQUIRES WIN32 IS_PY3 HAS_DISTUTILS_FINDVS_MODULE_SRC SOURCES ${module_src})
+
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    add_python_extension(_wmi REQUIRES WIN32 IS_PY3
+        SOURCES ${SRC_DIR}/PC/_wmimodule.cpp
+        LIBRARIES propsys wbemuuid
+    )
+endif()
 
 # Multiprocessing is different on unix and windows
 if(UNIX)
@@ -389,15 +440,21 @@ if(WIN32)
 else()
     if(APPLE)
         if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" AND CMAKE_OSX_ARCHITECTURES STREQUAL "x86_64")
+            set(ctypes_SOURCES
+                _ctypes/malloc_closure.c)
+            if(PY_VERSION VERSION_LESS "3.12")
+                list(APPEND ctypes_SOURCES
+                    _ctypes/darwin/dlfcn_simple.c
+                    _ctypes/libffi_osx/ffi.c
+                    _ctypes/libffi_osx/x86/darwin64.S
+                    _ctypes/libffi_osx/x86/x86-darwin.S
+                    _ctypes/libffi_osx/x86/x86-ffi_darwin.c
+                    _ctypes/libffi_osx/x86/x86-ffi64.c
+                )
+            endif()
             add_python_extension(_ctypes
                 SOURCES ${ctypes_COMMON_SOURCES}
-                        _ctypes/malloc_closure.c
-                        _ctypes/darwin/dlfcn_simple.c
-                        _ctypes/libffi_osx/ffi.c
-                        _ctypes/libffi_osx/x86/darwin64.S
-                        _ctypes/libffi_osx/x86/x86-darwin.S
-                        _ctypes/libffi_osx/x86/x86-ffi_darwin.c
-                        _ctypes/libffi_osx/x86/x86-ffi64.c
+                        ${ctypes_SOURCES}
                 INCLUDEDIRS ${SRC_DIR}/Modules/_ctypes/libffi_osx/include
                             ${SRC_DIR}/Modules/_ctypes/darwin
                 DEFINITIONS MACOSX
@@ -643,13 +700,15 @@ add_python_extension(_sha512 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCE
 
 else()
 
-# We always compile these even when OpenSSL is available (issue #14693).
-# It's harmless and the object code is tiny (40-50 KB per module,
-# only loaded when actually used).
-add_python_extension(_md5 ${WIN32_BUILTIN} SOURCES md5module.c)
-add_python_extension(_sha1 ${WIN32_BUILTIN} SOURCES sha1module.c)
-add_python_extension(_sha256 ${WIN32_BUILTIN} SOURCES sha256module.c)
-add_python_extension(_sha512 ${WIN32_BUILTIN} SOURCES sha512module.c)
+if(PY_VERSION VERSION_LESS "3.12")
+    # We always compile these even when OpenSSL is available (issue #14693).
+    # It's harmless and the object code is tiny (40-50 KB per module,
+    # only loaded when actually used).
+    add_python_extension(_md5 ${WIN32_BUILTIN} SOURCES md5module.c)
+    add_python_extension(_sha1 ${WIN32_BUILTIN} SOURCES sha1module.c)
+    add_python_extension(_sha256 ${WIN32_BUILTIN} SOURCES sha256module.c)
+    add_python_extension(_sha512 ${WIN32_BUILTIN} SOURCES sha512module.c)
+endif()
 
 endif()
 

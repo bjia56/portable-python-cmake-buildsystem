@@ -142,11 +142,15 @@ if(MSVC)
 endif()
 
 set(OBJECT3_SOURCES
-    ${SRC_DIR}/Objects/accu.c
     ${SRC_DIR}/Objects/bytesobject.c
     ${SRC_DIR}/Objects/namespaceobject.c
     ${SRC_DIR}/Objects/odictobject.c
 )
+if(PY_VERSION VERSION_LESS "3.12")
+    list(APPEND OBJECT3_SOURCES
+        ${SRC_DIR}/Objects/accu.c
+    )
+endif()
 if(MSVC)
     list(APPEND OBJECT3_SOURCES
         ${SRC_DIR}/PC/invalid_parameter_handler.c
@@ -155,6 +159,11 @@ endif()
 if(PY_VERSION VERSION_GREATER_EQUAL "3.7")
     list(APPEND OBJECT3_SOURCES
         ${SRC_DIR}/Objects/call.c
+    )
+endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    list(APPEND OBJECT3_SOURCES
+        ${SRC_DIR}/Objects/typevarobject.c
     )
 endif()
 
@@ -358,6 +367,18 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
         ${SRC_DIR}/Python/Python-tokenize.c
         ${SRC_DIR}/Python/frame.c
         ${SRC_DIR}/Python/specialize.c
+    )
+endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    list(APPEND PYTHON_COMMON_SOURCES
+        ${SRC_DIR}/Python/assemble.c
+        ${SRC_DIR}/Python/ceval_gil.c
+        ${SRC_DIR}/Python/flowgraph.c
+        ${SRC_DIR}/Python/instrumentation.c
+        ${SRC_DIR}/Python/intrinsics.c
+        ${SRC_DIR}/Python/legacy_tracing.c
+        ${SRC_DIR}/Python/perf_trampoline.c
+        ${SRC_DIR}/Python/tracemalloc.c
     )
 endif()
 
@@ -784,10 +805,15 @@ else()
       ${SRC_DIR}/Modules/getpath.py
     )
 
+  f(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    set(DEEPFREEZE_PY ${SRC_DIR}/Tools/build/deepfreeze.py)
+  else()
+    set(DEEPFREEZE_PY ${SRC_DIR}/Tools/scripts/deepfreeze.py)
+  endif()
   add_custom_command(
     OUTPUT ${LIBPYTHON_DEEPFREEZE_SOURCES}
     COMMAND
-      ${Python3_EXECUTABLE} ${SRC_DIR}/Tools/scripts/deepfreeze.py
+      ${Python3_EXECUTABLE} ${DEEPFREEZE_PY}
         "${SRC_DIR}/Python/frozen_modules/importlib._bootstrap.h:importlib._bootstrap"
         "${SRC_DIR}/Python/frozen_modules/importlib._bootstrap_external.h:importlib._bootstrap_external"
         "${SRC_DIR}/Python/frozen_modules/zipimport.h:zipimport"
@@ -910,10 +936,26 @@ elseif(UNIX)
         ${SRC_DIR}/Python/frozen.c
     )
 endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    list(APPEND LIBPYTHON_SOURCES
+        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_MD5.c
+        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA1.c
+        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA2.c
+        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA3.c
+        ${SRC_DIR}/Modules/_xxinterpchannelsmodule.c
+        ${SRC_DIR}/Modules/md5module.c
+        ${SRC_DIR}/Modules/sha1module.c
+        ${SRC_DIR}/Modules/sha2module.c
+        ${SRC_DIR}/Modules/sha3module.c
+    )
+endif()
 
 # Build python libraries
 function(add_libpython name type install component)
     add_library(${name} ${type} ${LIBPYTHON_SOURCES})
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+        target_include_directories(${name} PRIVATE ${SRC_DIR}/Modules/_hacl/include)
+    endif()
     target_link_libraries(${name} ${LIBPYTHON_TARGET_LIBRARIES})
 
     if(MSVC)

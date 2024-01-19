@@ -49,6 +49,14 @@ WIN32 is still required for the locale module.
 #define USE_SOCKET
 #endif
 
+#if PY_VERSION_HEX >= 0x030C0000
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+
+#  define MS_WINDOWS_DESKTOP
+#  define HAVE_WINDOWS_CONSOLE_IO 1
+#endif
+
 /* ------------------------------------------------------------------------*/
 /* (i686|x86_64)-w64-mingw32 toolchains defines __MINGW32__ */
 #ifndef __MINGW32__
@@ -140,6 +148,9 @@ WIN32 is still required for the locale module.
 #define HAVE_TMPNAM
 #define HAVE_CLOCK
 #define HAVE_STRERROR
+#if PY_VERSION_HEX >= 0x030C0000
+#  define HAVE_CLOCK_GETTIME 1
+#endif
 
 #include <io.h>
 #include <stdio.h>
@@ -481,6 +492,11 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 
 /* Define to 1 if you have the <process.h> header file. */
 #define HAVE_PROCESS_H 1
+
+#if PY_VERSION_HEX >= 0x030C0000
+/* Define to 1 if you have the <pthread.h> header file. */
+#define HAVE_PTHREAD_H
+#endif
 
 /* Define to 1 if you have the <signal.h> header file. */
 #define HAVE_SIGNAL_H 1
