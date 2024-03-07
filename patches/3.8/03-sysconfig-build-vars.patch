@@ -1,0 +1,24 @@
+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+index daf9f00006..638aaa18b4 100644
+--- a/Lib/sysconfig.py
++++ b/Lib/sysconfig.py
+@@ -466,6 +466,19 @@ def _generate_posix_vars():
+         f.write('build_time_vars = ')
+         pprint.pprint(vars, stream=f)
+ 
++    # fixup sysconfig to use dynamic paths for portable python
++    with open(destfile, 'r', encoding='utf8') as f:
++        varsfile = f.read()
++    if '# patched for portable python' not in varsfile:
++        varsfile = varsfile.replace(" '"+vars['prefix'], " f'{root}")
++        varsfile = varsfile.replace(" '-I"+vars['prefix'], " f'-I{root}")
++        varsfile = varsfile.replace(" \"'"+vars['prefix'], " f\"'{root}")
++        with open(destfile, 'w', encoding='utf8') as f:
++            f.write('# patched for portable python\n')
++            f.write('import sys\nimport os\n')
++            f.write('root = os.path.dirname(os.path.dirname(sys.executable))\n')
++            f.write(varsfile)
++
+     # Create file used for sys.path fixup -- see Modules/getpath.c
+     with open('pybuilddir.txt', 'w', encoding='utf8') as f:
+         f.write(pybuilddir)
