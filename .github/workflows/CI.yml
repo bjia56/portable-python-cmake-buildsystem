@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         runs-on: [macos-latest]
-        python-version: [3.8.18, 3.9.18, 3.10.13]
+        python-version: [3.8.18, 3.9.18, 3.10.13, 3.11.7]
 
     name: python-${{ matrix.python-version }}-${{ matrix.runs-on }}
     steps:
@@ -51,7 +51,7 @@ jobs:
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
         make install
-    
+
     - name: Check sysconfig
       run: |
         ./python-install/bin/python -m sysconfig
