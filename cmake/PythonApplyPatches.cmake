@@ -5,34 +5,14 @@ set(CMAKE_MODULE_PATH
   )
 
 if(NOT DEFINED PATCH_COMMAND)
-  find_package(Git)
-  if(Git_FOUND OR GIT_FOUND)
-    set(PATCH_COMMAND ${GIT_EXECUTABLE} apply --whitespace=fix)
-    # Initialize Git repo to ensure "git apply" works when source tree
-    # is located within an already versioned tree.
-    if(NOT EXISTS "${SRC_DIR}/.git")
-      execute_process(
-        COMMAND ${GIT_EXECUTABLE} init
-        WORKING_DIRECTORY ${SRC_DIR}
-        RESULT_VARIABLE result
-        ERROR_VARIABLE error
-        ERROR_STRIP_TRAILING_WHITESPACE
-        OUTPUT_QUIET
-        )
-      if(NOT result EQUAL 0)
-        message(FATAL_ERROR "${output}\n${error}")
-      endif()
-    endif()
-  else()
-    find_package(Patch)
-    if(Patch_FOUND OR PATCH_FOUND)
-      # Since support for git diffs which copy or rename files was
-      # added in patch 2.7, we can not use older version.
-      if("${Patch_VERSION}" VERSION_GREATER_EQUAL "2.7.0")
-        set(PATCH_COMMAND ${Patch_EXECUTABLE} --quiet -p1 -i)
-      else()
-        set(_reason "Found Patch executable [${Patch_EXECUTABLE}] version [${Patch_VERSION}] older than 2.7.0 missing support for copy or rename files.")
-      endif()
+  find_package(Patch)
+  if(Patch_FOUND OR PATCH_FOUND)
+    # Since support for git diffs which copy or rename files was
+    # added in patch 2.7, we can not use older version.
+    if("${Patch_VERSION}" VERSION_GREATER_EQUAL "2.7.0")
+      set(PATCH_COMMAND ${Patch_EXECUTABLE} --quiet -p1 -i)
+    else()
+      set(_reason "Found Patch executable [${Patch_EXECUTABLE}] version [${Patch_VERSION}] older than 2.7.0 missing support for copy or rename files.")
     endif()
   endif()
 endif()

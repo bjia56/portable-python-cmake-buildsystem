@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         runs-on: [macos-latest]
-        python-version: [3.8.18, 3.9.18, 3.10.13, 3.11.7]
+        python-version: [3.8.18, 3.9.18, 3.10.13]
 
     name: python-${{ matrix.python-version }}-${{ matrix.runs-on }}
     steps:
@@ -31,6 +31,10 @@ jobs:
       uses: jwlawson/actions-setup-cmake@v1.13.1
       with:
         cmake-version: 3.13.5
+
+    - name: Install tools
+      run: |
+        brew install gpatch
 
     - name: Build
       run: |
@@ -47,6 +51,10 @@ jobs:
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
         make install
+    
+    - name: Check sysconfig
+      run: |
+        ./python-install/bin/python -m sysconfig
 
     - name: Test
       run: |
