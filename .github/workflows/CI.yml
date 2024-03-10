@@ -18,7 +18,7 @@ jobs:
   tests:
     runs-on: ${{ matrix.runs-on }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         runs-on: [macos-latest]
         python-version: [3.8.18, 3.9.18, 3.10.13, 3.11.7]
