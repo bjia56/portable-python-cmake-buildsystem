@@ -383,6 +383,7 @@ endif()
 
 if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
   set(CMAKE_C_STANDARD "11")
+  find_package(Python3 COMPONENTS Interpreter)
 else()
   set(CMAKE_C_STANDARD "99")
 endif()
