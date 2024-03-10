@@ -539,6 +539,15 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
         list(APPEND _freeze_importlib_SOURCE
             ${SRC_DIR}/PC/config_minimal.c
         )
+        set(ms_dll_id "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}")
+        if(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+          set(ms_dll_id "${ms_dll_id}-32")
+        endif()
+        set_property(
+            SOURCE ${SRC_DIR}/PC/config_minimal.c
+            PROPERTY COMPILE_DEFINITIONS
+                MS_DLL_ID="${ms_dll_id}"
+        )
     endif()
 else()
     set(_freeze_importlib_SOURCE ${SRC_DIR}/Programs/_freeze_importlib.c)
