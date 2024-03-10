@@ -889,7 +889,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
                 MS_DLL_ID="${ms_dll_id}"
             )
     else()
-        set(PYTHONPATH "${EXTRA_PYTHONPATH}:lib-dynload:plat-${PY_PLATFORM}")
+        set(PYTHONPATH "${EXTRA_PYTHONPATH}:lib-dynload:plat-${PY_PLATFORM}:lib/python${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}")
         if(ENABLE_TKINTER)
             set(PYTHONPATH "${PYTHONPATH}:lib-tk")
         endif()
