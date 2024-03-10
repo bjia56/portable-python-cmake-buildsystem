@@ -381,6 +381,12 @@ if(WIN32 AND IS_PY3)
   enable_language(CXX)
 endif()
 
+if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
+  set(CMAKE_C_STANDARD "11")
+else()
+  set(CMAKE_C_STANDARD "99")
+endif()
+
 # Options depending of the python version
 if(IS_PY2)
   cmake_dependent_option(USE_SYSTEM_DB "Use system DB" ON "USE_SYSTEM_LIBRARIES" OFF)
