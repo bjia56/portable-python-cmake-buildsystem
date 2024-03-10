@@ -1,6 +1,9 @@
 CPython CMake Buildsystem
 =========================
 
+This is a maintained fork of `python-cmake-buildsystem <https://github.com/python-cmake-buildsystem/python-cmake-buildsystem>`_,
+customized for building portable, self-contained Python `distributions <https://github.com/bjia56/portable-python>`_.
+
 Overview
 --------
 
