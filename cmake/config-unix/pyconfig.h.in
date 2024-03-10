@@ -449,8 +449,17 @@
 /* Define this if you have flockfile(), getc_unlocked(), and funlockfile() */
 #cmakedefine HAVE_GETC_UNLOCKED 1
 
+/* Define to 1 if you have the `getegid' function. [Python 3.11] */
+#cmakedefine HAVE_GETEGID 1
+
+/* Define to 1 if you have the `geteuid' function. [Python 3.11] */
+#cmakedefine HAVE_GETEUID 1
+
 /* Define to 1 if you have the `getentropy' function. [Python 3] */
 #cmakedefine HAVE_GETENTROPY 1
+
+/* Define to 1 if you have the `getgid' function. [Python 3.1] */
+#cmakedefine HAVE_GETGID 1
 
 /* Define to 1 if you have the `getgrgid_r' function. [Python 3.8] */
 #cmakedefine HAVE_GETGRGID_R 1
@@ -490,6 +499,9 @@
 
 /* Define to 1 if you have the `getnameinfo' function. */
 #cmakedefine HAVE_GETNAMEINFO 1
+
+/* Define if you have the 'getppid' function. [Python 3.11] */
+#cmakedefine HAVE_GETPPID 1
 
 /* Define if you have the 'getpagesize' function. */
 #cmakedefine HAVE_GETPAGESIZE 1
@@ -541,6 +553,9 @@
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #cmakedefine HAVE_GETTIMEOFDAY 1
+
+/* Define to 1 if you have the `getuid' function. [Python 3.11] */
+#cmakedefine HAVE_GETUID 1
 
 /* Define to 1 if you have the `getwd' function. */
 #cmakedefine HAVE_GETWD 1
@@ -783,6 +798,9 @@
 
 /* Define to 1 if you have the `openat' function. [Python 3] */
 #cmakedefine HAVE_OPENAT 1
+
+/* Define to 1 if you have the `opendir' function. [Python 3.11] */
+#cmakedefine HAVE_OPENDIR 1
 
 /* Define to 1 if you have the `openpty' function. */
 #cmakedefine HAVE_OPENPTY 1
@@ -1179,6 +1197,9 @@
 /* Define to 1 if you have the `sysconf' function. */
 #cmakedefine HAVE_SYSCONF 1
 
+/* Define to 1 if you have the `system' function. [Python 3.11] */
+#cmakedefine HAVE_SYSTEM 1
+
 /* Define to 1 if you have the <sysexits.h> header file. */
 #cmakedefine HAVE_SYSEXITS_H 1
 
@@ -1341,6 +1362,9 @@
 /* Define to 1 if you have the `truncate' function. */
 #cmakedefine HAVE_TRUNCATE 1
 
+/* Define to 1 if you have the `ttyname' function. */
+#cmakedefine HAVE_TTYNAME 1
+
 /* Define to 1 if you don't have `tm_zone' but do have the external array
    `tzname'. */
 #cmakedefine HAVE_TZNAME 1
@@ -1403,6 +1427,9 @@
 
 /* Define to 1 if you have the <uuid/uuid.h> header file. [Python 3.7] */
 #cmakedefine HAVE_UUID_UUID_H 1
+
+/* Define to 1 if you have the `wait' function. [Python 3.11] */
+#cmakedefine HAVE_WAIT 1
 
 /* Define to 1 if you have the `wait3' function. */
 #cmakedefine HAVE_WAIT3 1
