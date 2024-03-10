@@ -796,6 +796,9 @@
 /* Define to 1 if you have the `pause' function. */
 #cmakedefine HAVE_PAUSE 1
 
+/* Define to 1 if you have the `pipe' function. [Python 3] */
+#cmakedefine HAVE_PIPE 1
+
 /* Define to 1 if you have the `pipe2' function. [Python 3] */
 #cmakedefine HAVE_PIPE2 1
 
