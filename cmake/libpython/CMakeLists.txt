@@ -538,6 +538,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
     if(WIN32)
         list(APPEND _freeze_importlib_SOURCE
             ${SRC_DIR}/PC/config_minimal.c
+            ${SRC_DIR}/PC/dl_nt.c
         )
     endif()
 else()
