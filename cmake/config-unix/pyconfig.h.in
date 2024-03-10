@@ -796,7 +796,7 @@
 /* Define to 1 if you have the `pause' function. */
 #cmakedefine HAVE_PAUSE 1
 
-/* Define to 1 if you have the `pipe' function. [Python 3] */
+/* Define to 1 if you have the `pipe' function. [Python 3.11] */
 #cmakedefine HAVE_PIPE 1
 
 /* Define to 1 if you have the `pipe2' function. [Python 3] */
@@ -1356,6 +1356,9 @@
 
 /* Define to 1 if the system has the type `uintptr_t'. */
 #cmakedefine HAVE_UINTPTR_T 1
+
+/* Define to 1 if you have the `umask' function. [Python 3.11] */
+#cmakedefine HAVE_UMASK 1
 
 /* Define to 1 if you have the `uname' function. */
 #cmakedefine HAVE_UNAME 1
