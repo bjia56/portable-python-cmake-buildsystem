@@ -880,7 +880,10 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
                 MS_DLL_ID="${ms_dll_id}"
             )
     else()
-        set(PYTHONPATH "${EXTRA_PYTHONPATH}:lib-dynload:plat-${PY_PLATFORM}")
+        # stdlib 'lib' directory is added to PYTHONPATH explicitly here
+        # it should be auto-detected in getpath.py, but it's unclear what
+        # causes it to be missed
+        set(PYTHONPATH "${EXTRA_PYTHONPATH}:lib:lib-dynload:plat-${PY_PLATFORM}")
         if(ENABLE_TKINTER)
             set(PYTHONPATH "${PYTHONPATH}:lib-tk")
         endif()
