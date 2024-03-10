@@ -852,6 +852,20 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
         ${SRC_DIR}/Modules/_typingmodule.c
         ${SRC_DIR}/Python/frozen.c
     )
+    
+    set(PYTHONPATH "${EXTRA_PYTHONPATH}:lib-dynload:plat-${PY_PLATFORM}")
+    if(ENABLE_TKINTER)
+        set(PYTHONPATH "${PYTHONPATH}:lib-tk")
+    endif()
+    set_property(
+        SOURCE ${SRC_DIR}/Modules/getpath.c
+        PROPERTY COMPILE_DEFINITIONS
+            PREFIX="${CMAKE_INSTALL_PREFIX}"
+            EXEC_PREFIX="${CMAKE_INSTALL_PREFIX}"
+            VERSION="${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}"
+            VPATH="."
+            PYTHONPATH="${PYTHONPATH}"
+    )
 
     if(WIN32)
         list(APPEND LIBPYTHON_SOURCES
