@@ -545,6 +545,9 @@
 /* Define to 1 if you have the `getsid' function. */
 #cmakedefine HAVE_GETSID 1
 
+/* Define to 1 if you have the `getsockname' function. [Python 3.11] */
+#cmakedefine HAVE_GETSOCKNAME 1
+
 /* Define to 1 if you have the `getspent' function. */
 #cmakedefine HAVE_GETSPENT 1
 
