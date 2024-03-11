@@ -876,6 +876,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
                 VPATH="..\\\\.."
                 PYDEBUGEXT="$<$<CONFIG:Debug>:_d>"
                 PLATLIBDIR="DLLs"
+                PYTHONPATH="${EXTRA_PYTHONPATH}:Lib\\\\lib-dynload"
             )
 
         set(ms_dll_id "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}")
