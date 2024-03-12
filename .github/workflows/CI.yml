@@ -56,4 +56,4 @@ jobs:
 
     - name: Test
       run: |
-        ./python-install/bin/python -m test || true
+        ./python-install/bin/python -m test -v || true
