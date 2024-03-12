@@ -144,6 +144,9 @@
 /* Define to 1 if you have the 'chflags' function. */
 #cmakedefine HAVE_CHFLAGS 1
 
+/* Define to 1 if you have the `chmod' function. [Python 3.11] */
+#cmakedefine HAVE_CHMOD 1
+
 /* Define to 1 if you have the `chown' function. */
 #cmakedefine HAVE_CHOWN 1
 
