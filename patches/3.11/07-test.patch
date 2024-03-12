@@ -1,5 +1,5 @@
 diff --git a/Modules/socketmodule.c b/Modules/socketmodule.c
-index f0c9b4691c..b9182fef52 100644
+index f0c9b4691c..743734ff10 100644
 --- a/Modules/socketmodule.c
 +++ b/Modules/socketmodule.c
 @@ -5232,6 +5232,7 @@ sock_initobj_impl(PySocketSockObject *self, int family, int type, int proto,
@@ -50,12 +50,11 @@ index f0c9b4691c..b9182fef52 100644
              set_error();
              return -1;
          }
-@@ -5383,6 +5389,11 @@ sock_initobj_impl(PySocketSockObject *self, int family, int type, int proto,
+@@ -5383,6 +5389,10 @@ sock_initobj_impl(PySocketSockObject *self, int family, int type, int proto,
          Py_END_ALLOW_THREADS
  
          if (fd == INVALID_SOCKET) {
 +            printf("%s:%d\n", __FILE__, __LINE__);
-+            printf("SOCK_CLOEXEC: %d\n", SOCK_CLOEXEC);
 +            printf("family: %d\n", family);
 +            printf("type: %d\n", type);
 +            printf("proto: %d\n", proto);
