@@ -966,6 +966,7 @@ check_symbol_exists(wcscoll      "${CFG_HEADERS}" HAVE_WCSCOLL)
 check_symbol_exists(_getpty      "${CFG_HEADERS}" HAVE__GETPTY)
 
 if(IS_PY3)
+check_symbol_exists(accept       "${CFG_HEADERS}" HAVE_ACCEPT)
 check_symbol_exists(accept4      "${CFG_HEADERS}" HAVE_ACCEPT4)
 check_symbol_exists(copy_file_range "${CFG_HEADERS}" HAVE_COPY_FILE_RANGE)
 check_symbol_exists(dup3         "${CFG_HEADERS}" HAVE_DUP3)

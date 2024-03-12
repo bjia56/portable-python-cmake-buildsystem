@@ -62,6 +62,9 @@
    the case on Motorola V4 (R40V4.2) */
 #cmakedefine GETTIMEOFDAY_NO_TZ 1
 
+/* Define to 1 if you have the `accept' function. [Python 3.11] */
+#cmakedefine HAVE_ACCEPT 1
+
 /* Define to 1 if you have the `accept4' function. [Python 3] */
 #cmakedefine HAVE_ACCEPT4 1
 
