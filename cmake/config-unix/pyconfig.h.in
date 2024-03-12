@@ -1126,6 +1126,9 @@
 /* struct sockaddr_storage (sys/socket.h) */
 #cmakedefine HAVE_SOCKADDR_STORAGE 1
 
+/* Define if you have the 'socket' function. [Python 3.11] */
+#cmakedefine HAVE_SOCKET 1
+
 /* Define if you have the 'socketpair' function. */
 #cmakedefine HAVE_SOCKETPAIR 1
 
