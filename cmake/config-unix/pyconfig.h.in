@@ -62,6 +62,9 @@
    the case on Motorola V4 (R40V4.2) */
 #cmakedefine GETTIMEOFDAY_NO_TZ 1
 
+/* Define to 1 if you have the `accept' function. [Python 3.11] */
+#cmakedefine HAVE_ACCEPT 1
+
 /* Define to 1 if you have the `accept4' function. [Python 3] */
 #cmakedefine HAVE_ACCEPT4 1
 
@@ -94,6 +97,9 @@
 
 /* Define if GCC supports __attribute__((format(PyArg_ParseTuple, 2, 3))) [Python 2.7] */
 #cmakedefine HAVE_ATTRIBUTE_FORMAT_PARSETUPLE 1
+
+/* Define to 1 if you have the `bind' function. [Python 3.11] */
+#cmakedefine HAVE_BIND 1
 
 /* Define to 1 if you have the `bind_textdomain_codeset' function. */
 #cmakedefine HAVE_BIND_TEXTDOMAIN_CODESET 1
@@ -138,6 +144,9 @@
 /* Define to 1 if you have the 'chflags' function. */
 #cmakedefine HAVE_CHFLAGS 1
 
+/* Define to 1 if you have the `chmod' function. [Python 3.11] */
+#cmakedefine HAVE_CHMOD 1
+
 /* Define to 1 if you have the `chown' function. */
 #cmakedefine HAVE_CHOWN 1
 
@@ -164,6 +173,9 @@
 
 /* Define to 1 if you have the <conio.h> header file. */
 #cmakedefine HAVE_CONIO_H 1
+
+/* Define to 1 if you have the `connect' function. [Python 3.11] */
+#cmakedefine HAVE_CONNECT 1
 
 /* Define to 1 if you have the `copysign' function. */
 #cmakedefine HAVE_COPYSIGN 1
@@ -449,8 +461,17 @@
 /* Define this if you have flockfile(), getc_unlocked(), and funlockfile() */
 #cmakedefine HAVE_GETC_UNLOCKED 1
 
+/* Define to 1 if you have the `getegid' function. [Python 3.11] */
+#cmakedefine HAVE_GETEGID 1
+
+/* Define to 1 if you have the `geteuid' function. [Python 3.11] */
+#cmakedefine HAVE_GETEUID 1
+
 /* Define to 1 if you have the `getentropy' function. [Python 3] */
 #cmakedefine HAVE_GETENTROPY 1
+
+/* Define to 1 if you have the `getgid' function. [Python 3.1] */
+#cmakedefine HAVE_GETGID 1
 
 /* Define to 1 if you have the `getgrgid_r' function. [Python 3.8] */
 #cmakedefine HAVE_GETGRGID_R 1
@@ -463,6 +484,9 @@
 
 /* Define to 1 if you have the `getgroups' function. */
 #cmakedefine HAVE_GETGROUPS 1
+
+/* Define to 1 if you have the `gethostbyaddr' function. [Python 3.11] */
+#cmakedefine HAVE_GETHOSTBYADDR 1
 
 /* Define to 1 if you have the `gethostbyname' function. */
 #cmakedefine HAVE_GETHOSTBYNAME 1
@@ -490,6 +514,9 @@
 
 /* Define to 1 if you have the `getnameinfo' function. */
 #cmakedefine HAVE_GETNAMEINFO 1
+
+/* Define if you have the 'getppid' function. [Python 3.11] */
+#cmakedefine HAVE_GETPPID 1
 
 /* Define if you have the 'getpagesize' function. */
 #cmakedefine HAVE_GETPAGESIZE 1
@@ -533,6 +560,9 @@
 /* Define to 1 if you have the `getsid' function. */
 #cmakedefine HAVE_GETSID 1
 
+/* Define to 1 if you have the `getsockname' function. [Python 3.11] */
+#cmakedefine HAVE_GETSOCKNAME 1
+
 /* Define to 1 if you have the `getspent' function. */
 #cmakedefine HAVE_GETSPENT 1
 
@@ -541,6 +571,9 @@
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #cmakedefine HAVE_GETTIMEOFDAY 1
+
+/* Define to 1 if you have the `getuid' function. [Python 3.11] */
+#cmakedefine HAVE_GETUID 1
 
 /* Define to 1 if you have the `getwd' function. */
 #cmakedefine HAVE_GETWD 1
@@ -693,6 +726,9 @@
 /* Define to 1 if you have the <linux/wait.h> header file. [Python 3.9] */
 #cmakedefine HAVE_LINUX_WAIT_H 1
 
+/* Define to 1 if you have the `listen' function. [Python 3.11] */
+#cmakedefine HAVE_LISTEN 1
+
 /* Define to 1 if you have the `lockf' function. [Python 3] */
 #cmakedefine HAVE_LOCKF 1
 
@@ -762,6 +798,9 @@
 /* Define to 1 if you have the <ncurses.h> header file. */
 #cmakedefine HAVE_NCURSES_H 1
 
+/* Define to 1 if you have the <netdb.h> header file. */
+#cmakedefine HAVE_NETDB_H 1
+
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
 #cmakedefine HAVE_NDIR_H 1
 
@@ -781,6 +820,9 @@
 /* Define to 1 if you have the `openat' function. [Python 3] */
 #cmakedefine HAVE_OPENAT 1
 
+/* Define to 1 if you have the `opendir' function. [Python 3.11] */
+#cmakedefine HAVE_OPENDIR 1
+
 /* Define to 1 if you have the `openpty' function. */
 #cmakedefine HAVE_OPENPTY 1
 
@@ -792,6 +834,9 @@
 
 /* Define to 1 if you have the `pause' function. */
 #cmakedefine HAVE_PAUSE 1
+
+/* Define to 1 if you have the `pipe' function. [Python 3.11] */
+#cmakedefine HAVE_PIPE 1
 
 /* Define to 1 if you have the `pipe2' function. [Python 3] */
 #cmakedefine HAVE_PIPE2 1
@@ -895,6 +940,9 @@
 /* Define to 1 if you have the `realpath' function. */
 #cmakedefine HAVE_REALPATH 1
 
+/* Define to 1 if you have the `recvfrom' function. [Python 3.11] */
+#cmakedefine HAVE_RECVFROM 1
+
 /* Define to 1 if you have the `renameat' function. [Python 3] */
 #cmakedefine HAVE_RENAMEAT 1
 
@@ -970,6 +1018,9 @@
 /* Define to 1 if you have the `sendfile' function. [Python 3] */
 #cmakedefine HAVE_SENDFILE 1
 
+/* Define to 1 if you have the `sendto' function. [Python 3.11] */
+#cmakedefine HAVE_SENDTO 1
+
 /* Define to 1 if you have the `setegid' function. */
 #cmakedefine HAVE_SETEGID 1
 
@@ -1015,6 +1066,9 @@
 /* Define to 1 if you have the `setsid' function. */
 #cmakedefine HAVE_SETSID 1
 
+/* Define to 1 if you have the `setsockopt' function. */
+#cmakedefine HAVE_SETSOCKOPT 1
+
 /* Define to 1 if you have the `setuid' function. */
 #cmakedefine HAVE_SETUID 1
 
@@ -1029,6 +1083,9 @@
 
 /* Define to 1 if you have the `shm_unlink' function. [Python 3.8] */
 #cmakedefine HAVE_SHM_UNLINK 1
+
+/* Define to 1 if you have the `shutdown' function. [Python 3.11] */
+#cmakedefine HAVE_SHUTDOWN 1
 
 /* Define to 1 if you have the `sigaction' function. */
 #cmakedefine HAVE_SIGACTION 1
@@ -1077,6 +1134,9 @@
 
 /* struct sockaddr_storage (sys/socket.h) */
 #cmakedefine HAVE_SOCKADDR_STORAGE 1
+
+/* Define if you have the 'socket' function. [Python 3.11] */
+#cmakedefine HAVE_SOCKET 1
 
 /* Define if you have the 'socketpair' function. */
 #cmakedefine HAVE_SOCKETPAIR 1
@@ -1172,6 +1232,9 @@
 
 /* Define to 1 if you have the `sysconf' function. */
 #cmakedefine HAVE_SYSCONF 1
+
+/* Define to 1 if you have the `system' function. [Python 3.11] */
+#cmakedefine HAVE_SYSTEM 1
 
 /* Define to 1 if you have the <sysexits.h> header file. */
 #cmakedefine HAVE_SYSEXITS_H 1
@@ -1335,6 +1398,9 @@
 /* Define to 1 if you have the `truncate' function. */
 #cmakedefine HAVE_TRUNCATE 1
 
+/* Define to 1 if you have the `ttyname' function. */
+#cmakedefine HAVE_TTYNAME 1
+
 /* Define to 1 if you don't have `tm_zone' but do have the external array
    `tzname'. */
 #cmakedefine HAVE_TZNAME 1
@@ -1350,6 +1416,9 @@
 
 /* Define to 1 if the system has the type `uintptr_t'. */
 #cmakedefine HAVE_UINTPTR_T 1
+
+/* Define to 1 if you have the `umask' function. [Python 3.11] */
+#cmakedefine HAVE_UMASK 1
 
 /* Define to 1 if you have the `uname' function. */
 #cmakedefine HAVE_UNAME 1
@@ -1394,6 +1463,9 @@
 
 /* Define to 1 if you have the <uuid/uuid.h> header file. [Python 3.7] */
 #cmakedefine HAVE_UUID_UUID_H 1
+
+/* Define to 1 if you have the `wait' function. [Python 3.11] */
+#cmakedefine HAVE_WAIT 1
 
 /* Define to 1 if you have the `wait3' function. */
 #cmakedefine HAVE_WAIT3 1
@@ -1557,6 +1629,9 @@
 #cmakedefine SIZEOF_LONG @SIZEOF_LONG@
 #cmakedefine ALIGNOF_LONG @SIZEOF_LONG@
 
+/* The size of `long', as computed by alignof. */
+#cmakedefine ALIGNOF_LONG @SIZEOF_LONG@
+
 /* The size of `long double', as computed by sizeof. */
 #cmakedefine SIZEOF_LONG_DOUBLE @SIZEOF_LONG_DOUBLE@
 
@@ -1580,6 +1655,9 @@
 
 /* The size of `size_t', as computed by sizeof. */
 #cmakedefine SIZEOF_SIZE_T @SIZEOF_SIZE_T@
+#cmakedefine ALIGNOF_SIZE_T @SIZEOF_SIZE_T@
+
+/* The size of `size_t', as computed by alignof. */
 #cmakedefine ALIGNOF_SIZE_T @SIZEOF_SIZE_T@
 
 /* The size of `time_t', as computed by sizeof. */

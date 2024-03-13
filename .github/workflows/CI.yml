@@ -11,14 +11,17 @@ on:
         required: false
         type: boolean
 
+env:
+  MACOSX_DEPLOYMENT_TARGET: 10.5
+
 jobs:
   tests:
     runs-on: ${{ matrix.runs-on }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         runs-on: [macos-latest]
-        python-version: [3.8.18, 3.9.18, 3.10.13]
+        python-version: [3.8.18, 3.9.18, 3.10.13, 3.11.7]
 
     name: python-${{ matrix.python-version }}-${{ matrix.runs-on }}
     steps:
@@ -40,17 +43,19 @@ jobs:
         cmake \
           ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
-          -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
-          -DCMAKE_C_STANDARD=99 \
+          -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ env.MACOSX_DEPLOYMENT_TARGET }} \
+          ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
           ..
-        make -j4
+        make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
         make install
-    
+
     - name: Check sysconfig
       run: |
         ./python-install/bin/python -m sysconfig
 
     - name: Test
       run: |
-        ./python-install/bin/python -m test || true
+        ./python-install/bin/python -m ensurepip || true
+        ./python-install/bin/python -m pip install certifi || true
+        ./python-install/bin/python -m test -v --timeout 60 || true

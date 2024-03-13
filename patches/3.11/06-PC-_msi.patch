@@ -1,0 +1,12 @@
+diff --git a/PC/_msi.c b/PC/_msi.c
+index 3d4e4ef22c..959cadc3aa 100644
+--- a/PC/_msi.c
++++ b/PC/_msi.c
+@@ -2,6 +2,7 @@
+  * Copyright (C) 2005 Martin v. Löwis
+  * Licensed to PSF under a contributor agreement.
+  */
++#define NEEDS_PY_IDENTIFIER
+ 
+ #include <Python.h>
+ #include <fci.h>
