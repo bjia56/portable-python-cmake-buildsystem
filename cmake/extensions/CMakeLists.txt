@@ -79,40 +79,40 @@ add_python_extension(_random ${WIN32_BUILTIN} SOURCES _randommodule.c)
 add_python_extension(strop ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES stropmodule.c)
 add_python_extension(_struct ${WIN32_BUILTIN} SOURCES _struct.c)
 set(testcapi_SOURCES _testcapimodule.c)
-if(PY_VERSION VERSION_LESS "3.12")
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
   list(APPEND testcapi_SOURCES
-    abstract.c
-    buffer.c
-    bytearray.c
-    bytes.c
-    code.c
-    codec.c
-    complex.c
-    datetime.c
-    dict.c
-    docstring.c
-    exceptions.c
-    file.c
-    float.c
-    gc.c
-    getargs.c
-    heaptype.c
-    heaptype_relative.c
-    immortal.c
-    list.c
-    long.c
-    mem.c
-    numbers.c
-    pyos.c
-    pytime.c
-    set.c
-    structmember.c
-    sys.c
-    tuple.c
-    unicode.c
-    vectorcall.c
-    vectorcall_limited.c
-    watchers.c
+    _testcapi/abstract.c
+    _testcapi/buffer.c
+    _testcapi/bytearray.c
+    _testcapi/bytes.c
+    _testcapi/code.c
+    _testcapi/codec.c
+    _testcapi/complex.c
+    _testcapi/datetime.c
+    _testcapi/dict.c
+    _testcapi/docstring.c
+    _testcapi/exceptions.c
+    _testcapi/file.c
+    _testcapi/float.c
+    _testcapi/gc.c
+    _testcapi/getargs.c
+    _testcapi/heaptype.c
+    _testcapi/heaptype_relative.c
+    _testcapi/immortal.c
+    _testcapi/list.c
+    _testcapi/long.c
+    _testcapi/mem.c
+    _testcapi/numbers.c
+    _testcapi/pyos.c
+    _testcapi/pytime.c
+    _testcapi/set.c
+    _testcapi/structmember.c
+    _testcapi/sys.c
+    _testcapi/tuple.c
+    _testcapi/unicode.c
+    _testcapi/vectorcall.c
+    _testcapi/vectorcall_limited.c
+    _testcapi/watchers.c
   )
 endif()
 add_python_extension(_testcapi NEVER_BUILTIN SOURCES ${testcapi_SOURCES})
