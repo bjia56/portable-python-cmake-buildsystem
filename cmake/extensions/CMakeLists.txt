@@ -758,18 +758,24 @@ add_python_extension(readline
     LIBRARIES ${READLINE_LIBRARY} ${CURSES_LIBRARIES}
     INCLUDEDIRS ${READLINE_INCLUDE_PATH}
 )
+set(sqlite3_sources
+    _sqlite/connection.c
+    _sqlite/cursor.c
+    _sqlite/microprotocols.c
+    _sqlite/module.c
+    _sqlite/prepare_protocol.c
+    _sqlite/row.c
+    _sqlite/statement.c
+    _sqlite/util.c
+)
+if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
+    list(APPEND sqlite3_sources _sqlite/blob.c)
+else()
+    list(APPEND sqlite3_sources _sqlite/cache.c)
+endif()
 add_python_extension(_sqlite3
     REQUIRES SQLite3_INCLUDE_DIRS SQLite3_LIBRARIES
-    SOURCES $<$<VERSION_LESS:${PY_VERSION},3.11>:_sqlite/cache.c>
-            $<$<VERSION_GREATER_EQUAL:${PY_VERSION},3.11>:_sqlite/blob.c>
-            _sqlite/connection.c
-            _sqlite/cursor.c
-            _sqlite/microprotocols.c
-            _sqlite/module.c
-            _sqlite/prepare_protocol.c
-            _sqlite/row.c
-            _sqlite/statement.c
-            _sqlite/util.c
+    SOURCES ${sqlite3_sources}>
     DEFINITIONS MODULE_NAME="sqlite3" SQLITE_OMIT_LOAD_EXTENSION=1
     INCLUDEDIRS ${SQLite3_INCLUDE_DIRS}
     LIBRARIES ${SQLite3_LIBRARIES}
