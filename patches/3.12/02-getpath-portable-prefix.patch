@@ -1,0 +1,125 @@
+diff --git a/Modules/getpath.c b/Modules/getpath.c
+index 5dbe57c950..47b67e4ccb 100644
+--- a/Modules/getpath.c
++++ b/Modules/getpath.c
+@@ -9,6 +9,120 @@
+ #include <sys/types.h>
+ #include <string.h>
+ 
++
++#if defined(__linux__) || defined(__APPLE__)
++char _portable_python_path_sep = '/';
++#else
++char _portable_python_path_sep = '\\';
++#endif
++
++static void _portable_python_trim_to_parent_directory(char* path) {
++    char* last_slash = strrchr(path, _portable_python_path_sep);
++    if (last_slash == NULL) {
++        fprintf(stderr, "Invalid path: No parent directory found\n");
++        exit(EXIT_FAILURE);
++    }
++
++    // Calculate the length of the parent directory excluding the trailing slash
++    size_t parent_dir_length = last_slash - path;
++    path[parent_dir_length] = '\0';
++}
++
++#ifdef __linux__
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <linux/limits.h>
++#include <errno.h>
++#include <pthread.h>
++
++pthread_mutex_t portable_python_prefix_mutex = PTHREAD_MUTEX_INITIALIZER;
++char portable_python_prefix[PATH_MAX] = {0};
++
++static char* portable_python_get_install_prefix() {
++    pthread_mutex_lock(&portable_python_prefix_mutex);
++
++    if (portable_python_prefix[0] != '\0') {
++        pthread_mutex_unlock(&portable_python_prefix_mutex);
++        return portable_python_prefix;
++    }
++
++    // First, get the path of the running executable
++    ssize_t len = readlink("/proc/self/exe", portable_python_prefix, PATH_MAX);
++    if (len == -1) {
++        perror("Error getting executable path");
++        exit(EXIT_FAILURE);
++    }
++    portable_python_prefix[len] = '\0'; // Null-terminate the string
++
++    _portable_python_trim_to_parent_directory(portable_python_prefix); // bin directory
++    _portable_python_trim_to_parent_directory(portable_python_prefix); // root directory
++
++    pthread_mutex_unlock(&portable_python_prefix_mutex);
++    return portable_python_prefix;
++}
++
++#endif
++
++#ifdef __APPLE__
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <limits.h>
++#include <errno.h>
++#include <libgen.h>
++#include <pthread.h>
++
++pthread_mutex_t portable_python_prefix_mutex = PTHREAD_MUTEX_INITIALIZER;
++char portable_python_prefix[PATH_MAX] = {0};
++
++static char* portable_python_get_install_prefix() {
++    pthread_mutex_lock(&portable_python_prefix_mutex);
++
++    if (portable_python_prefix[0] != '\0') {
++        pthread_mutex_unlock(&portable_python_prefix_mutex);
++        return portable_python_prefix;
++    }
++
++    char path[PATH_MAX];
++    uint32_t bufsize = PATH_MAX;
++    if (_NSGetExecutablePath(path, &bufsize) != 0) {
++        fprintf(stderr, "Error getting executable path\n");
++        exit(EXIT_FAILURE);
++    }
++
++    // Resolve symlink if necessary
++    if (realpath(path, portable_python_prefix) == NULL) {
++        perror("Error resolving symlink");
++        exit(EXIT_FAILURE);
++    }
++
++    _portable_python_trim_to_parent_directory(portable_python_prefix); // bin directory
++    _portable_python_trim_to_parent_directory(portable_python_prefix); // root directory
++
++    pthread_mutex_unlock(&portable_python_prefix_mutex);
++    return portable_python_prefix;
++}
++
++#endif
++
++#if defined(__linux__) || defined(__APPLE__)
++
++#ifdef PREFIX
++# undef PREFIX
++#endif
++
++#ifdef EXEC_PREFIX
++# undef EXEC_PREFIX
++#endif
++
++#define PREFIX (portable_python_get_install_prefix())
++#define EXEC_PREFIX (portable_python_get_install_prefix())
++
++#endif
++
+ #ifdef __APPLE__
+ #  include <mach-o/dyld.h>
+ #endif
