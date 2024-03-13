@@ -78,44 +78,7 @@ endif()
 add_python_extension(_random ${WIN32_BUILTIN} SOURCES _randommodule.c)
 add_python_extension(strop ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES stropmodule.c)
 add_python_extension(_struct ${WIN32_BUILTIN} SOURCES _struct.c)
-set(testcapi_SOURCES _testcapimodule.c)
-if(PY_VERSION VERSION_LESS "3.12")
-  list(APPEND testcapi_SOURCES
-    abstract.c
-    buffer.c
-    bytearray.c
-    bytes.c
-    code.c
-    codec.c
-    complex.c
-    datetime.c
-    dict.c
-    docstring.c
-    exceptions.c
-    file.c
-    float.c
-    gc.c
-    getargs.c
-    heaptype.c
-    heaptype_relative.c
-    immortal.c
-    list.c
-    long.c
-    mem.c
-    numbers.c
-    pyos.c
-    pytime.c
-    set.c
-    structmember.c
-    sys.c
-    tuple.c
-    unicode.c
-    vectorcall.c
-    vectorcall_limited.c
-    watchers.c
-  )
-endif()
-add_python_extension(_testcapi NEVER_BUILTIN SOURCES ${testcapi_SOURCES})
+add_python_extension(_testcapi NEVER_BUILTIN SOURCES _testcapimodule.c)
 set(thread2_NAME thread)
 set(thread3_NAME _thread)
 set(thread2_SOURCES ${SRC_DIR}/Modules/threadmodule.c)
