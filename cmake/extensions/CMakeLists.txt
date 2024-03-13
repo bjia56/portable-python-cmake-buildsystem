@@ -775,7 +775,7 @@ else()
 endif()
 add_python_extension(_sqlite3
     REQUIRES SQLite3_INCLUDE_DIRS SQLite3_LIBRARIES
-    SOURCES ${sqlite3_sources}>
+    SOURCES ${sqlite3_sources}
     DEFINITIONS MODULE_NAME="sqlite3" SQLITE_OMIT_LOAD_EXTENSION=1
     INCLUDEDIRS ${SQLite3_INCLUDE_DIRS}
     LIBRARIES ${SQLite3_LIBRARIES}
