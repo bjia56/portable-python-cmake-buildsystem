@@ -12,7 +12,7 @@ on:
         type: boolean
 
 env:
-  MACOSX_DEPLOYMENT_TARGET: 10.5
+  MACOSX_DEPLOYMENT_TARGET: 10.9
 
 jobs:
   tests:
