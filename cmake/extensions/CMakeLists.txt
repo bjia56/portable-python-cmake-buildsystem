@@ -715,16 +715,15 @@ endif()
 
 endif()
 
-if(UNIX)
-    # For some reason, these modules are not registered correctly
-    if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
-        add_python_extension(_tokenize
-            SOURCES ${SRC_DIR}/Python/Python-tokenize.c
-                    ${SRC_DIR}/Parser/tokenizer.c
-                    ${SRC_DIR}/Parser/pegen.c
-        )
-        add_python_extension(_typing SOURCES _typingmodule.c)
-    endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    add_python_extension(_tokenize
+        SOURCES ${SRC_DIR}/Python/Python-tokenize.c
+        ALWAYS_BUILTIN
+    )
+    add_python_extension(_typing
+        SOURCES _typingmodule.c
+        ALWAYS_BUILTIN
+    )
 endif()
 
 # Extensions that depend on other libraries
