@@ -839,7 +839,7 @@ else()
         "${SRC_DIR}/Python/frozen_modules/frozen_only.h:frozen_only"
         "-o" "${LIBPYTHON_DEEPFREEZE_SOURCES}"
     DEPENDS
-      ${SRC_DIR}/Tools/scripts/deepfreeze.py
+      ${DEEPFREEZE_PY}
       ${LIBPYTHON_FROZEN_SOURCES}
   )
 endif()
