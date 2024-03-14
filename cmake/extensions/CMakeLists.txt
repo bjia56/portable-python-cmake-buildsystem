@@ -712,6 +712,9 @@ endif()
 
 endif()
 
+if(PY_VERSION VERSION_GREATER_EQUAL "3.12)
+    add_python_extension(_tokenize SOURCES Python/Python-tokenize.c)
+endif()
 
 # Extensions that depend on other libraries
 set(binascii_REQUIRES "")
