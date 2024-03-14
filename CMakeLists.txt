@@ -385,10 +385,7 @@ if(WIN32 AND IS_PY3)
 endif()
 
 if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
-  set(CMAKE_C_STANDARD "11")
   find_package(Python3 COMPONENTS Interpreter)
-else()
-  set(CMAKE_C_STANDARD "99")
 endif()
 
 # Options depending of the python version
@@ -561,7 +558,9 @@ include_directories(${SRC_DIR}/Python)
 
 # Set cflags used by all components
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
-    if(PY_VERSION VERSION_GREATER_EQUAL "3.6")
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
+        append_if_absent(CMAKE_C_FLAGS "-std=c11")
+    elseif(PY_VERSION VERSION_GREATER_EQUAL "3.6")
         append_if_absent(CMAKE_C_FLAGS "-std=c99")
     endif()
     append_if_absent(CMAKE_C_FLAGS "-Wall")
