@@ -713,7 +713,7 @@ endif()
 endif()
 
 if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
-    add_python_extension(_tokenize SOURCES ${SRC_DIR}/Python/Python-tokenize.c)
+    add_python_extension(_tokenize SOURCES ${SRC_DIR}/Python/Python-tokenize.c ${SRC_DIR}/Parser/tokenizer.c)
     add_python_extension(_typing SOURCES _typingmodule.c)
 endif()
 
