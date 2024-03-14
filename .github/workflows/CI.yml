@@ -39,11 +39,11 @@ jobs:
     - name: Build libffi
       if: ${{ startsWith(matrix.python-version, '3.12') }}
       run: |
-        mkdir -p ${{ github.workspace }}/deps/libffi
+        mkdir -p ${{ github.workspace }}/deps
         wget -q https://github.com/libffi/libffi/releases/download/v3.4.2/libffi-3.4.2.tar.gz
         tar -xf libffi-3.4.2.tar.gz
         cd libffi-3.4.2
-        ./configure
+        ./configure --prefix ${{ github.workspace }}/deps
         make -j4
         make install
 
@@ -51,11 +51,13 @@ jobs:
       run: |
         mkdir -p python-build && mkdir -p python-install
         cd python-build
-        CFLAGS="-I/usr/local/include" cmake \
+        CFLAGS="-I${{ github.workspace }}/deps/include" cmake \
           ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ env.MACOSX_DEPLOYMENT_TARGET }} \
           ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} ${{ startsWith(matrix.python-version, '3.12') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
+          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_INCLUDE_DIR:PATH={0}/deps/include', github.workspace) || '' }} \
+          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_LIBRARY:FILEPATH={0}/deps/lib/libffi.a', github.workspace) || '' }} \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
