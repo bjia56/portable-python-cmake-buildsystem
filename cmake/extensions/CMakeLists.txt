@@ -115,7 +115,10 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
     _testcapi/watchers.c
   )
 endif()
-add_python_extension(_testcapi NEVER_BUILTIN SOURCES ${testcapi_SOURCES})
+if(PY_VERSION VERSION_LESS "3.12" OR UNIX)
+    # This module seems to build incorrectly for Python 3.12 Windows
+    add_python_extension(_testcapi NEVER_BUILTIN SOURCES ${testcapi_SOURCES})
+endif()
 set(thread2_NAME thread)
 set(thread3_NAME _thread)
 set(thread2_SOURCES ${SRC_DIR}/Modules/threadmodule.c)
@@ -712,13 +715,16 @@ endif()
 
 endif()
 
-if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
-    add_python_extension(_tokenize
-        SOURCES ${SRC_DIR}/Python/Python-tokenize.c
-                ${SRC_DIR}/Parser/tokenizer.c
-                ${SRC_DIR}/Parser/pegen.c
-    )
-    add_python_extension(_typing SOURCES _typingmodule.c)
+if(UNIX)
+    # For some reason, these modules are not registered correctly
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+        add_python_extension(_tokenize
+            SOURCES ${SRC_DIR}/Python/Python-tokenize.c
+                    ${SRC_DIR}/Parser/tokenizer.c
+                    ${SRC_DIR}/Parser/pegen.c
+        )
+        add_python_extension(_typing SOURCES _typingmodule.c)
+    endif()
 endif()
 
 # Extensions that depend on other libraries
