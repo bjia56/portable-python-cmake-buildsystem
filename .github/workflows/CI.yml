@@ -35,7 +35,7 @@ jobs:
     - name: Install tools
       run: |
         brew install gpatch
-
+  
     - name: Build libffi
       if: ${{ startsWith(matrix.python-version, '3.12') }}
       run: |
@@ -52,7 +52,6 @@ jobs:
         mkdir -p python-build && mkdir -p python-install
         cd python-build
         CFLAGS="-I${{ github.workspace }}/deps/include" cmake \
-          -DBUILD_LIBPYTHON_SHARED=ON \
           ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ env.MACOSX_DEPLOYMENT_TARGET }} \
