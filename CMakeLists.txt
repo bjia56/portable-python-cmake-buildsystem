@@ -289,6 +289,13 @@ set(_download_3.10.11_md5 "7e25e2f158b1259e271a45a249cb24bb")
 set(_download_3.10.12_md5 "1d64320e0b0df6e9ab7e611bacb2178d")
 set(_download_3.10.13_md5 "cbcad7f5e759176bf8ce8a5f9d487087")
 # 3.11.x
+set(_download_3.11.0_md5 "c5f77f1ea256dc5bdb0897eeb4d35bb0")
+set(_download_3.11.1_md5 "5c986b2865979b393aa50a31c65b64e8")
+set(_download_3.11.2_md5 "f6b5226ccba5ae1ca9376aaba0b0f673")
+set(_download_3.11.3_md5 "016ba65bc80411f9ec20c614ab385e81")
+set(_download_3.11.4_md5 "bf6ec50f2f3bfa6ffbdb385286f2c628")
+set(_download_3.11.5_md5 "b628f21aae5e2c3006a12380905bb640")
+set(_download_3.11.6_md5 "ed23dadb9f1b9fd2e4e7d78619685c79")
 set(_download_3.11.7_md5 "ef61f81ec82c490484219c7f0ec96783")
 set(_download_3.11.8_md5 "7fb0bfaa2f6aae4aadcdb51abe957825")
 # 3.12.x
