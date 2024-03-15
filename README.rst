@@ -37,7 +37,7 @@ How to use this buildsystem:
 .. code:: bash
 
   cd ~/scratch
-  git clone git://github.com/python-cmake-buildsystem/python-cmake-buildsystem
+  git clone git://github.com/bjia56/portable-python-cmake-buildsystem
 
 2. Build
 
@@ -47,7 +47,7 @@ How to use this buildsystem:
   cd ~/scratch
   mkdir -p python-build && mkdir -p python-install
   cd python-build
-  cmake -DCMAKE_INSTALL_PREFIX:PATH=${HOME}/scratch/python-install ../python-cmake-buildsystem
+  cmake -DCMAKE_INSTALL_PREFIX:PATH=${HOME}/scratch/python-install ../portable-python-cmake-buildsystem
   make -j10
   make install
 
@@ -56,7 +56,7 @@ How to use this buildsystem:
   mkdir python-build
   mkdir python-install
   cd python-build
-  cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_INSTALL_PREFIX:PATH=%HOME%/scratch/python-install ../python-cmake-buildsystem
+  cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_INSTALL_PREFIX:PATH=%HOME%/scratch/python-install ../portable-python-cmake-buildsystem
   cmake --build . --config Release -- /m
   cmake --build . --config Release --target INSTALL
 
@@ -284,7 +284,7 @@ Which python versions are supported?
 ....................................
 
 This project supports building multiple versions of CPython 2.7 and CPython 3.
-See current list of supported version in top-level `CMakeLists.txt <https://github.com/python-cmake-buildsystem/python-cmake-buildsystem/blob/master/CMakeLists.txt>`_.
+See current list of supported version in top-level `CMakeLists.txt <https://github.com/bjia56/portable-python-cmake-buildsystem/blob/master/CMakeLists.txt>`_.
 
 Since this repository is maintained separately from `python/CPython <https://github.com/python/cpython>`_ itself,
 it needs to be manually updated whenever there is a new release of Python.
