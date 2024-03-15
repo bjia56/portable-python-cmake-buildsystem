@@ -291,6 +291,10 @@ set(_download_3.10.13_md5 "cbcad7f5e759176bf8ce8a5f9d487087")
 # 3.11.x
 set(_download_3.11.7_md5 "ef61f81ec82c490484219c7f0ec96783")
 set(_download_3.11.8_md5 "7fb0bfaa2f6aae4aadcdb51abe957825")
+# 3.12.x
+set(_download_3.12.0_md5 "d6eda3e1399cef5dfde7c4f319b0596c")
+set(_download_3.12.1_md5 "51c5c22dcbc698483734dff5c8028606")
+set(_download_3.12.2_md5 "4e64a004f8ad9af1a75607cfd0d5a8c8")
 
 set(_extracted_dir "Python-${PY_VERSION}")
 
@@ -383,10 +387,7 @@ if(WIN32 AND IS_PY3)
 endif()
 
 if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
-  set(CMAKE_C_STANDARD "11")
   find_package(Python3 COMPONENTS Interpreter)
-else()
-  set(CMAKE_C_STANDARD "99")
 endif()
 
 # Options depending of the python version
@@ -559,7 +560,9 @@ include_directories(${SRC_DIR}/Python)
 
 # Set cflags used by all components
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
-    if(PY_VERSION VERSION_GREATER_EQUAL "3.6")
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
+        append_if_absent(CMAKE_C_FLAGS "-std=c11")
+    elseif(PY_VERSION VERSION_GREATER_EQUAL "3.6")
         append_if_absent(CMAKE_C_FLAGS "-std=c99")
     endif()
     append_if_absent(CMAKE_C_FLAGS "-Wall")

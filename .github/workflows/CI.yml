@@ -12,7 +12,7 @@ on:
         type: boolean
 
 env:
-  MACOSX_DEPLOYMENT_TARGET: 10.5
+  MACOSX_DEPLOYMENT_TARGET: 10.9
 
 jobs:
   tests:
@@ -21,7 +21,7 @@ jobs:
       fail-fast: true
       matrix:
         runs-on: [macos-latest]
-        python-version: [3.8.18, 3.9.18, 3.10.13, 3.11.8]
+        python-version: [3.9.18, 3.10.13, 3.11.8, 3.12.2]
 
     name: python-${{ matrix.python-version }}-${{ matrix.runs-on }}
     steps:
@@ -35,16 +35,29 @@ jobs:
     - name: Install tools
       run: |
         brew install gpatch
+  
+    - name: Build libffi
+      if: ${{ startsWith(matrix.python-version, '3.12') }}
+      run: |
+        mkdir -p ${{ github.workspace }}/deps
+        wget -q https://github.com/libffi/libffi/releases/download/v3.4.2/libffi-3.4.2.tar.gz
+        tar -xf libffi-3.4.2.tar.gz
+        cd libffi-3.4.2
+        ./configure --prefix ${{ github.workspace }}/deps
+        make -j4
+        make install
 
     - name: Build
       run: |
         mkdir -p python-build && mkdir -p python-install
         cd python-build
-        cmake \
+        CFLAGS="-I${{ github.workspace }}/deps/include" cmake \
           ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ env.MACOSX_DEPLOYMENT_TARGET }} \
-          ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
+          ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} ${{ startsWith(matrix.python-version, '3.12') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
+          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_INCLUDE_DIR:PATH={0}/deps/include', github.workspace) || '' }} \
+          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_LIBRARY:FILEPATH={0}/deps/lib/libffi.a', github.workspace) || '' }} \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
