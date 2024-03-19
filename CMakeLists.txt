@@ -17,6 +17,7 @@ endif()
 
 # https://stackoverflow.com/a/47370726
 include(CheckIPOSupported)
+set(ENABLED_LANGUAGES C)
 check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT IPO_ERROR)
 if(IPO_SUPPORTED)
   message(STATUS "IPO / LTO enabled")
