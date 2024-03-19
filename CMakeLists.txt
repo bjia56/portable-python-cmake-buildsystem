@@ -15,17 +15,6 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Release")
 endif()
 
-# https://stackoverflow.com/a/47370726
-include(CheckIPOSupported)
-set(ENABLED_LANGUAGES C)
-check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT IPO_ERROR)
-if(IPO_SUPPORTED)
-  message(STATUS "IPO / LTO enabled")
-  set(INTERPROCEDURAL_OPTIMIZATION TRUE)
-else()
-  message(STATUS "IPO / LTO not supported: <${IPO_ERROR}>")
-endif()
-
 if(APPLE)
   set(_msg "Checking which MACOSX_DEPLOYMENT_TARGET to use")
   message(STATUS "${_msg}")
@@ -402,6 +391,16 @@ endif()
 # Enable CXX language to support building of _distutils_findvs extension
 if(WIN32 AND IS_PY3)
   enable_language(CXX)
+endif()
+
+# https://stackoverflow.com/a/47370726
+include(CheckIPOSupported)
+check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT IPO_ERROR)
+if(IPO_SUPPORTED)
+  message(STATUS "IPO / LTO enabled")
+  set(INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+  message(STATUS "IPO / LTO not supported: <${IPO_ERROR}>")
 endif()
 
 if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
