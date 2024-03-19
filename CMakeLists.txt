@@ -22,7 +22,7 @@ if(IPO_SUPPORTED)
   message(STATUS "IPO / LTO enabled")
   set(INTERPROCEDURAL_OPTIMIZATION TRUE)
 else()
-  message(STATUS "IPO / LTO not supported: <${error}>")
+  message(STATUS "IPO / LTO not supported: <${IPO_ERROR}>")
 endif()
 
 if(APPLE)
