@@ -290,6 +290,7 @@ set(_download_3.10.10_md5 "6dbe644dd1a520d9853cf6648084c346")
 set(_download_3.10.11_md5 "7e25e2f158b1259e271a45a249cb24bb")
 set(_download_3.10.12_md5 "1d64320e0b0df6e9ab7e611bacb2178d")
 set(_download_3.10.13_md5 "cbcad7f5e759176bf8ce8a5f9d487087")
+set(_download_3.10.14_md5 "f67d78c8323a18fe6b945914c51a7aa6")
 # 3.11.x
 set(_download_3.11.0_md5 "c5f77f1ea256dc5bdb0897eeb4d35bb0")
 set(_download_3.11.1_md5 "5c986b2865979b393aa50a31c65b64e8")
