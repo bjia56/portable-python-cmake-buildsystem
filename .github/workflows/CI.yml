@@ -21,7 +21,7 @@ jobs:
       fail-fast: true
       matrix:
         runs-on: [macos-latest]
-        python-version: [3.9.19, 3.10.13, 3.11.8, 3.12.2]
+        python-version: [3.9.19, 3.10.14, 3.11.8, 3.12.2]
 
     name: python-${{ matrix.python-version }}-${{ matrix.runs-on }}
     steps:
