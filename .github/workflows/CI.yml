@@ -16,12 +16,12 @@ env:
 
 jobs:
   tests:
-    runs-on: ${{ matrix.runs-on }}
+    runs-on: macos-latest
     strategy:
       fail-fast: true
       matrix:
-        runs-on: [macos-latest]
         python-version: [3.9.19, 3.10.14, 3.11.8, 3.12.2]
+        portable: [true, false]
 
     name: python-${{ matrix.python-version }}-${{ matrix.runs-on }}
     steps:
@@ -59,6 +59,7 @@ jobs:
           ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_INCLUDE_DIR:PATH={0}/deps/include', github.workspace) || '' }} \
           ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_LIBRARY:FILEPATH={0}/deps/lib/libffi.a', github.workspace) || '' }} \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
+          ${{ matrix.portable && '-DPORTABLE_PYTHON_BUILD=ON' || '' }} \
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
         make install
