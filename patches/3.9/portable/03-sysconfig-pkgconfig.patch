@@ -1,8 +1,8 @@
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index e3f79bfde5..dae43396eb 100644
+index e3f79bfde5..3b2ddbecd3 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
-@@ -723,3 +723,35 @@ def _main():
+@@ -723,3 +723,50 @@ def _main():
  
  if __name__ == '__main__':
      _main()
@@ -24,17 +24,32 @@ index e3f79bfde5..dae43396eb 100644
 +    pkgcfgdir = vars.get('LIBPC')
 +    prefix = vars.get('prefix')
 +    if pkgcfgdir and os.path.isdir(pkgcfgdir):
++        import tempfile
++        import hashlib
++        tempdir_root = tempfile.gettempdir()
++        suffix = hashlib.md5(sys.version.encode('utf-8')).hexdigest()
++        portable_python_tempdir = os.path.join(tempdir_root, f'.portable-python-{suffix}')
++        portable_python_pkgconfig = os.path.join(portable_python_tempdir, 'lib/pkgconfig')
++
++        if pkgcfgdir == portable_python_pkgconfig:
++            return
++
++        os.makedirs(portable_python_pkgconfig, exist_ok=True)
++
 +        for root, dirs, files in os.walk(pkgcfgdir):
 +            for file in files:
 +                if file.endswith('.pc'):
 +                    with open(os.path.join(root, file), 'r', encoding='utf8') as f:
 +                        data = f.read()
-+                    edited = False
 +                    for line in data.split('\n'):
 +                        if line.startswith('prefix=') and line != f'prefix={prefix}':
 +                            data = data.replace(line, f'prefix={prefix}')
-+                            edited = True
-+                    if edited:
-+                        with open(os.path.join(root, file), 'w', encoding='utf8') as f:
++                            break
++                    with open(os.path.join(portable_python_pkgconfig, file), 'r', encoding='utf8') as f:
++                        tempdata = f.read()
++                    if tempdata != data:
++                        with open(os.path.join(portable_python_pkgconfig, file), 'w', encoding='utf8') as f:
 +                            f.write(data)
++
++        _CONFIG_VARS['LIBPC'] = portable_python_pkgconfig
 +portable_python_fixup_pkgconfig()
