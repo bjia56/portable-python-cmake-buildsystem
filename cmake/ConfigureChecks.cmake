@@ -1904,6 +1904,7 @@ endif()
 
 check_symbol_exists(gai_strerror    "${CFG_HEADERS}" HAVE_GAI_STRERROR)
 check_symbol_exists(getaddrinfo     "${CFG_HEADERS}" HAVE_GETADDRINFO)
+check_symbol_exists(gethostname     "${CFG_HEADERS}" HAVE_GETHOSTNAME)
 check_symbol_exists(getnameinfo     "${CFG_HEADERS}" HAVE_GETNAMEINFO)
 check_symbol_exists(gethostbyaddr   "${CFG_HEADERS}" HAVE_GETHOSTBYADDR)
 check_symbol_exists(getpeername     "${CFG_HEADERS}" HAVE_GETPEERNAME)
