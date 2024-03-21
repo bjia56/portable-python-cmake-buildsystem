@@ -1,5 +1,5 @@
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index ebe3711827..dc4cf39911 100644
+index ebe3711827..d2a1716a1c 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
 @@ -847,5 +847,54 @@ def _main():
@@ -38,7 +38,7 @@ index ebe3711827..dc4cf39911 100644
 +                            data = data.replace(line, f'prefix={prefix}')
 +                            break
 +                    if not os.path.exists(os.path.join(portable_python_pkgconfig, file)):
-+                        with open(os.path.join(portable_python_pkgconfig, file), 'w', encoding='utf8') as f:
++                        with open(os.path.join(portable_python_pkgconfig, file), 'w+', encoding='utf8') as f:
 +                            f.write(data)
 +                    else:
 +                        with open(os.path.join(portable_python_pkgconfig, file), 'r', encoding='utf8') as f:
