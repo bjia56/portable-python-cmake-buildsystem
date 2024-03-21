@@ -15,7 +15,7 @@ add_definitions(-DPy_BUILD_CORE)
 
 # Link against the shared libpython if it was built, otherwise use the static
 # version.
-if(LINUX)
+if(LINUX AND PORTABLE_PYTHON_BUILD)
     # Sets the rpath of the python executable to look for libpython in its sibling
     # directory. Useful for self-contained python distributions, but will break
     # things like venv where the rpath of the venv python tries to look up the
