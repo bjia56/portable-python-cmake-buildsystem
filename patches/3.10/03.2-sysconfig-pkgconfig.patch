@@ -1,8 +1,8 @@
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index e3f79bfde5..d55885c135 100644
+index e3f79bfde5..dae43396eb 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
-@@ -723,3 +723,28 @@ def _main():
+@@ -723,3 +723,35 @@ def _main():
  
  if __name__ == '__main__':
      _main()
@@ -13,7 +13,14 @@ index e3f79bfde5..d55885c135 100644
 +# pkgconfig. Since a portable Python installation can be moved around,
 +# we have to fix the pkgconfig files to use the correct prefix.
 +def portable_python_fixup_pkgconfig():
-+    vars = get_config_vars()
++    try:
++        vars = get_config_vars()
++    except:
++        # Config vars can fail to load, particularly when the posix
++        # sysconfigdata file is being generated. We can just skip
++        # patching in this case.
++        return
++
 +    pkgcfgdir = vars.get('LIBPC')
 +    prefix = vars.get('prefix')
 +    if pkgcfgdir and os.path.isdir(pkgcfgdir):
