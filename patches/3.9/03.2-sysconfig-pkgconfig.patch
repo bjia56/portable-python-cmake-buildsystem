@@ -1,0 +1,40 @@
+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+index e3f79bfde5..dae43396eb 100644
+--- a/Lib/sysconfig.py
++++ b/Lib/sysconfig.py
+@@ -723,3 +723,35 @@ def _main():
+ 
+ if __name__ == '__main__':
+     _main()
++
++
++# Patch the included pkgconfig files to use the prefix computed during
++# runtime. This is a hack for mesonbuild, which looks for Python using
++# pkgconfig. Since a portable Python installation can be moved around,
++# we have to fix the pkgconfig files to use the correct prefix.
++def portable_python_fixup_pkgconfig():
++    try:
++        vars = get_config_vars()
++    except:
++        # Config vars can fail to load, particularly when the posix
++        # sysconfigdata file is being generated. We can just skip
++        # patching in this case.
++        return
++
++    pkgcfgdir = vars.get('LIBPC')
++    prefix = vars.get('prefix')
++    if pkgcfgdir and os.path.isdir(pkgcfgdir):
++        for root, dirs, files in os.walk(pkgcfgdir):
++            for file in files:
++                if file.endswith('.pc'):
++                    with open(os.path.join(root, file), 'r', encoding='utf8') as f:
++                        data = f.read()
++                    edited = False
++                    for line in data.split('\n'):
++                        if line.startswith('prefix=') and line != f'prefix={prefix}':
++                            data = data.replace(line, f'prefix={prefix}')
++                            edited = True
++                    if edited:
++                        with open(os.path.join(root, file), 'w', encoding='utf8') as f:
++                            f.write(data)
++portable_python_fixup_pkgconfig()
