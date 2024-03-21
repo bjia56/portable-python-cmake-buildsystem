@@ -1,25 +1,17 @@
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index e3f79bfde5..3b2ddbecd3 100644
+index ebe3711827..dc4cf39911 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
-@@ -723,3 +723,50 @@ def _main():
+@@ -847,5 +847,54 @@ def _main():
+     _print_dict('Variables', get_config_vars())
  
- if __name__ == '__main__':
-     _main()
-+
-+
+ 
 +# Patch the included pkgconfig files to use the prefix computed during
 +# runtime. This is a hack for mesonbuild, which looks for Python using
 +# pkgconfig. Since a portable Python installation can be moved around,
 +# we have to fix the pkgconfig files to use the correct prefix.
 +def portable_python_fixup_pkgconfig():
-+    try:
-+        vars = get_config_vars()
-+    except:
-+        # Config vars can fail to load, particularly when the posix
-+        # sysconfigdata file is being generated. We can just skip
-+        # patching in this case.
-+        return
++    vars = get_config_vars()
 +
 +    pkgcfgdir = vars.get('LIBPC')
 +    prefix = vars.get('prefix')
@@ -45,11 +37,23 @@ index e3f79bfde5..3b2ddbecd3 100644
 +                        if line.startswith('prefix=') and line != f'prefix={prefix}':
 +                            data = data.replace(line, f'prefix={prefix}')
 +                            break
-+                    with open(os.path.join(portable_python_pkgconfig, file), 'r', encoding='utf8') as f:
-+                        tempdata = f.read()
-+                    if tempdata != data:
++                    if not os.path.exists(os.path.join(portable_python_pkgconfig, file)):
 +                        with open(os.path.join(portable_python_pkgconfig, file), 'w', encoding='utf8') as f:
 +                            f.write(data)
++                    else:
++                        with open(os.path.join(portable_python_pkgconfig, file), 'r', encoding='utf8') as f:
++                            tempdata = f.read()
++                        if tempdata != data:
++                            with open(os.path.join(portable_python_pkgconfig, file), 'w', encoding='utf8') as f:
++                                f.write(data)
 +
 +        _CONFIG_VARS['LIBPC'] = portable_python_pkgconfig
-+portable_python_fixup_pkgconfig()
++
++try:
++    portable_python_fixup_pkgconfig()
++except:
++    pass
++
++
+ if __name__ == '__main__':
+     _main()
