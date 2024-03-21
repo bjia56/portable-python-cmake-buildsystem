@@ -503,6 +503,9 @@
 /* Define this if you have the 6-arg version of gethostbyname_r(). */
 #cmakedefine HAVE_GETHOSTBYNAME_R_6_ARG 1
 
+/* Define if you have the gethostname function. [Python 3.11] */
+#cmakedefine HAVE_GETHOSTNAME 1
+
 /* Define to 1 if you have the `getitimer' function. */
 #cmakedefine HAVE_GETITIMER 1
 
