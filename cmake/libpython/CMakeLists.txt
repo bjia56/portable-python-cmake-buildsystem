@@ -413,6 +413,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
         SOURCE ${SRC_DIR}/Python/sysmodule.c
         PROPERTY COMPILE_DEFINITIONS
             VPATH="..\\\\.."
+            ABIFLAGS="${ABIFLAGS}"
         )
 endif()
 
