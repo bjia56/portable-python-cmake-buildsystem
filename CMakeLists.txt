@@ -377,6 +377,10 @@ if(NOT "${PYTHON_VERSION}" STREQUAL "${PY_VERSION}")
   set(PYTHON_VERSION "${PY_VERSION}" CACHE STRING "The version of Python to build." FORCE)
 endif()
 
+if(NOT DEFINED PORTABLE_PYTHON_BUILD)
+  set(PORTABLE_PYTHON_BUILD OFF)
+endif()
+
 # Apply patches
 option(PYTHON_APPLY_PATCHES "Apply patches" ON)
 if(PYTHON_APPLY_PATCHES)

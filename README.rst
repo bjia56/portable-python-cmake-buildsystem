@@ -84,6 +84,9 @@ options on the commandline with `-DOPTION=VALUE`, or use the "ccmake" gui.
     coresponding to the target system are applied.
     Patches can be found in "patches" directory.
 
+  PORTABLE_PYTHON_BUILD=ON|OFF (defaults to OFF)
+    Apply patches and tweaks required to make CPython portable and relocatable.
+
   CMAKE_BUILD_TYPE=Debug|Release
     Build with debugging symbols or with optimisations.
 
