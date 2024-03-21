@@ -23,7 +23,7 @@ jobs:
         python-version: [3.9.19, 3.10.14, 3.11.8, 3.12.2]
         portable: [true, false]
 
-    name: python-${{ matrix.python-version }}-${{ matrix.runs-on }}${{ matrix.portable && '-portable' || '' }}
+    name: python-${{ matrix.python-version }}${{ matrix.portable && '-portable' || '' }}
     steps:
     - uses: actions/checkout@v3
 
