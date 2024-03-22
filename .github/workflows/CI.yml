@@ -21,10 +21,9 @@ jobs:
       fail-fast: true
       matrix:
         python-version: [3.9.19, 3.10.14, 3.11.8, 3.12.2]
-        portable: [true, false]
         os: [macos, ubuntu]
 
-    name: ${{ matrix.os }}-${{ matrix.python-version }}${{ matrix.portable && '-portable' || '' }}
+    name: ${{ matrix.os }}-${{ matrix.python-version }}
     steps:
     - uses: actions/checkout@v3
 
@@ -58,10 +57,7 @@ jobs:
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           ${{ matrix.os == 'macos' && format('-DCMAKE_OSX_DEPLOYMENT_TARGET={0}', env.MACOSX_DEPLOYMENT_TARGET) || '' }} \
           ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} ${{ startsWith(matrix.python-version, '3.12') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
-          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_INCLUDE_DIR:PATH={0}/deps/include', github.workspace) || '' }} \
-          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_LIBRARY:FILEPATH={0}/deps/lib/libffi.so', github.workspace) || '' }} \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
-          ${{ matrix.portable && '-DPORTABLE_PYTHON_BUILD=ON' || '' }} \
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
         make install
