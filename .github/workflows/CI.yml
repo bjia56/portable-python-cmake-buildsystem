@@ -59,7 +59,7 @@ jobs:
           ${{ matrix.os == 'macos' && format('-DCMAKE_OSX_DEPLOYMENT_TARGET={0}', env.MACOSX_DEPLOYMENT_TARGET) || '' }} \
           ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} ${{ startsWith(matrix.python-version, '3.12') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
           ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_INCLUDE_DIR:PATH={0}/deps/include', github.workspace) || '' }} \
-          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_LIBRARY:FILEPATH={0}/deps/lib/libffi.a', github.workspace) || '' }} \
+          ${{ startsWith(matrix.python-version, '3.12') && format('-DLibFFI_LIBRARY:FILEPATH={0}/deps/lib/libffi.so', github.workspace) || '' }} \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
           ${{ matrix.portable && '-DPORTABLE_PYTHON_BUILD=ON' || '' }} \
           ..
