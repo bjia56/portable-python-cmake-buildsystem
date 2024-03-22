@@ -36,17 +36,6 @@ jobs:
       if: ${{ matrix.os == 'macos' }}
       run: |
         brew install gpatch
-  
-    - name: Build libffi
-      if: ${{ startsWith(matrix.python-version, '3.12') }}
-      run: |
-        mkdir -p ${{ github.workspace }}/deps
-        wget -q https://github.com/libffi/libffi/releases/download/v3.4.2/libffi-3.4.2.tar.gz
-        tar -xf libffi-3.4.2.tar.gz
-        cd libffi-3.4.2
-        ./configure --prefix ${{ github.workspace }}/deps
-        make -j4
-        make install
 
     - name: Build
       run: |
