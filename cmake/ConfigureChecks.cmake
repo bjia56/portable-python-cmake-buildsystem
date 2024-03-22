@@ -48,7 +48,7 @@ message(STATUS "EXPAT_LIBRARIES=${EXPAT_LIBRARIES}")
 message(STATUS "EXPAT_INCLUDE_DIRS=${EXPAT_INCLUDE_DIRS}")
 
 if(USE_SYSTEM_LibFFI)
-    find_path(LibFFI_INCLUDE_DIR ffi.h)
+    find_path(LibFFI_INCLUDE_DIR ffi.h PATH_SUFFIXES ffi)
     find_library(LibFFI_LIBRARY NAMES ffi libffi)
     message(STATUS "LibFFI_INCLUDE_DIR=${LibFFI_INCLUDE_DIR}")
     message(STATUS "LibFFI_LIBRARY=${LibFFI_LIBRARY}")
