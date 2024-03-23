@@ -393,12 +393,19 @@ if(
     (WIN32 AND PY_VERSION VERSION_GREATER_EQUAL "3.8")
     OR
     (LINUX AND PY_VERSION VERSION_GREATER_EQUAL "3.7")
+    OR
+    (APPLE AND PY_VERSION VERSION_GREATER_EQUAL "3.12")
   )
     # If installed, build ctypes using the system ffi
     # * on Windows for python >= 3.8
     # * on Linux for python >= 3.7
+    # * on MacOS for python >= 3.12
     if(NOT USE_SYSTEM_LibFFI)
-        message(AUTHOR_WARNING "Disabling USE_SYSTEM_LibFFI option is *NOT* supported with Python >= 3.8 on windows and with Python >= 3.7 on Linux. Current version is ${PY_VERSION}")
+        message(AUTHOR_WARNING "Disabling USE_SYSTEM_LibFFI option is *NOT* supported with Python >= 3.8 on windows, Python >= 3.7 on Linux, Python >= 3.12 on MacOS. Current version is ${PY_VERSION}")
+    endif()
+    if(APPLE)
+        list(APPEND ctypes_SOURCES
+            _ctypes/malloc_closure.c)
     endif()
     add_python_extension(_ctypes
         REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
@@ -445,16 +452,14 @@ else()
         if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" AND CMAKE_OSX_ARCHITECTURES STREQUAL "x86_64")
             set(ctypes_SOURCES
                 _ctypes/malloc_closure.c)
-            if(PY_VERSION VERSION_LESS "3.12")
-                list(APPEND ctypes_SOURCES
-                    _ctypes/darwin/dlfcn_simple.c
-                    _ctypes/libffi_osx/ffi.c
-                    _ctypes/libffi_osx/x86/darwin64.S
-                    _ctypes/libffi_osx/x86/x86-darwin.S
-                    _ctypes/libffi_osx/x86/x86-ffi_darwin.c
-                    _ctypes/libffi_osx/x86/x86-ffi64.c
-                )
-            endif()
+            list(APPEND ctypes_SOURCES
+                _ctypes/darwin/dlfcn_simple.c
+                _ctypes/libffi_osx/ffi.c
+                _ctypes/libffi_osx/x86/darwin64.S
+                _ctypes/libffi_osx/x86/x86-darwin.S
+                _ctypes/libffi_osx/x86/x86-ffi_darwin.c
+                _ctypes/libffi_osx/x86/x86-ffi64.c
+            )
             add_python_extension(_ctypes
                 SOURCES ${ctypes_COMMON_SOURCES}
                         ${ctypes_SOURCES}
