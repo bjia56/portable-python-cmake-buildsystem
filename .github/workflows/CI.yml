@@ -41,7 +41,7 @@ jobs:
       run: |
         mkdir -p python-build && mkdir -p python-install
         cd python-build
-        CFLAGS="-I${{ github.workspace }}/deps/include" cmake \
+        cmake \
           ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           ${{ matrix.os == 'macos' && format('-DCMAKE_OSX_DEPLOYMENT_TARGET={0}', env.MACOSX_DEPLOYMENT_TARGET) || '' }} \
