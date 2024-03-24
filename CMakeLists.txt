@@ -400,6 +400,16 @@ if(WIN32 AND IS_PY3)
   enable_language(CXX)
 endif()
 
+# https://stackoverflow.com/a/47370726
+include(CheckIPOSupported)
+check_ipo_supported(RESULT IPO_SUPPORTED OUTPUT IPO_ERROR)
+if(IPO_SUPPORTED)
+  message(STATUS "IPO / LTO enabled")
+  set(INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+  message(STATUS "IPO / LTO not supported: <${IPO_ERROR}>")
+endif()
+
 if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
   find_package(Python3 COMPONENTS Interpreter)
 endif()
