@@ -482,7 +482,11 @@ set(LIBPYTHON_VERSION ${PY_VERSION_MAJOR}.${PY_VERSION_MINOR})
 if(WIN32)
     set(LIBPYTHON_VERSION ${PY_VERSION_MAJOR}${PY_VERSION_MINOR})
 endif()
-set(LIBPYTHON "python${LIBPYTHON_VERSION}$<$<CONFIG:Debug>:_d>")
+if(CMAKE_BUILD_TYPE EQUAL "Debug")
+    set(LIBPYTHON python${LIBPYTHON_VERSION}_d)
+else()
+    set(LIBPYTHON python${LIBPYTHON_VERSION})
+endif()
 
 # Proceed to the configure checks
 include(cmake/ConfigureChecks.cmake)
