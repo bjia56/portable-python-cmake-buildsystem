@@ -11,6 +11,39 @@ if(UNIX OR (PY_VERSION VERSION_LESS "3.11"))
         ${PROJECT_BINARY_DIR}/CMakeFiles/config.c
     )
 endif()
+
+if(WIN32)
+    # HACK To workaround limitation in escaping logic of CMake, the pythonpath
+    #      separator is conditionally set depending of the version of Visual Studio.
+    #      See http://cmake.org/Bug/view.php?id=14073
+    if( ("${MSVC_VERSION}" VERSION_GREATER "1599") AND ("${CMAKE_GENERATOR}" MATCHES "^Visual Studio") )
+        set(PATHSEP "%3B")
+    elseif( (${MSVC}) AND ("${CMAKE_GENERATOR}" MATCHES "^Ninja") )
+        set(PATHSEP "\;")
+    elseif( (${MSVC}) AND ("${CMAKE_GENERATOR}" MATCHES "^NMake") )
+        set(PATHSEP "\;")
+    elseif(MINGW)
+        set(PATHSEP "\;")
+    else()
+        set(PATHSEP ";")
+    endif()
+    string(REPLACE "/" "\\\\" PYTHONHOME_ESCAPED ${PYTHONHOME})
+    string(REPLACE "/" "\\\\" EXTENSION_INSTALL_DIR_ESCAPED ${EXTENSION_INSTALL_DIR})
+    set(PYTHONPATH "${EXTRA_PYTHONPATH}")
+    set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${PYTHONHOME_ESCAPED}")
+    set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${EXTENSION_INSTALL_DIR_ESCAPED}")
+    set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${EXTENSION_INSTALL_DIR_ESCAPED}\\\\${CMAKE_CFG_INTDIR}")
+    set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${PYTHONHOME_ESCAPED}\\\\plat-${PY_PLATFORM}")
+    if(ENABLE_TKINTER)
+        set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${PYTHONHOME_ESCAPED}\\\\lib-tk")
+    endif()
+
+    set(_wide_char_modifier)
+    if(IS_PY3)
+        set(_wide_char_modifier "L")
+    endif()
+endif()
+
 if(UNIX)
     if(PY_VERSION VERSION_LESS "3.11")
         list(APPEND MODULE_SOURCES
@@ -37,35 +70,6 @@ elseif(WIN32)
         list(APPEND MODULE_SOURCES
             ${SRC_DIR}/PC/getpathp.c
         )
-        # HACK To workaround limitation in escaping logic of CMake, the pythonpath
-        #      separator is conditionally set depending of the version of Visual Studio.
-        #      See http://cmake.org/Bug/view.php?id=14073
-        if( ("${MSVC_VERSION}" VERSION_GREATER "1599") AND ("${CMAKE_GENERATOR}" MATCHES "^Visual Studio") )
-            set(PATHSEP "%3B")
-        elseif( (${MSVC}) AND ("${CMAKE_GENERATOR}" MATCHES "^Ninja") )
-            set(PATHSEP "\;")
-        elseif( (${MSVC}) AND ("${CMAKE_GENERATOR}" MATCHES "^NMake") )
-            set(PATHSEP "\;")
-        elseif(MINGW)
-            set(PATHSEP "\;")
-        else()
-            set(PATHSEP ";")
-        endif()
-        string(REPLACE "/" "\\\\" PYTHONHOME_ESCAPED ${PYTHONHOME})
-        string(REPLACE "/" "\\\\" EXTENSION_INSTALL_DIR_ESCAPED ${EXTENSION_INSTALL_DIR})
-        set(PYTHONPATH "${EXTRA_PYTHONPATH}")
-        set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${PYTHONHOME_ESCAPED}")
-        set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${EXTENSION_INSTALL_DIR_ESCAPED}")
-        set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${EXTENSION_INSTALL_DIR_ESCAPED}\\\\${CMAKE_CFG_INTDIR}")
-        set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${PYTHONHOME_ESCAPED}\\\\plat-${PY_PLATFORM}")
-        if(ENABLE_TKINTER)
-            set(PYTHONPATH "${PYTHONPATH}${PATHSEP}.\\\\${PYTHONHOME_ESCAPED}\\\\lib-tk")
-        endif()
-
-        set(_wide_char_modifier)
-        if(IS_PY3)
-            set(_wide_char_modifier "L")
-        endif()
 
         set_property(
             SOURCE ${SRC_DIR}/PC/getpathp.c
@@ -903,7 +907,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
                 VPATH="..\\\\.."
                 PYDEBUGEXT="$<$<CONFIG:Debug>:_d>"
                 PLATLIBDIR="DLLs"
-                PYTHONPATH="Lib\\\\lib-dynload"
+                "PYTHONPATH=${_wide_char_modifier}\"${PYTHONPATH}\""
             )
 
         set(ms_dll_id "${PY_VERSION_MAJOR}.${PY_VERSION_MINOR}")
