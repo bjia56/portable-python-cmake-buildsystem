@@ -410,7 +410,7 @@ if(
     add_python_extension(_ctypes
         REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
         SOURCES ${ctypes_COMMON_SOURCES}
-        DEFINITIONS Py_BUILD_CORE_MODULE FFI_BUILDING
+        DEFINITIONS Py_BUILD_CORE_MODULE
         INCLUDEDIRS ${LibFFI_INCLUDE_DIR}
         LIBRARIES ${LibFFI_LIBRARY}
     )
@@ -472,7 +472,7 @@ else()
             add_python_extension(_ctypes
                 REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
                 SOURCES ${ctypes_COMMON_SOURCES}
-                DEFINITIONS Py_BUILD_CORE_MODULE FFI_BUILDING
+                DEFINITIONS Py_BUILD_CORE_MODULE
                 INCLUDEDIRS ${LibFFI_INCLUDE_DIR}
                 LIBRARIES ${LibFFI_LIBRARY}
             )
