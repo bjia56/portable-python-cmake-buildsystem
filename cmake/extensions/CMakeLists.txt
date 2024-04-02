@@ -407,10 +407,16 @@ if(
         list(APPEND ctypes_SOURCES
             _ctypes/malloc_closure.c)
     endif()
+    set(extra_ctypes_definitions )
+    if(STATIC_LIBFFI_WORKAROUND)
+        # Older libffi versions may require this to be
+        # defined to allow static linking
+        set(extra_ctypes_definitions FFI_BUILDING)
+    endif()
     add_python_extension(_ctypes
         REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
         SOURCES ${ctypes_COMMON_SOURCES}
-        DEFINITIONS Py_BUILD_CORE_MODULE
+        DEFINITIONS Py_BUILD_CORE_MODULE ${extra_ctypes_definitions}
         INCLUDEDIRS ${LibFFI_INCLUDE_DIR}
         LIBRARIES ${LibFFI_LIBRARY}
     )
@@ -468,11 +474,17 @@ else()
                 DEFINITIONS MACOSX
             )
         else()
+            set(extra_ctypes_definitions )
+            if(STATIC_LIBFFI_WORKAROUND)
+                # Older libffi versions may require this to be
+                # defined to allow static linking
+                set(extra_ctypes_definitions FFI_BUILDING)
+            endif()
             # non-x86_64 architectures, e.g. arm64 or arm64+x86_64 universal build
             add_python_extension(_ctypes
                 REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
                 SOURCES ${ctypes_COMMON_SOURCES}
-                DEFINITIONS Py_BUILD_CORE_MODULE
+                DEFINITIONS Py_BUILD_CORE_MODULE ${extra_ctypes_definitions}
                 INCLUDEDIRS ${LibFFI_INCLUDE_DIR}
                 LIBRARIES ${LibFFI_LIBRARY}
             )
