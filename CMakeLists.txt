@@ -478,11 +478,17 @@ else()
 endif()
 
 # This is the major version number of Python
-set(LIBPYTHON_VERSION ${PY_VERSION_MAJOR}.${PY_VERSION_MINOR})
 if(WIN32)
     set(LIBPYTHON_VERSION ${PY_VERSION_MAJOR}${PY_VERSION_MINOR})
+    if("CMAKE_BUILD_TYPE" STREQUAL "Debug")
+        set(LIBPYTHON python${LIBPYTHON_VERSION}_d)
+    else()
+        set(LIBPYTHON python${LIBPYTHON_VERSION})
+    endif()
+else()
+    set(LIBPYTHON_VERSION ${PY_VERSION_MAJOR}.${PY_VERSION_MINOR})
+    set(LIBPYTHON python${LIBPYTHON_VERSION})
 endif()
-set(LIBPYTHON python${LIBPYTHON_VERSION})
 
 # Proceed to the configure checks
 include(cmake/ConfigureChecks.cmake)
