@@ -194,6 +194,11 @@ function(add_python_extension name)
             set_target_properties(${target_name} PROPERTIES
                 SUFFIX .pyd
             )
+            if("CMAKE_BUILD_TYPE" STREQUAL "Debug")
+                set_target_properties(${target_name} PROPERTIES
+                    DEBUG_POSTFIX _d
+                )
+            endif()
         endif()
 
         if(APPLE)
