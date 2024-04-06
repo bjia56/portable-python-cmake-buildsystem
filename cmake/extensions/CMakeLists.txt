@@ -408,7 +408,7 @@ if(
             _ctypes/malloc_closure.c)
     endif()
     set(ctypes_extra_definitions )
-    if(WIN32 AND PY_VERSION VERSION_LESS_EQUAL "3.10")
+    if(WIN32 AND PY_VERSION VERSION_LESS "3.11")
         # Windows builds want this to be defined in Python prior to 3.11
         # This changed in https://github.com/python/cpython/commit/38f331d4656394ae0f425568e26790ace778e076
         set(ctypes_extra_definitions FFI_BUILDING)
