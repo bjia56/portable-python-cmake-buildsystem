@@ -407,10 +407,16 @@ if(
         list(APPEND ctypes_SOURCES
             _ctypes/malloc_closure.c)
     endif()
+    set(ctypes_extra_definitions )
+    if(WIN32 AND PY_VERSION VERSION_LESS "3.11")
+        # Windows builds want this to be defined in Python prior to 3.11
+        # This changed in https://github.com/python/cpython/commit/38f331d4656394ae0f425568e26790ace778e076
+        set(ctypes_extra_definitions FFI_BUILDING)
+    endif()
     add_python_extension(_ctypes
         REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
         SOURCES ${ctypes_COMMON_SOURCES}
-        DEFINITIONS Py_BUILD_CORE_MODULE
+        DEFINITIONS Py_BUILD_CORE_MODULE ${ctypes_extra_definitions}
         INCLUDEDIRS ${LibFFI_INCLUDE_DIR}
         LIBRARIES ${LibFFI_LIBRARY}
     )
