@@ -1,0 +1,14 @@
+diff --git a/Include/Python.h b/Include/Python.h
+index 7f7ed5981c..3b211564f8 100644
+--- a/Include/Python.h
++++ b/Include/Python.h
+@@ -30,6 +30,9 @@
+ #include <string.h>
+ #ifdef HAVE_ERRNO_H
+ #include <errno.h>
++# if defined(__FreeBSD__) && !defined(EWOULDBLOCK)
++#  define EWOULDBLOCK EAGAIN
++# endif
+ #endif
+ #include <stdlib.h>
+ #ifndef MS_WINDOWS
