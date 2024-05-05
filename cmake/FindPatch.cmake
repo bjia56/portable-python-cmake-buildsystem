@@ -38,12 +38,20 @@ if(CMAKE_HOST_WIN32)
     )
 endif()
 
-# First search the PATH
-find_program(Patch_EXECUTABLE
-  NAME patch
-  PATHS ${_patch_path}
-  DOC ${_doc}
+if(${CMAKE_HOST_SYSTEM_NAME} MATCHES "FreeBSD")
+  find_program(Patch_EXECUTABLE
+    NAME gpatch
+    PATHS ${_patch_path}
+    DOC ${_doc}
   )
+else()
+  # First search the PATH
+  find_program(Patch_EXECUTABLE
+    NAME patch
+    PATHS ${_patch_path}
+    DOC ${_doc}
+  )
+endif()
 
 if(CMAKE_HOST_WIN32)
   # Now look for installations in Git/ directories under typical installation
