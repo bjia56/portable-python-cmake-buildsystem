@@ -38,7 +38,7 @@ if(CMAKE_HOST_WIN32)
     )
 endif()
 
-if(${CMAKE_HOST_SYSTEM_NAME} MATCHES "FreeBSD")
+if(FreeBSD)
   find_program(Patch_EXECUTABLE
     NAME gpatch
     PATHS ${_patch_path}

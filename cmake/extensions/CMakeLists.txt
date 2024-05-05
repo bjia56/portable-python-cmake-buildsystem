@@ -394,6 +394,8 @@ if(
     OR
     (LINUX AND PY_VERSION VERSION_GREATER_EQUAL "3.7")
     OR
+    (FreeBSD AND PY_VERSION VERSION_GREATER_EQUAL "3.7")
+    OR
     (APPLE AND PY_VERSION VERSION_GREATER_EQUAL "3.12")
   )
     # If installed, build ctypes using the system ffi
