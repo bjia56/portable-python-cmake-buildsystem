@@ -403,7 +403,7 @@ if(
     # * on Linux for python >= 3.7
     # * on MacOS for python >= 3.12
     if(NOT USE_SYSTEM_LibFFI)
-        message(AUTHOR_WARNING "Disabling USE_SYSTEM_LibFFI option is *NOT* supported with Python >= 3.8 on windows, Python >= 3.7 on Linux, Python >= 3.12 on MacOS. Current version is ${PY_VERSION}")
+        message(AUTHOR_WARNING "Disabling USE_SYSTEM_LibFFI option is *NOT* supported with Python >= 3.8 on windows, Python >= 3.7 on Linux/FreeBSD, Python >= 3.12 on MacOS. Current version is ${PY_VERSION}")
     endif()
     if(APPLE)
         list(APPEND ctypes_SOURCES
