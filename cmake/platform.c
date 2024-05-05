@@ -116,6 +116,8 @@ char *PLATFORM_TRIPLET =
 # else
 #       "unknown platform triplet"
 # endif
+#elif defined(__FreeBSD__)
+        ""
 #elif defined(__gnu_hurd__)
         "i386-gnu"
 #elif defined(__APPLE__)
