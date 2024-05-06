@@ -32,6 +32,11 @@ if(NOT DEFINED CMAKE_BUILD_WITH_INSTALL_NAME_DIR)
   set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR ON)
 endif()
 
+set(FreeBSD )
+if(CMAKE_SYSTEM MATCHES FreeBSD)
+  set(FreeBSD 1)
+endif()
+
 # Include helper functions
 include(cmake/Extensions.cmake)
 include(CMakeDependentOption)

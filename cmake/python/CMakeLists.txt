@@ -15,12 +15,14 @@ add_definitions(-DPy_BUILD_CORE)
 
 # Link against the shared libpython if it was built, otherwise use the static
 # version.
-if(LINUX AND PORTABLE_PYTHON_BUILD)
-    # Sets the rpath of the python executable to look for libpython in its sibling
-    # directory. Useful for self-contained python distributions, but will break
-    # things like venv where the rpath of the venv python tries to look up the
-    # library in a sibling directory that does not exist.
-    set_target_properties(python PROPERTIES LINK_FLAGS "-Wl,-rpath,$ORIGIN/../lib")
+if(PORTABLE_PYTHON_BUILD)
+    if(LINUX OR FreeBSD)
+        # Sets the rpath of the python executable to look for libpython in its sibling
+        # directory. Useful for self-contained python distributions, but will break
+        # things like venv where the rpath of the venv python tries to look up the
+        # library in a sibling directory that does not exist.
+        set_target_properties(python PROPERTIES LINK_FLAGS "-Wl,-rpath,$ORIGIN/../lib")
+    endif()
 endif()
 if(BUILD_LIBPYTHON_SHARED)
     target_link_libraries(python libpython-shared)

@@ -216,7 +216,11 @@ try_run(PLATFORM_RUN PLATFORM_COMPILE
 if(NOT PLATFORM_COMPILE)
   message(FATAL_ERROR "We could not determine the platform. Please clean the ${CMAKE_PROJECT_NAME} environment and try again...")
 endif()
-set(SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ABIFLAGS}-${PLATFORM_TRIPLET}")
+if(${PLATFORM_TRIPLET})
+  set(SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ABIFLAGS}-${PLATFORM_TRIPLET}")
+else()
+  set(SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ABIFLAGS}")
+endif()
 
 message(STATUS "${_msg} - ${SOABI}")
 
@@ -228,7 +232,11 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.8")
 # Release and debug (Py_DEBUG) ABI are compatible, but not Py_TRACE_REFS ABI
 if(Py_DEBUG AND NOT WITH_TRACE_REFS)
   string(REPLACE "d" "" ALT_ABIFLAGS "${ABIFLAGS}")
-  set(ALT_SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ALT_ABIFLAGS}-${PLATFORM_TRIPLET}")
+  if(${PLATFORM_TRIPLET})
+    set(ALT_SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ALT_ABIFLAGS}-${PLATFORM_TRIPLET}")
+  else()
+    set(ALT_SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ALT_ABIFLAGS}")
+  endif()
 endif()
 
 endif()
@@ -2944,7 +2952,10 @@ if(CMAKE_SYSTEM MATCHES Darwin)
 endif()
 
 if(CMAKE_SYSTEM MATCHES FreeBSD)
-  set(PY_PLATFORM freebsd5)  # which version to use ?
+  # get the FreeBSD OS version
+  string(REPLACE "." ";" CMAKE_SYSTEM_VERSION_tokens ${CMAKE_SYSTEM_VERSION})
+  list(GET CMAKE_SYSTEM_VERSION_tokens 0 FreeBSD_Version)
+  set(PY_PLATFORM freebsd${FreeBSD_Version})
 endif()
 
 if(CMAKE_SYSTEM MATCHES NetBSD)
