@@ -1,0 +1,20 @@
+diff --git a/Include/Python.h b/Include/Python.h
+index 7f7ed5981c..9499df113f 100644
+--- a/Include/Python.h
++++ b/Include/Python.h
+@@ -29,7 +29,15 @@
+ 
+ #include <string.h>
+ #ifdef HAVE_ERRNO_H
++# if defined(__FreeBSD__) && defined(_POSIX_SOURCE)
++#  define _WANT_POSIX_SOURCE
++#  undef _POSIX_SOURCE
++# endif
+ #include <errno.h>
++# if defined(_WANT_POSIX_SOURCE)
++#  undef _WANT_POSIX_SOURCE
++#  define _POSIX_SOURCE
++# endif
+ #endif
+ #include <stdlib.h>
+ #ifndef MS_WINDOWS
