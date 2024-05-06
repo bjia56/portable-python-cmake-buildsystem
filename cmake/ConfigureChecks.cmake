@@ -2952,7 +2952,10 @@ if(CMAKE_SYSTEM MATCHES Darwin)
 endif()
 
 if(CMAKE_SYSTEM MATCHES FreeBSD)
-  set(PY_PLATFORM freebsd5)  # which version to use ?
+  # get the FreeBSD OS version
+  string(REPLACE "." ";" CMAKE_SYSTEM_VERSION_tokens CMAKE_SYSTEM_VERSION)
+  list(GET CMAKE_SYSTEM_VERSION_tokens 0 FreeBSD_Version)
+  set(PY_PLATFORM freebsd${FreeBSD_Version})
 endif()
 
 if(CMAKE_SYSTEM MATCHES NetBSD)
