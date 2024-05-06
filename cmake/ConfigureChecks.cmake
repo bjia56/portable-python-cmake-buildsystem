@@ -2953,7 +2953,7 @@ endif()
 
 if(CMAKE_SYSTEM MATCHES FreeBSD)
   # get the FreeBSD OS version
-  string(REPLACE "." ";" CMAKE_SYSTEM_VERSION_tokens CMAKE_SYSTEM_VERSION)
+  string(REPLACE "." ";" CMAKE_SYSTEM_VERSION_tokens ${CMAKE_SYSTEM_VERSION})
   list(GET CMAKE_SYSTEM_VERSION_tokens 0 FreeBSD_Version)
   set(PY_PLATFORM freebsd${FreeBSD_Version})
 endif()
