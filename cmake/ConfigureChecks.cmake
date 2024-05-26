@@ -209,7 +209,7 @@ if(WITH_PYMALLOC AND PY_VERSION VERSION_LESS "3.8")
 endif()
 message(STATUS "${_msg} - ${ABIFLAGS}")
 
-set(_msg "Checking SOABI")
+set(_msg "Checking PLATFORM_TRIPLET")
 try_run(PLATFORM_RUN PLATFORM_COMPILE
         ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/cmake/platform.c
         RUN_OUTPUT_VARIABLE PLATFORM_TRIPLET)
@@ -217,7 +217,8 @@ if(NOT PLATFORM_COMPILE)
   message(FATAL_ERROR "We could not determine the platform. Please clean the ${CMAKE_PROJECT_NAME} environment and try again...")
 endif()
 message(STATUS "${_msg} - ${PLATFORM_TRIPLET}")
-if(${PLATFORM_TRIPLET})
+set(_msg "Checking SOABI")
+if(PLATFORM_TRIPLET)
   set(SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ABIFLAGS}-${PLATFORM_TRIPLET}")
 else()
   set(SOABI "cpython-${PY_VERSION_MAJOR}${PY_VERSION_MINOR}${ABIFLAGS}")
