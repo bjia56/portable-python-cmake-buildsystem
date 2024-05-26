@@ -37,7 +37,7 @@ endif()
 if(MSVC)
     set_target_properties(python PROPERTIES LINK_FLAGS /STACK:2000000)
 elseif(APPLE)
-    set_target_properties(python PROPERTIES LINK_FLAGS "-Wl,--stack_size,2000000")
+    set_target_properties(python PROPERTIES LINK_FLAGS "-Wl,-stack_size,2000000")
 endif()
 
 # Export target
