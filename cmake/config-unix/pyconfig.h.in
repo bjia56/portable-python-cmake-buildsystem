@@ -1689,7 +1689,7 @@
 #cmakedefine TANH_PRESERVES_ZERO_SIGN 1
 
 /* Custom thread stack size depending on chosen sanitizer runtimes. Define to 0 to use default stack size */
-#cmakedefine THREAD_STACK_SIZE 0
+#cmakedefine THREAD_STACK_SIZE @THREAD_STACK_SIZE@
 
 /* Library needed by timemodule.c: librt may be needed for clock_gettime() */
 #cmakedefine TIMEMODULE_LIB 1
