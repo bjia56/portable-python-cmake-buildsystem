@@ -84,7 +84,7 @@ jobs:
         cmake-version: 3.13.5
 
     - name: Setup cosmocc
-      uses: bjia56/setup-cosmocc@v0.0.1
+      uses: bjia56/setup-cosmocc@main
 
     - name: Install tools
       if: ${{ matrix.os == 'macos' }}
