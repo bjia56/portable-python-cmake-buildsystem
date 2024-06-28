@@ -123,7 +123,7 @@ char *PLATFORM_TRIPLET =
 #elif defined(__APPLE__)
         "darwin"
 #elif defined(__COSMOCC__)
-        ""
+        "cosmo"
 #else
 #       "unknown platform triplet"
 #endif
