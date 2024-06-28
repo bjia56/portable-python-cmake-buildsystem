@@ -96,7 +96,7 @@ jobs:
         mkdir -p python-build && mkdir -p python-install
         cd python-build
         cmake \
-          -DCMAKE_C_COMPILER=cosmocc -DCMAKE_CXX_COMPILER=cosmoc++ -DCMAKE_CXX_FLAGS=-fexceptions -DCMAKE_AR=$(command -v cosmoar)
+          -DCMAKE_C_COMPILER=cosmocc -DCMAKE_CXX_COMPILER=cosmoc++ -DCMAKE_CXX_FLAGS=-fexceptions -DCMAKE_AR=$(command -v cosmoar) \
           ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
