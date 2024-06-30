@@ -122,7 +122,7 @@ char *PLATFORM_TRIPLET =
         "i386-gnu"
 #elif defined(__APPLE__)
         "darwin"
-#elif defined(__COSMOCC__)
+#elif defined(__COSMOPOLITAN__)
         "cosmo"
 #else
 #       "unknown platform triplet"
