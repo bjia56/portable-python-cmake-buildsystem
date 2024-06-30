@@ -16,7 +16,6 @@ env:
 
 jobs:
   tests:
-    if: false
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: true
@@ -52,53 +51,6 @@ jobs:
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           ${{ matrix.os == 'macos' && format('-DCMAKE_OSX_DEPLOYMENT_TARGET={0}', env.MACOSX_DEPLOYMENT_TARGET) || '' }} \
           ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} ${{ startsWith(matrix.python-version, '3.12') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
-          -DPYTHON_VERSION=${{ matrix.python-version }} \
-          ..
-        make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
-        make install
-
-    - name: Check sysconfig
-      run: |
-        ./python-install/bin/python -m sysconfig
-
-    - name: Test
-      run: |
-        ./python-install/bin/python -m ensurepip || true
-        ./python-install/bin/python -m pip install certifi || true
-        ./python-install/bin/python -m test -v --timeout 60 || true
-
-  cosmocc:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        python-version: [3.9.19, 3.10.14, 3.11.9, 3.12.4]
-
-    name: cosmocc ${{ matrix.python-version }}
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup cmake
-      uses: jwlawson/actions-setup-cmake@v1.13.1
-      with:
-        cmake-version: 3.13.5
-
-    - name: Setup cosmocc
-      uses: bjia56/setup-cosmocc@main
-
-    - name: Install tools
-      if: ${{ matrix.os == 'macos' }}
-      run: |
-        brew install gpatch
-
-    - name: Build
-      run: |
-        mkdir -p python-build && mkdir -p python-install
-        cd python-build
-        cmake \
-          -DCMAKE_C_COMPILER=cosmocc -DCMAKE_CXX_COMPILER=cosmoc++ -DCMAKE_CXX_FLAGS=-fexceptions -DCMAKE_AR=$(command -v cosmoar) \
-          ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
-          -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
