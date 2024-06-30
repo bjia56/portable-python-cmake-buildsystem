@@ -49,7 +49,7 @@ CFLAGS=         @CMAKE_C_FLAGS@
 # be able to build extension modules using the directories specified in the
 # environment variables
 CPPFLAGS=       @CMAKE_CXX_FLAGS@
-LDFLAGS=
+LDFLAGS=        @LDFLAGS@
 LDLAST=
 SGI_ABI=
 CCSHARED=       -fPIC
