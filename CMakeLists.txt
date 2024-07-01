@@ -37,6 +37,12 @@ if(CMAKE_SYSTEM MATCHES FreeBSD)
   set(FreeBSD 1)
 endif()
 
+include(CheckSymbolExists)
+check_symbol_exists(__COSMOPOLITAN__ "stdio.h" Cosmopolitan)
+if(Cosmopolitan)
+  message(STATUS "Cosmopolitan compiler detected")
+endif()
+
 # Include helper functions
 include(cmake/Extensions.cmake)
 include(CMakeDependentOption)
