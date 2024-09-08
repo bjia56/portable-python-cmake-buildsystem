@@ -2040,6 +2040,9 @@ if(CMAKE_SYSTEM MATCHES BlueGene AND PY_VERSION VERSION_LESS "3.7")
   set(WITH_THREAD OFF CACHE STRING "System doesn't support multithreading" FORCE)
 endif()
 
+if(APPLE)
+  set(THREAD_STACK_SIZE "0x1000000")
+endif()
 
 #######################################################################
 #

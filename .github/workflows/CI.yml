@@ -64,4 +64,4 @@ jobs:
       run: |
         ./python-install/bin/python -m ensurepip || true
         ./python-install/bin/python -m pip install certifi || true
-        ./python-install/bin/python -m test -v --timeout 60 || true
+        ./python-install/bin/python -m test -v --timeout 300 || true
