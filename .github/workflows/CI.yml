@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: [3.9.19, 3.10.14, 3.11.9, 3.12.4]
+        python-version: [3.9.20, 3.10.15, 3.11.10, 3.12.6]
         os: [macos, ubuntu]
         include:
           - os: macos

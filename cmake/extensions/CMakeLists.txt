@@ -10,6 +10,11 @@ if(IS_PY3)
     set(PY3_ALWAYS_BUILTIN ALWAYS_BUILTIN)
 endif()
 
+set(NOT_COSMOPOLITAN 1)
+if(Cosmopolitan)
+    set(NOT_COSMOPOLITAN 0)
+endif()
+
 add_python_extension(array ${WIN32_BUILTIN} SOURCES arraymodule.c)
 add_python_extension(audioop ${WIN32_BUILTIN} REQUIRES HAVE_LIBM SOURCES audioop.c LIBRARIES ${M_LIBRARIES})
 add_python_extension(_bisect ${WIN32_BUILTIN} SOURCES _bisectmodule.c)
@@ -260,8 +265,8 @@ add_python_extension(_scproxy
 )
 
 # Linux-only extensions
-add_python_extension(linuxaudiodev REQUIRES LINUX IS_PY2 SOURCES linuxaudiodev.c)
-add_python_extension(ossaudiodev REQUIRES LINUX SOURCES ossaudiodev.c)
+add_python_extension(linuxaudiodev REQUIRES LINUX IS_PY2 NOT_COSMOPOLITAN SOURCES linuxaudiodev.c)
+add_python_extension(ossaudiodev REQUIRES LINUX NOT_COSMOPOLITAN SOURCES ossaudiodev.c)
 
 # Python 3.8: UNIX-only extensions
 if(PY_VERSION VERSION_GREATER_EQUAL "3.8")
