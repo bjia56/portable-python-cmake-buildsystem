@@ -765,6 +765,12 @@ if(HAVE_LONG_LONG)
 endif()
 
 
+set(WITH_FREELISTS 0)
+if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
+  set(WITH_FREELISTS 1)
+endif()
+
+
 set(CFG_HEADERS )
 
 add_cond(CFG_HEADERS HAVE_SYS_EPOLL_H sys/epoll.h)
