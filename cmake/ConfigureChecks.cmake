@@ -765,6 +765,12 @@ if(HAVE_LONG_LONG)
 endif()
 
 
+set(WITH_FREELISTS 0)
+if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
+  set(WITH_FREELISTS 1)
+endif()
+
+
 set(CFG_HEADERS )
 
 add_cond(CFG_HEADERS HAVE_SYS_EPOLL_H sys/epoll.h)
@@ -874,6 +880,8 @@ if(IS_PY2)
 check_symbol_exists(getcwd       "${CFG_HEADERS}" HAVE_GETCWD)
 endif()
 check_symbol_exists(getc_unlocked   "${CFG_HEADERS}" HAVE_GETC_UNLOCKED)
+check_symbol_exists(getegid       "${CFG_HEADERS}" HAVE_GETEGID)
+check_symbol_exists(geteuid       "${CFG_HEADERS}" HAVE_GETEUID)
 check_symbol_exists(getgid       "${CFG_HEADERS}" HAVE_GETGID)
 check_symbol_exists(getgroups       "${CFG_HEADERS}" HAVE_GETGROUPS)
 check_symbol_exists(getitimer    "${CFG_HEADERS}" HAVE_GETITIMER)

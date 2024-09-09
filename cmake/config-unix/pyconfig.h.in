@@ -1759,6 +1759,9 @@
    Dyld is necessary to support frameworks. */
 #cmakedefine WITH_DYLD 1
 
+/* Define if you want to compile in object freelists optimization */
+#cmakedefine WITH_FREELISTS 1
+
 /* Define to 1 if libintl is needed for locale functions. */
 #cmakedefine WITH_LIBINTL 1
 
