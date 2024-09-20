@@ -563,6 +563,12 @@
 /* Define to 1 if you have the `getrusage' function. [Python 3.11] */
 #cmakedefine HAVE_GETRUSAGE 1
 
+/* Define to 1 if you have the `getservbyname' function. [Python 3.11] */
+#cmakedefine HAVE_GETSERVBYNAME 1
+
+/* Define if you have the 'getservbyport' function. [Python 3.11] */
+#cmakedefine HAVE_GETSERVBYPORT 1
+
 /* Define to 1 if you have the `getsid' function. */
 #cmakedefine HAVE_GETSID 1
 
