@@ -1,11 +1,11 @@
 diff --git a/Include/Python.h b/Include/Python.h
-index 52a7aac6ba..c09deb9223 100644
+index fb2d32d7110..4b8bf901bdf 100644
 --- a/Include/Python.h
 +++ b/Include/Python.h
-@@ -22,7 +22,15 @@
+@@ -33,7 +33,15 @@
+ // The <ctype.h> and <unistd.h> headers are not included by limited C API
+ // version 3.13 and newer.
  #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 < 0x030b0000
- #  include <stdlib.h>
- #  include <stdio.h>              // FILE*
 +#  if defined(__FreeBSD__) && defined(_POSIX_SOURCE)
 +#     define _WANT_POSIX_SOURCE
 +#     undef _POSIX_SOURCE
@@ -15,6 +15,6 @@ index 52a7aac6ba..c09deb9223 100644
 +#     define _POSIX_SOURCE
 +#     undef _WANT_POSIX_SOURCE
 +#  endif
+ #  include <stdio.h>              // FILE*
+ #  include <stdlib.h>             // getenv()
  #  include <string.h>             // memcpy()
- #endif
- #ifndef MS_WINDOWS
