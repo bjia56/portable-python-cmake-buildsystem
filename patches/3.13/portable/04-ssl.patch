@@ -1,0 +1,26 @@
+diff --git a/Lib/ssl.py b/Lib/ssl.py
+index cb5ec51681..43ae9889e6 100644
+--- a/Lib/ssl.py
++++ b/Lib/ssl.py
+@@ -119,6 +119,10 @@ from _ssl import (
+ )
+ from _ssl import _DEFAULT_CIPHERS, _OPENSSL_API_VERSION
+ 
++if os.name == "nt":
++    _portable_python_certifi_path = os.path.join(sys.prefix, "Lib", "site-packages", "certifi", "cacert.pem")
++else:
++    _portable_python_certifi_path = os.path.join(sys.prefix, "lib", f"python{sys.version_info.major}.{sys.version_info.minor}", "site-packages", "certifi", "cacert.pem")
+ 
+ _IntEnum._convert_(
+     '_SSLMethod', __name__,
+@@ -742,6 +746,10 @@ def create_default_context(purpose=Purpose.SERVER_AUTH, *, cafile=None,
+         context.verify_mode = CERT_REQUIRED
+         context.check_hostname = True
+ 
++    if cafile is None:
++        if os.path.exists(_portable_python_certifi_path):
++            cafile = _portable_python_certifi_path
++
+     if cafile or capath or cadata:
+         context.load_verify_locations(cafile, capath, cadata)
+     elif context.verify_mode != CERT_NONE:
