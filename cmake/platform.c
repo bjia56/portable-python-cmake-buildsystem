@@ -113,7 +113,7 @@ char *PLATFORM_TRIPLET =
 #  elif defined(__loongarch_double_float)
 #   define LIBC_LA gnu
 #  else
-#   error unknown loongarch floating-point base abi
+#       "unknown loongarch floating-point base abi"
 #  endif
         "loongarch64-linux-LIBC_LA"
 # else
