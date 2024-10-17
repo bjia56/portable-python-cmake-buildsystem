@@ -105,6 +105,17 @@ char *PLATFORM_TRIPLET =
 #  else
 #       "unknown platform triplet"
 #  endif
+# elif defined(__loongarch__) && defined(__loongarch_lp64)
+#  if defined(__loongarch_soft_float)
+#   define LIBC_LA gnusf
+#  elif defined(__loongarch_single_float)
+#   define LIBC_LA gnuf32
+#  elif defined(__loongarch_double_float)
+#   define LIBC_LA gnu
+#  else
+#   error unknown loongarch floating-point base abi
+#  endif
+        "loongarch64-linux-LIBC_LA"
 # else
 #       "unknown platform triplet"
 # endif
