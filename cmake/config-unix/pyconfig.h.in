@@ -1796,7 +1796,7 @@
 #else
 # ifndef WORDS_BIGENDIAN
 #cmakedefine WORDS_BIGENDIAN 1
-#  if !WORDS_BIGENDIAN
+#  if WORDS_BIGENDIAN == 0
 #   undef WORDS_BIGENDIAN
 #  endif
 # endif
