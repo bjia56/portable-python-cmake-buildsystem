@@ -128,6 +128,8 @@ char *PLATFORM_TRIPLET =
 # endif
 #elif defined(__FreeBSD__)
         ""
+#elif defined(sun) || defined(__sun)
+        ""
 #elif defined(__gnu_hurd__)
         "i386-gnu"
 #elif defined(__APPLE__)
