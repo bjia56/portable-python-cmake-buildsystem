@@ -11,9 +11,6 @@ on:
         required: false
         type: boolean
 
-env:
-  MACOSX_DEPLOYMENT_TARGET: 10.9
-
 jobs:
   tests:
     runs-on: ${{ matrix.runner }}
@@ -21,10 +18,8 @@ jobs:
       fail-fast: true
       matrix:
         python-version: [3.9.20, 3.10.15, 3.11.10, 3.12.7]
-        os: [macos, ubuntu]
+        os: [ubuntu]
         include:
-          - os: macos
-            runner: macos-13
           - os: ubuntu
             runner: ubuntu-latest
 
@@ -37,12 +32,6 @@ jobs:
       with:
         cmake-version: 3.13.5
 
-    - name: Install tools
-      if: ${{ matrix.os == 'macos' }}
-      run: |
-        brew install gpatch
-        echo "/usr/local/opt/gpatch/libexec/gnubin" >> $GITHUB_PATH
-
     - name: Build
       run: |
         mkdir -p python-build && mkdir -p python-install
@@ -50,8 +39,6 @@ jobs:
         cmake \
           ${{ inputs.verbose && '--trace-expand --debug-find' || '' }} \
           -DCMAKE_INSTALL_PREFIX:PATH=${{ github.workspace }}/python-install \
-          ${{ matrix.os == 'macos' && format('-DCMAKE_OSX_DEPLOYMENT_TARGET={0}', env.MACOSX_DEPLOYMENT_TARGET) || '' }} \
-          ${{ startsWith(matrix.python-version, '3.11') && '-DUSE_SYSTEM_TCL=OFF' || '' }} ${{ startsWith(matrix.python-version, '3.12') && '-DUSE_SYSTEM_TCL=OFF' || '' }} \
           -DPYTHON_VERSION=${{ matrix.python-version }} \
           ..
         make -j4 ${{ inputs.verbose && 'VERBOSE=1' || '' }}
