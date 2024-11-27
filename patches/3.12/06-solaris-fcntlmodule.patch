@@ -1,0 +1,22 @@
+diff --git a/Modules/fcntlmodule.c b/Modules/fcntlmodule.c
+index 2bca40213c6..a4e567bab9b 100644
+--- a/Modules/fcntlmodule.c
++++ b/Modules/fcntlmodule.c
+@@ -628,6 +628,17 @@ all_ins(PyObject* m)
+ #endif
+ 
+ #ifdef HAVE_STROPTS_H
++
++#if defined(sun) || defined(__sun)
++  #ifdef STR
++    #define _STR_tmp STR
++    #undef STR
++    const long STR = _STR_tmp;
++    #define STR _STR_tmp
++    #undef _STR_tmp
++  #endif
++#endif
++
+     /* Unix 98 guarantees that these are in stropts.h. */
+     if (PyModule_AddIntMacro(m, I_PUSH)) return -1;
+     if (PyModule_AddIntMacro(m, I_POP)) return -1;
