@@ -37,6 +37,11 @@ if(CMAKE_SYSTEM MATCHES FreeBSD)
   set(FreeBSD 1)
 endif()
 
+set(Solaris )
+if(CMAKE_HOST_SOLARIS)
+  set(Solaris 1)
+endif()
+
 include(CheckSymbolExists)
 check_symbol_exists(__COSMOPOLITAN__ "stdio.h" Cosmopolitan)
 if(Cosmopolitan)

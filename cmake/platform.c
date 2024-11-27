@@ -105,6 +105,16 @@ char *PLATFORM_TRIPLET =
 #  else
 #       "unknown platform triplet"
 #  endif
+# elif defined(__loongarch__) && defined(__loongarch_lp64)
+#  if defined(__loongarch_soft_float)
+        "loongarch64-linux-gnusf"
+#  elif defined(__loongarch_single_float)
+        "loongarch64-linux-gnuf32"
+#  elif defined(__loongarch_double_float)
+        "loongarch64-linux-gnu"
+#  else
+#       "unknown platform triplet"
+#  endif
 # else
 #       "unknown platform triplet"
 # endif
@@ -117,6 +127,8 @@ char *PLATFORM_TRIPLET =
 #       "unknown platform triplet"
 # endif
 #elif defined(__FreeBSD__)
+        ""
+#elif defined(sun) || defined(__sun)
         ""
 #elif defined(__gnu_hurd__)
         "i386-gnu"

@@ -9,7 +9,7 @@ include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CheckVariableExists)
 include(cmake/PlatformTest.cmake)
-include(TestBigEndian)
+include(cmake/CheckEndianness.cmake)
 
 message(STATUS "The system name is ${CMAKE_SYSTEM_NAME}")
 message(STATUS "The system processor is ${CMAKE_SYSTEM_PROCESSOR}")
@@ -713,7 +713,7 @@ add_cond(CMAKE_REQUIRED_LIBRARIES HAVE_LIBINTL ${HAVE_LIBINTL})
 add_cond(CMAKE_REQUIRED_LIBRARIES HAVE_LIBUTIL "${LIBUTIL_LIBRARIES}")
 add_cond(CMAKE_EXTRA_INCLUDE_FILES HAVE_WCHAR_H wchar.h)
 
-TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
+define_python_endianness_macros()
 
 check_type_size(double SIZEOF_DOUBLE) # libffi and cpython
 check_type_size(float SIZEOF_FLOAT)
