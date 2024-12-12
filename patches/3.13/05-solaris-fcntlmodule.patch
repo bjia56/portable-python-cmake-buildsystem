@@ -1,0 +1,20 @@
+diff --git a/Modules/fcntlmodule.c b/Modules/fcntlmodule.c
+index 2bca40213c6..59dab31bc40 100644
+--- a/Modules/fcntlmodule.c
++++ b/Modules/fcntlmodule.c
+@@ -628,6 +628,15 @@ all_ins(PyObject* m)
+ #endif
+ 
+ #ifdef HAVE_STROPTS_H
++
++#if defined(sun) || defined(__sun)
++  #ifndef STR
++    /* for some reason, the preprocessor does not resolve this symbol */
++    /* from /usr/include/sys/stropts.h on Solaris 11 */
++    #define STR ('S'<<8)
++  #endif
++#endif
++
+     /* Unix 98 guarantees that these are in stropts.h. */
+     if (PyModule_AddIntMacro(m, I_PUSH)) return -1;
+     if (PyModule_AddIntMacro(m, I_POP)) return -1;
