@@ -89,40 +89,44 @@ add_python_extension(strop ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES stropmodule.
 add_python_extension(_struct ${WIN32_BUILTIN} SOURCES _struct.c)
 set(testcapi_SOURCES _testcapimodule.c)
 if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
-  list(APPEND testcapi_SOURCES
-    _testcapi/abstract.c
-    _testcapi/buffer.c
-    _testcapi/bytearray.c
-    _testcapi/bytes.c
-    _testcapi/code.c
-    _testcapi/codec.c
-    _testcapi/complex.c
-    _testcapi/datetime.c
-    _testcapi/dict.c
-    _testcapi/docstring.c
-    _testcapi/exceptions.c
-    _testcapi/file.c
-    _testcapi/float.c
-    _testcapi/gc.c
-    _testcapi/getargs.c
-    _testcapi/heaptype.c
-    _testcapi/heaptype_relative.c
-    _testcapi/immortal.c
-    _testcapi/list.c
-    _testcapi/long.c
-    _testcapi/mem.c
-    _testcapi/numbers.c
-    _testcapi/pyos.c
-    _testcapi/pytime.c
-    _testcapi/set.c
-    _testcapi/structmember.c
-    _testcapi/sys.c
-    _testcapi/tuple.c
-    _testcapi/unicode.c
-    _testcapi/vectorcall.c
-    _testcapi/vectorcall_limited.c
-    _testcapi/watchers.c
-  )
+    if(PY_VERSION VERSION_LESS "3.13")
+        list(APPEND testcapi_SOURCES
+            _testcapi/bytearray.c
+        )
+    endif()
+    list(APPEND testcapi_SOURCES
+        _testcapi/abstract.c
+        _testcapi/buffer.c
+        _testcapi/bytes.c
+        _testcapi/code.c
+        _testcapi/codec.c
+        _testcapi/complex.c
+        _testcapi/datetime.c
+        _testcapi/dict.c
+        _testcapi/docstring.c
+        _testcapi/exceptions.c
+        _testcapi/file.c
+        _testcapi/float.c
+        _testcapi/gc.c
+        _testcapi/getargs.c
+        _testcapi/heaptype.c
+        _testcapi/heaptype_relative.c
+        _testcapi/immortal.c
+        _testcapi/list.c
+        _testcapi/long.c
+        _testcapi/mem.c
+        _testcapi/numbers.c
+        _testcapi/pyos.c
+        _testcapi/pytime.c
+        _testcapi/set.c
+        _testcapi/structmember.c
+        _testcapi/sys.c
+        _testcapi/tuple.c
+        _testcapi/unicode.c
+        _testcapi/vectorcall.c
+        _testcapi/vectorcall_limited.c
+        _testcapi/watchers.c
+    )
 endif()
 if(PY_VERSION VERSION_LESS "3.12" OR UNIX)
     # This module seems to build incorrectly for Python 3.12 Windows
@@ -241,12 +245,14 @@ if(TIRPC_LIBRARY AND TIRPC_RPC_INCLUDE_PATH)
         list(APPEND nis_LIBRARIES ${TIRPC_STATIC_LIBRARIES})
     endif()
 endif()
-add_python_extension(nis
-    REQUIRES ${nis_REQUIRES}
-    SOURCES nismodule.c
-    LIBRARIES ${nis_LIBRARIES}
-    INCLUDEDIRS ${nis_INCLUDEDIRS}
-)
+if(PY_VERSION VERSION_LESS "3.13")
+    add_python_extension(nis
+        REQUIRES ${nis_REQUIRES}
+        SOURCES nismodule.c
+        LIBRARIES ${nis_LIBRARIES}
+        INCLUDEDIRS ${nis_INCLUDEDIRS}
+    )
+endif()
 
 add_python_extension(posix REQUIRES UNIX ALWAYS_BUILTIN SOURCES posixmodule.c DEFINITIONS Py_BUILD_CORE)
 add_python_extension(pwd REQUIRES UNIX BUILTIN SOURCES pwdmodule.c) # this is needed to find out the user's home dir if $HOME is not set

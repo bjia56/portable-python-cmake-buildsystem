@@ -85,8 +85,19 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.10")
         ${SRC_DIR}/Parser/pegen.c
         ${SRC_DIR}/Parser/string_parser.c
         ${SRC_DIR}/Parser/token.c
-        ${SRC_DIR}/Parser/tokenizer.c
     )
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+        list(APPEND PARSER_COMMON_SOURCES
+            ${SRC_DIR}/Parser/tokenizer/string_tokenizer.c
+            ${SRC_DIR}/Parser/tokenizer/readline_tokenizer.c
+            ${SRC_DIR}/Parser/tokenizer/utf8_tokenizer.c
+            ${SRC_DIR}/Parser/tokenizer/file_tokenizer.c
+        )
+    else()
+        list(APPEND PARSER_COMMON_SOURCES
+            ${SRC_DIR}/Parser/tokenizer.c
+        )
+    endif()
     if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
         list(APPEND PARSER_COMMON_SOURCES
             ${SRC_DIR}/Parser/action_helpers.c
