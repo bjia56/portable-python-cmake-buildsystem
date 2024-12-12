@@ -413,6 +413,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
         ${SRC_DIR}/Python/gc_gil.c
         ${SRC_DIR}/Python/instruction_sequence.c
         ${SRC_DIR}/Python/lock.c
+        ${SRC_DIR}/Python/object_stack.c
         ${SRC_DIR}/Python/parking_lot.c
         ${SRC_DIR}/Python/qsbr.c
     )
