@@ -95,6 +95,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
             _testcapi/heaptype_relative.c
             _testcapi/pyos.c
             _testcapi/pytime.c
+            _testcapi/sys.c
             _testcapi/vectorcall_limited.c
         )
     else()
@@ -128,7 +129,6 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
         _testcapi/numbers.c
         _testcapi/set.c
         _testcapi/structmember.c
-        _testcapi/sys.c
         _testcapi/tuple.c
         _testcapi/unicode.c
         _testcapi/vectorcall.c

@@ -953,12 +953,16 @@ elseif(UNIX)
     )
 endif()
 if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+    if(PY_VERSION VERSION_LESS "3.13")
+        list(APPEND LIBPYTHON_SOURCES
+            ${SRC_DIR}/Modules/_xxinterpchannelsmodule.c
+        )
+    endif()
     list(APPEND LIBPYTHON_SOURCES
         ${SRC_DIR}/Modules/_hacl/Hacl_Hash_MD5.c
         ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA1.c
         ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA2.c
         ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA3.c
-        ${SRC_DIR}/Modules/_xxinterpchannelsmodule.c
         ${SRC_DIR}/Modules/md5module.c
         ${SRC_DIR}/Modules/sha1module.c
         ${SRC_DIR}/Modules/sha2module.c
