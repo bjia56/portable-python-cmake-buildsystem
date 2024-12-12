@@ -206,8 +206,12 @@ set(OBJECT_COMMON_SOURCES # Equivalent to OBJECT_OBJS in Makefile.pre
     ${SRC_DIR}/Objects/weakrefobject.c
 )
 if(PY_VERSION VERSION_GREATER_EQUAL "3.8")
+    if(PY_VERSION VERSION_LESS "3.13")
+        list(APPEND OBJECT_COMMON_SOURCES
+            ${SRC_DIR}/Objects/interpreteridobject.c
+        )
+    endif()
     list(APPEND OBJECT_COMMON_SOURCES
-        ${SRC_DIR}/Objects/interpreteridobject.c
         ${SRC_DIR}/Objects/picklebufobject.c
     )
 endif()

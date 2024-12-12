@@ -16,7 +16,9 @@ if(Cosmopolitan)
 endif()
 
 add_python_extension(array ${WIN32_BUILTIN} SOURCES arraymodule.c)
-add_python_extension(audioop ${WIN32_BUILTIN} REQUIRES HAVE_LIBM SOURCES audioop.c LIBRARIES ${M_LIBRARIES})
+if(PY_VERSION VERSION_LESS "3.13")
+    add_python_extension(audioop ${WIN32_BUILTIN} REQUIRES HAVE_LIBM SOURCES audioop.c LIBRARIES ${M_LIBRARIES})
+endif()
 add_python_extension(_bisect ${WIN32_BUILTIN} SOURCES _bisectmodule.c)
 add_python_extension(cmath REQUIRES HAVE_LIBM ${WIN32_BUILTIN} SOURCES $<$<VERSION_LESS:${PY_VERSION},3.11>:_math.c> cmathmodule.c LIBRARIES ${M_LIBRARIES})
 add_python_extension(_codecs_cn ${WIN32_BUILTIN} SOURCES cjkcodecs/_codecs_cn.c)
@@ -27,11 +29,13 @@ add_python_extension(_codecs_kr ${WIN32_BUILTIN} SOURCES cjkcodecs/_codecs_kr.c)
 add_python_extension(_codecs_tw ${WIN32_BUILTIN} SOURCES cjkcodecs/_codecs_tw.c)
 add_python_extension(_collections ${WIN32_BUILTIN} ${PY3_BUILTIN} SOURCES _collectionsmodule.c) # Container types
 add_python_extension(cPickle ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES cPickle.c)
-set(crypt2_NAME crypt)
-set(crypt2_SOURCES cryptmodule.c)
-set(crypt3_NAME _crypt)
-set(crypt3_SOURCES _cryptmodule.c)
-add_python_extension(${crypt${PY_VERSION_MAJOR}_NAME} REQUIRES HAVE_LIBCRYPT SOURCES ${crypt${PY_VERSION_MAJOR}_SOURCES} LIBRARIES ${HAVE_LIBCRYPT})
+if(PY_VERSION VERSION_LESS "3.13")
+    set(crypt2_NAME crypt)
+    set(crypt2_SOURCES cryptmodule.c)
+    set(crypt3_NAME _crypt)
+    set(crypt3_SOURCES _cryptmodule.c)
+    add_python_extension(${crypt${PY_VERSION_MAJOR}_NAME} REQUIRES HAVE_LIBCRYPT SOURCES ${crypt${PY_VERSION_MAJOR}_SOURCES} LIBRARIES ${HAVE_LIBCRYPT})
+endif()
 add_python_extension(cStringIO ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES cStringIO.c)
 add_python_extension(_csv ${WIN32_BUILTIN} SOURCES _csv.c)
 add_python_extension(_ctypes_test NEVER_BUILTIN REQUIRES HAVE_LIBM SOURCES _ctypes/_ctypes_test.c LIBRARIES ${M_LIBRARIES})
@@ -247,7 +251,9 @@ add_python_extension(nis
 add_python_extension(posix REQUIRES UNIX ALWAYS_BUILTIN SOURCES posixmodule.c DEFINITIONS Py_BUILD_CORE)
 add_python_extension(pwd REQUIRES UNIX BUILTIN SOURCES pwdmodule.c) # this is needed to find out the user's home dir if $HOME is not set
 add_python_extension(resource REQUIRES UNIX SOURCES resource.c)
-add_python_extension(spwd REQUIRES UNIX HAVE_GETSPNAM HAVE_GETSPENT SOURCES spwdmodule.c)
+if(PY_VERSION VERSION_LESS "3.13")
+    add_python_extension(spwd REQUIRES UNIX HAVE_GETSPNAM HAVE_GETSPENT SOURCES spwdmodule.c)
+endif()
 add_python_extension(syslog REQUIRES UNIX SOURCES syslogmodule.c)
 add_python_extension(termios REQUIRES UNIX SOURCES termios.c)
 
@@ -266,7 +272,9 @@ add_python_extension(_scproxy
 
 # Linux-only extensions
 add_python_extension(linuxaudiodev REQUIRES LINUX IS_PY2 NOT_COSMOPOLITAN SOURCES linuxaudiodev.c)
-add_python_extension(ossaudiodev REQUIRES LINUX NOT_COSMOPOLITAN SOURCES ossaudiodev.c)
+if(PY_VERSION VERSION_LESS "3.13")
+    add_python_extension(ossaudiodev REQUIRES LINUX NOT_COSMOPOLITAN SOURCES ossaudiodev.c)
+endif()
 
 # Python 3.8: UNIX-only extensions
 if(PY_VERSION VERSION_GREATER_EQUAL "3.8")
