@@ -92,6 +92,9 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.10")
     )
     if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
         list(APPEND PARSER_COMMON_SOURCES
+            ${SRC_DIR}/Parser/lexer/buffer.c
+            ${SRC_DIR}/Parser/lexer/lexer.c
+            ${SRC_DIR}/Parser/lexer/state.c
             ${SRC_DIR}/Parser/tokenizer/string_tokenizer.c
             ${SRC_DIR}/Parser/tokenizer/readline_tokenizer.c
             ${SRC_DIR}/Parser/tokenizer/utf8_tokenizer.c
@@ -406,6 +409,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
         ${SRC_DIR}/Python/gc.c
         ${SRC_DIR}/Python/gc_free_threading.c
         ${SRC_DIR}/Python/lock.c
+        ${SRC_DIR}/Python/parking_lot.c
     )
 endif()
 
