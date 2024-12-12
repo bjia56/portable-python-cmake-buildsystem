@@ -813,6 +813,15 @@
 /* Define to 1 if you have the <ncurses.h> header file. */
 #cmakedefine HAVE_NCURSES_H 1
 
+/* Define to 1 if you have the <ncurses/panel.h> header file. */
+#cmakedefine HAVE_NCURSES_PANEL_H 1
+
+/* Define to 1 if you have the <ncursesw/panel.h> header file. */
+#cmakedefine HAVE_NCURSESW_PANEL_H 1
+
+/* Define to 1 if you have the <panel.h> header file. */
+#cmakedefine HAVE_PANEL_H 1
+
 /* Define to 1 if you have the <netdb.h> header file. */
 #cmakedefine HAVE_NETDB_H 1
 

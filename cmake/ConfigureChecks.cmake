@@ -326,6 +326,7 @@ check_include_files(memory.h HAVE_MEMORY_H) # libffi and cpython
 check_include_files(minix/config.h HAVE_MINIX_CONFIG_H)
 check_include_files(ncurses.h HAVE_NCURSES_H)
 check_include_files(ncurses/panel.h HAVE_NCURSES_PANEL_H)
+check_include_files(ncursesw/panel.h HAVE_NCURSESW_PANEL_H)
 check_include_files(netdb.h HAVE_NETDB_H)
 check_include_files(netinet/in.h HAVE_NETINET_IN_H)
 check_include_files(netpacket/packet.h HAVE_NETPACKET_PACKET_H)
