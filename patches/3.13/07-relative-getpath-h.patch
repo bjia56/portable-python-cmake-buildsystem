@@ -1,0 +1,13 @@
+diff --git a/Modules/getpath.c b/Modules/getpath.c
+index d0128b20fae..13a7df16199 100644
+--- a/Modules/getpath.c
++++ b/Modules/getpath.c
+@@ -22,7 +22,7 @@
+ #endif
+ 
+ /* Reference the precompiled getpath.py */
+-#include "Python/frozen_modules/getpath.h"
++#include "../Python/frozen_modules/getpath.h"
+ 
+ #if (!defined(PREFIX) || !defined(EXEC_PREFIX) \
+         || !defined(VERSION) || !defined(VPATH) \
