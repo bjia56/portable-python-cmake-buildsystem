@@ -92,6 +92,17 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
     if(PY_VERSION VERSION_LESS "3.13")
         list(APPEND testcapi_SOURCES
             _testcapi/bytearray.c
+            _testcapi/heaptype_relative.c
+            _testcapi/pyos.c
+            _testcapi/pytime.c
+            _testcapi/vectorcall_limited.c
+        )
+    else()
+        list(APPEND testcapi_SOURCES
+            _testcapi/hash.c
+            _testcapi/pyatomic.c
+            _testcapi/run.c
+            _testcapi/time.c
         )
     endif()
     list(APPEND testcapi_SOURCES
@@ -110,21 +121,17 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
         _testcapi/gc.c
         _testcapi/getargs.c
         _testcapi/heaptype.c
-        _testcapi/heaptype_relative.c
         _testcapi/immortal.c
         _testcapi/list.c
         _testcapi/long.c
         _testcapi/mem.c
         _testcapi/numbers.c
-        _testcapi/pyos.c
-        _testcapi/pytime.c
         _testcapi/set.c
         _testcapi/structmember.c
         _testcapi/sys.c
         _testcapi/tuple.c
         _testcapi/unicode.c
         _testcapi/vectorcall.c
-        _testcapi/vectorcall_limited.c
         _testcapi/watchers.c
     )
 endif()
