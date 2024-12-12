@@ -1,11 +1,13 @@
-diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index ebe3711827..d2a1716a1c 100644
---- a/Lib/sysconfig.py
-+++ b/Lib/sysconfig.py
-@@ -847,5 +847,54 @@ def _main():
-     _print_dict('Variables', get_config_vars())
- 
- 
+diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
+index 80aef344711..628c8b05270 100644
+--- a/Lib/sysconfig/__init__.py
++++ b/Lib/sysconfig/__init__.py
+@@ -686,3 +686,52 @@ def expand_makefile_vars(s, vars):
+         else:
+             break
+     return s
++
++
 +# Patch the included pkgconfig files to use the prefix computed during
 +# runtime. This is a hack for mesonbuild, which looks for Python using
 +# pkgconfig. Since a portable Python installation can be moved around,
@@ -53,7 +55,28 @@ index ebe3711827..d2a1716a1c 100644
 +    portable_python_fixup_pkgconfig()
 +except:
 +    pass
+\ No newline at end of file
+diff --git a/Lib/sysconfig/__main__.py b/Lib/sysconfig/__main__.py
+index d7257b9d2d0..9ddfff692bc 100644
+--- a/Lib/sysconfig/__main__.py
++++ b/Lib/sysconfig/__main__.py
+@@ -215,6 +215,19 @@ def _generate_posix_vars():
+         f.write('build_time_vars = ')
+         _print_config_dict(vars, stream=f)
+ 
++    # fixup sysconfig to use dynamic paths for portable python
++    with open(destfile, 'r', encoding='utf8') as f:
++        varsfile = f.read()
++    if '# patched for portable python' not in varsfile:
++        varsfile = varsfile.replace(" '"+vars['prefix'], " f'{root}")
++        varsfile = varsfile.replace(" '-I"+vars['prefix'], " f'-I{root}")
++        varsfile = varsfile.replace(" \"'"+vars['prefix'], " f\"'{root}")
++        with open(destfile, 'w', encoding='utf8') as f:
++            f.write('# patched for portable python\n')
++            f.write('import sys\nimport os\n')
++            f.write('root = os.path.dirname(os.path.dirname(sys.executable))\n')
++            f.write(varsfile)
 +
-+
- if __name__ == '__main__':
-     _main()
+     # Create file used for sys.path fixup -- see Modules/getpath.c
+     with open('pybuilddir.txt', 'w', encoding='utf8') as f:
+         f.write(pybuilddir)
