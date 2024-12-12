@@ -2,6 +2,10 @@ add_definitions(-DPy_BUILD_CORE)
 add_definitions(-DPy_BUILD_CORE_BUILTIN)
 add_definitions(-DNDEBUG)
 
+if(WITH_FREE_THREADING)
+    add_definitions(-DPy_GIL_DISABLED)
+endif()
+
 set(MODULE_SOURCES # Equivalent to MODULE_OBJS in Makefile.pre
     ${SRC_DIR}/Modules/gcmodule.c
     ${SRC_DIR}/Modules/main.c
@@ -397,10 +401,10 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
     )
 endif()
 if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
-    # TODO free-threaded sources + Py_GIL_DISABLED
     list(APPEND PYTHON_COMMON_SOURCES
         ${SRC_DIR}/Python/critical_section.c
         ${SRC_DIR}/Python/gc.c
+        ${SRC_DIR}/Python/gc_free_threading.c
         ${SRC_DIR}/Python/lock.c
     )
 endif()

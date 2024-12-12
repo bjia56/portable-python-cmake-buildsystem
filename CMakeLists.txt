@@ -162,6 +162,9 @@ if(UNIX)
 else()
     set(WITH_STATIC_DEPENDENCIES 0)
 endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+    option(WITH_FREE_THREADING "Enable experimental free-threaded build and disables the GIL" OFF)
+endif()
 
 # Detect source directory
 set(_landmark "pyconfig.h.in") # CMake will look for this file.

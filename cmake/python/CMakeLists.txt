@@ -12,6 +12,9 @@ set_property(
     )
 target_compile_definitions(python PRIVATE Py_BUILD_CORE)
 add_definitions(-DPy_BUILD_CORE)
+if(WITH_FREE_THREADING)
+    add_definitions(-DPy_GIL_DISABLED)
+endif()
 
 # Link against the shared libpython if it was built, otherwise use the static
 # version.
