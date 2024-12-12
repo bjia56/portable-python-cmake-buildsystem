@@ -396,6 +396,14 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
         ${SRC_DIR}/Python/tracemalloc.c
     )
 endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+    # TODO free-threaded sources + Py_GIL_DISABLED
+    list(APPEND PYTHON_COMMON_SOURCES
+        ${SRC_DIR}/Python/critical_section.c
+        ${SRC_DIR}/Python/gc.c
+        ${SRC_DIR}/Python/lock.c
+    )
+endif()
 
 if(UNIX)
     list(APPEND PYTHON_COMMON_SOURCES
