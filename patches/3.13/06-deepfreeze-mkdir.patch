@@ -1,0 +1,12 @@
+diff --git a/Tools/build/deepfreeze.py b/Tools/build/deepfreeze.py
+index 05633e3f77a..a8bdfb37b70 100644
+--- a/Tools/build/deepfreeze.py
++++ b/Tools/build/deepfreeze.py
+@@ -518,6 +518,7 @@ def main() -> None:
+     else:
+         rules = args.args
+ 
++    os.makedirs(os.path.dirname(output), exist_ok=True)
+     with open(output, "w", encoding="utf-8") as file:
+         with report_time("generate"):
+             generate(rules, file)
