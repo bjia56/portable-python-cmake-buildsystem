@@ -99,6 +99,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.10")
             ${SRC_DIR}/Parser/tokenizer/readline_tokenizer.c
             ${SRC_DIR}/Parser/tokenizer/utf8_tokenizer.c
             ${SRC_DIR}/Parser/tokenizer/file_tokenizer.c
+            ${SRC_DIR}/Parser/tokenizer/helpers.c
         )
     else()
         list(APPEND PARSER_COMMON_SOURCES
@@ -406,10 +407,14 @@ endif()
 if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
     list(APPEND PYTHON_COMMON_SOURCES
         ${SRC_DIR}/Python/critical_section.c
+        ${SRC_DIR}/Python/crossinterp.c
         ${SRC_DIR}/Python/gc.c
         ${SRC_DIR}/Python/gc_free_threading.c
+        ${SRC_DIR}/Python/gc_gil.c
+        ${SRC_DIR}/Python/instruction_sequence.c
         ${SRC_DIR}/Python/lock.c
         ${SRC_DIR}/Python/parking_lot.c
+        ${SRC_DIR}/Python/qsbr.c
     )
 endif()
 
@@ -972,6 +977,10 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
     if(PY_VERSION VERSION_LESS "3.13")
         list(APPEND LIBPYTHON_SOURCES
             ${SRC_DIR}/Modules/_xxinterpchannelsmodule.c
+        )
+    else()
+        list(APPEND LIBPYTHON_SOURCES
+            ${SRC_DIR}/Modules/_interpretersmodule.c
         )
     endif()
     list(APPEND LIBPYTHON_SOURCES
