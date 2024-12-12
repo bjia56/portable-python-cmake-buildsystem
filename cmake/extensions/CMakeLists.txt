@@ -303,11 +303,13 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.8")
 endif()
 
 # Windows-only extensions
-add_python_extension(_msi
-    REQUIRES WIN32
-    SOURCES ${SRC_DIR}/PC/_msi.c
-    LIBRARIES cabinet.lib msi.lib rpcrt4.lib
-)
+if(PY_VERSION VERSION_LESS "3.13")
+    add_python_extension(_msi
+        REQUIRES WIN32
+        SOURCES ${SRC_DIR}/PC/_msi.c
+        LIBRARIES cabinet.lib msi.lib rpcrt4.lib
+    )
+endif()
 add_python_extension(msvcrt REQUIRES MSVC BUILTIN SOURCES ${SRC_DIR}/PC/msvcrtmodule.c)
 add_python_extension(nt REQUIRES WIN32 ALWAYS_BUILTIN SOURCES posixmodule.c)
 add_python_extension(_subprocess REQUIRES WIN32 IS_PY2 BUILTIN SOURCES ${SRC_DIR}/PC/_subprocess.c)
