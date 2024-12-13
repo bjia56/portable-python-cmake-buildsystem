@@ -844,7 +844,9 @@ else()
       ${SRC_DIR}/Modules/getpath.py
     )
 
-  if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
+  if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+    set(DEEPFREEZE_PY ${SRC_DIR}/Programs/_freeze_module.py)
+  elif(PY_VERSION VERSION_EQUAL "3.12")
     set(DEEPFREEZE_PY ${SRC_DIR}/Tools/build/deepfreeze.py)
   else()
     set(DEEPFREEZE_PY ${SRC_DIR}/Tools/scripts/deepfreeze.py)
