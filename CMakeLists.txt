@@ -591,6 +591,14 @@ if(UNIX)
     configure_file(cmake/config-unix/pyconfig.h.in
                    ${PYCONFIG_BUILD_DIR}/pyconfig.h)
 elseif(WIN32)
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+        file(READ ${SRC_DIR}/PC/pyconfig.h.in PYCONFIG_H_CONTENTS)
+        if(WITH_FREE_THREADING)
+            string(REPLACE "/* #define Py_GIL_DISABLED 1 */" "#define Py_GIL_DISABLED 1" PYCONFIG_H_CONTENTS "${PYCONFIG_H_CONTENTS}")
+        endif()
+        file(WRITE ${SRC_DIR}/PC/pyconfig.h "${PYCONFIG_H_CONTENTS}")
+    endif()
+
     set(PYCONFIG_BUILD_DIR ${SRC_DIR}/PC) # In a windows build tree, 'pyconfig.h' is NOT required to
                                           # live along side the python executable.
                                           # See function '_init_posix()' and '_init_non_posix()'
