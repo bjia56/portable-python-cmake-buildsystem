@@ -1,0 +1,15 @@
+diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
+index 01b6bd89d13..a5a97a1d618 100644
+--- a/Modules/_testcapimodule.c
++++ b/Modules/_testcapimodule.c
+@@ -23,6 +23,10 @@
+ #  include <sys/wait.h>           // W_STOPCODE
+ #endif
+ 
++#ifdef HAVE_SYS_TIME_H
++#  include <sys/time.h>
++#endif
++
+ #ifdef bool
+ #  error "The public headers should not include <stdbool.h>, see gh-48924"
+ #endif
