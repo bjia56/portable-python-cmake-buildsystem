@@ -18,3 +18,18 @@ index fb2d32d7110..4b8bf901bdf 100644
  #  include <stdio.h>              // FILE*
  #  include <stdlib.h>             // getenv()
  #  include <string.h>             // memcpy()
+diff --git a/Modules/errnomodule.c b/Modules/errnomodule.c
+index 3f96f2f846d..e796caad205 100644
+--- a/Modules/errnomodule.c
++++ b/Modules/errnomodule.c
+@@ -6,6 +6,10 @@
+ #  define Py_LIMITED_API 0x030d0000
+ #endif
+ 
++#if defined(__FreeBSD__)
++#  include <errno.h>
++#endif
++
+ #include "Python.h"
+ #include <errno.h>                // EPIPE
+ 
