@@ -582,10 +582,10 @@ endif()
 
 set(LIBPYTHON_FROZEN_SOURCES )
 set(LIBPYTHON_DEEPFREEZE_SOURCES )
-if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
-  set(LIBPYTHON_DEEPFREEZE_SOURCES
-    ${SRC_DIR}/Python/deepfreeze/deepfreeze.c
-  )
+if(PY_VERSION VERSION_GREATER_EQUAL "3.11" AND PY_VERSION VERSION_LESS "3.13")
+    set(LIBPYTHON_DEEPFREEZE_SOURCES
+        ${SRC_DIR}/Python/deepfreeze/deepfreeze.c
+    )
 endif()
 if(IS_PY3)
 
@@ -669,218 +669,220 @@ if(PY_VERSION VERSION_LESS "3.11")
   endif()
 else()
   set(LIBPYTHON_FROZEN_SOURCES
-    ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap.h
-    ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap_external.h
-    ${SRC_DIR}/Python/frozen_modules/zipimport.h
-    ${SRC_DIR}/Python/frozen_modules/abc.h
-    ${SRC_DIR}/Python/frozen_modules/codecs.h
-    ${SRC_DIR}/Python/frozen_modules/io.h
-    ${SRC_DIR}/Python/frozen_modules/_collections_abc.h
-    ${SRC_DIR}/Python/frozen_modules/_sitebuiltins.h
-    ${SRC_DIR}/Python/frozen_modules/genericpath.h
-    ${SRC_DIR}/Python/frozen_modules/ntpath.h
-    ${SRC_DIR}/Python/frozen_modules/posixpath.h
-    ${SRC_DIR}/Python/frozen_modules/os.h
-    ${SRC_DIR}/Python/frozen_modules/site.h
-    ${SRC_DIR}/Python/frozen_modules/stat.h
-    ${SRC_DIR}/Python/frozen_modules/importlib.util.h
-    ${SRC_DIR}/Python/frozen_modules/importlib.machinery.h
-    ${SRC_DIR}/Python/frozen_modules/runpy.h
-    ${SRC_DIR}/Python/frozen_modules/__hello__.h
-    ${SRC_DIR}/Python/frozen_modules/__phello__.h
-    ${SRC_DIR}/Python/frozen_modules/__phello__.ham.h
-    ${SRC_DIR}/Python/frozen_modules/__phello__.ham.eggs.h
-    ${SRC_DIR}/Python/frozen_modules/__phello__.spam.h
-    ${SRC_DIR}/Python/frozen_modules/frozen_only.h
-    ${SRC_DIR}/Python/frozen_modules/getpath.h
+        ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap.h
+        ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap_external.h
+        ${SRC_DIR}/Python/frozen_modules/zipimport.h
+        ${SRC_DIR}/Python/frozen_modules/abc.h
+        ${SRC_DIR}/Python/frozen_modules/codecs.h
+        ${SRC_DIR}/Python/frozen_modules/io.h
+        ${SRC_DIR}/Python/frozen_modules/_collections_abc.h
+        ${SRC_DIR}/Python/frozen_modules/_sitebuiltins.h
+        ${SRC_DIR}/Python/frozen_modules/genericpath.h
+        ${SRC_DIR}/Python/frozen_modules/ntpath.h
+        ${SRC_DIR}/Python/frozen_modules/posixpath.h
+        ${SRC_DIR}/Python/frozen_modules/os.h
+        ${SRC_DIR}/Python/frozen_modules/site.h
+        ${SRC_DIR}/Python/frozen_modules/stat.h
+        ${SRC_DIR}/Python/frozen_modules/importlib.util.h
+        ${SRC_DIR}/Python/frozen_modules/importlib.machinery.h
+        ${SRC_DIR}/Python/frozen_modules/runpy.h
+        ${SRC_DIR}/Python/frozen_modules/__hello__.h
+        ${SRC_DIR}/Python/frozen_modules/__phello__.h
+        ${SRC_DIR}/Python/frozen_modules/__phello__.ham.h
+        ${SRC_DIR}/Python/frozen_modules/__phello__.ham.eggs.h
+        ${SRC_DIR}/Python/frozen_modules/__phello__.spam.h
+        ${SRC_DIR}/Python/frozen_modules/frozen_only.h
+        ${SRC_DIR}/Python/frozen_modules/getpath.h
   )
   add_custom_command(
-    OUTPUT ${LIBPYTHON_FROZEN_SOURCES}
-    COMMAND
-      ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        importlib._bootstrap
-        ${SRC_DIR}/Lib/importlib/_bootstrap.py
-        ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap.h
-    COMMAND
-      ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        importlib._bootstrap_external
-        ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
-        ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap_external.h
-    COMMAND
-      ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        zipimport
-        ${SRC_DIR}/Lib/zipimport.py
-        ${SRC_DIR}/Python/frozen_modules/zipimport.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        abc
-        ${SRC_DIR}/Lib/abc.py
-        ${SRC_DIR}/Python/frozen_modules/abc.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        codecs
-        ${SRC_DIR}/Lib/codecs.py
-        ${SRC_DIR}/Python/frozen_modules/codecs.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        io
-        ${SRC_DIR}/Lib/io.py
-        ${SRC_DIR}/Python/frozen_modules/io.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        _collections_abc
-        ${SRC_DIR}/Lib/_collections_abc.py
-        ${SRC_DIR}/Python/frozen_modules/_collections_abc.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        _sitebuiltins
-        ${SRC_DIR}/Lib/_sitebuiltins.py
-        ${SRC_DIR}/Python/frozen_modules/_sitebuiltins.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        genericpath
-        ${SRC_DIR}/Lib/genericpath.py
-        ${SRC_DIR}/Python/frozen_modules/genericpath.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        ntpath
-        ${SRC_DIR}/Lib/ntpath.py
-        ${SRC_DIR}/Python/frozen_modules/ntpath.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        posixpath
-        ${SRC_DIR}/Lib/posixpath.py
-        ${SRC_DIR}/Python/frozen_modules/posixpath.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        os
-        ${SRC_DIR}/Lib/os.py
-        ${SRC_DIR}/Python/frozen_modules/os.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        site
-        ${SRC_DIR}/Lib/site.py
-        ${SRC_DIR}/Python/frozen_modules/site.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        stat
-        ${SRC_DIR}/Lib/stat.py
-        ${SRC_DIR}/Python/frozen_modules/stat.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        importlib.util
-        ${SRC_DIR}/Lib/importlib/util.py
-        ${SRC_DIR}/Python/frozen_modules/importlib.util.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        importlib.machinery
-        ${SRC_DIR}/Lib/importlib/machinery.py
-        ${SRC_DIR}/Python/frozen_modules/importlib.machinery.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        runpy
-        ${SRC_DIR}/Lib/runpy.py
-        ${SRC_DIR}/Python/frozen_modules/runpy.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        __hello__
-        ${SRC_DIR}/Lib/__hello__.py
-        ${SRC_DIR}/Python/frozen_modules/__hello__.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        __phello__
-        ${SRC_DIR}/Lib/__phello__/__init__.py
-        ${SRC_DIR}/Python/frozen_modules/__phello__.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        __phello__.ham
-        ${SRC_DIR}/Lib/__phello__/ham/__init__.py
-        ${SRC_DIR}/Python/frozen_modules/__phello__.ham.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        __phello__.ham.eggs
-        ${SRC_DIR}/Lib/__phello__/ham/eggs.py
-        ${SRC_DIR}/Python/frozen_modules/__phello__.ham.eggs.h
-     COMMAND
-       ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        __phello__.spam
-        ${SRC_DIR}/Lib/__phello__/spam.py
-        ${SRC_DIR}/Python/frozen_modules/__phello__.spam.h
-    COMMAND
-      ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        frozen_only
-        ${SRC_DIR}/Tools/freeze/flag.py
-        ${SRC_DIR}/Python/frozen_modules/frozen_only.h
-    COMMAND
-      ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
-        getpath
-        ${SRC_DIR}/Modules/getpath.py
-        ${SRC_DIR}/Python/frozen_modules/getpath.h
-    DEPENDS
-      _freeze_importlib
-      ${SRC_DIR}/Lib/importlib/_bootstrap.py
-      ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
-      ${SRC_DIR}/Lib/zipimport.py
-      ${SRC_DIR}/Lib/abc.py
-      ${SRC_DIR}/Lib/codecs.py
-      ${SRC_DIR}/Lib/io.py
-      ${SRC_DIR}/Lib/_collections_abc.py
-      ${SRC_DIR}/Lib/_sitebuiltins.py
-      ${SRC_DIR}/Lib/genericpath.py
-      ${SRC_DIR}/Lib/ntpath.py
-      ${SRC_DIR}/Lib/posixpath.py
-      ${SRC_DIR}/Lib/os.py
-      ${SRC_DIR}/Lib/site.py
-      ${SRC_DIR}/Lib/stat.py
-      ${SRC_DIR}/Lib/importlib/util.py
-      ${SRC_DIR}/Lib/importlib/machinery.py
-      ${SRC_DIR}/Lib/runpy.py
-      ${SRC_DIR}/Lib/__hello__.py
-      ${SRC_DIR}/Lib/__phello__/__init__.py
-      ${SRC_DIR}/Lib/__phello__/ham/__init__.py
-      ${SRC_DIR}/Lib/__phello__/ham/eggs.py
-      ${SRC_DIR}/Lib/__phello__/spam.py
-      ${SRC_DIR}/Tools/freeze/flag.py
-      ${SRC_DIR}/Modules/getpath.py
+        OUTPUT ${LIBPYTHON_FROZEN_SOURCES}
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            importlib._bootstrap
+            ${SRC_DIR}/Lib/importlib/_bootstrap.py
+            ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            importlib._bootstrap_external
+            ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
+            ${SRC_DIR}/Python/frozen_modules/importlib._bootstrap_external.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            zipimport
+            ${SRC_DIR}/Lib/zipimport.py
+            ${SRC_DIR}/Python/frozen_modules/zipimport.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            abc
+            ${SRC_DIR}/Lib/abc.py
+            ${SRC_DIR}/Python/frozen_modules/abc.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            codecs
+            ${SRC_DIR}/Lib/codecs.py
+            ${SRC_DIR}/Python/frozen_modules/codecs.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            io
+            ${SRC_DIR}/Lib/io.py
+            ${SRC_DIR}/Python/frozen_modules/io.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            _collections_abc
+            ${SRC_DIR}/Lib/_collections_abc.py
+            ${SRC_DIR}/Python/frozen_modules/_collections_abc.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            _sitebuiltins
+            ${SRC_DIR}/Lib/_sitebuiltins.py
+            ${SRC_DIR}/Python/frozen_modules/_sitebuiltins.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            genericpath
+            ${SRC_DIR}/Lib/genericpath.py
+            ${SRC_DIR}/Python/frozen_modules/genericpath.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            ntpath
+            ${SRC_DIR}/Lib/ntpath.py
+            ${SRC_DIR}/Python/frozen_modules/ntpath.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            posixpath
+            ${SRC_DIR}/Lib/posixpath.py
+            ${SRC_DIR}/Python/frozen_modules/posixpath.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            os
+            ${SRC_DIR}/Lib/os.py
+            ${SRC_DIR}/Python/frozen_modules/os.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            site
+            ${SRC_DIR}/Lib/site.py
+            ${SRC_DIR}/Python/frozen_modules/site.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            stat
+            ${SRC_DIR}/Lib/stat.py
+            ${SRC_DIR}/Python/frozen_modules/stat.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            importlib.util
+            ${SRC_DIR}/Lib/importlib/util.py
+            ${SRC_DIR}/Python/frozen_modules/importlib.util.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            importlib.machinery
+            ${SRC_DIR}/Lib/importlib/machinery.py
+            ${SRC_DIR}/Python/frozen_modules/importlib.machinery.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            runpy
+            ${SRC_DIR}/Lib/runpy.py
+            ${SRC_DIR}/Python/frozen_modules/runpy.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            __hello__
+            ${SRC_DIR}/Lib/__hello__.py
+            ${SRC_DIR}/Python/frozen_modules/__hello__.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            __phello__
+            ${SRC_DIR}/Lib/__phello__/__init__.py
+            ${SRC_DIR}/Python/frozen_modules/__phello__.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            __phello__.ham
+            ${SRC_DIR}/Lib/__phello__/ham/__init__.py
+            ${SRC_DIR}/Python/frozen_modules/__phello__.ham.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            __phello__.ham.eggs
+            ${SRC_DIR}/Lib/__phello__/ham/eggs.py
+            ${SRC_DIR}/Python/frozen_modules/__phello__.ham.eggs.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            __phello__.spam
+            ${SRC_DIR}/Lib/__phello__/spam.py
+            ${SRC_DIR}/Python/frozen_modules/__phello__.spam.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            frozen_only
+            ${SRC_DIR}/Tools/freeze/flag.py
+            ${SRC_DIR}/Python/frozen_modules/frozen_only.h
+        COMMAND
+        ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:_freeze_importlib>
+            getpath
+            ${SRC_DIR}/Modules/getpath.py
+            ${SRC_DIR}/Python/frozen_modules/getpath.h
+        DEPENDS
+            _freeze_importlib
+            ${SRC_DIR}/Lib/importlib/_bootstrap.py
+            ${SRC_DIR}/Lib/importlib/_bootstrap_external.py
+            ${SRC_DIR}/Lib/zipimport.py
+            ${SRC_DIR}/Lib/abc.py
+            ${SRC_DIR}/Lib/codecs.py
+            ${SRC_DIR}/Lib/io.py
+            ${SRC_DIR}/Lib/_collections_abc.py
+            ${SRC_DIR}/Lib/_sitebuiltins.py
+            ${SRC_DIR}/Lib/genericpath.py
+            ${SRC_DIR}/Lib/ntpath.py
+            ${SRC_DIR}/Lib/posixpath.py
+            ${SRC_DIR}/Lib/os.py
+            ${SRC_DIR}/Lib/site.py
+            ${SRC_DIR}/Lib/stat.py
+            ${SRC_DIR}/Lib/importlib/util.py
+            ${SRC_DIR}/Lib/importlib/machinery.py
+            ${SRC_DIR}/Lib/runpy.py
+            ${SRC_DIR}/Lib/__hello__.py
+            ${SRC_DIR}/Lib/__phello__/__init__.py
+            ${SRC_DIR}/Lib/__phello__/ham/__init__.py
+            ${SRC_DIR}/Lib/__phello__/ham/eggs.py
+            ${SRC_DIR}/Lib/__phello__/spam.py
+            ${SRC_DIR}/Tools/freeze/flag.py
+            ${SRC_DIR}/Modules/getpath.py
     )
 
-  if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
-    set(DEEPFREEZE_PY ${SRC_DIR}/Tools/build/deepfreeze.py)
-  else()
-    set(DEEPFREEZE_PY ${SRC_DIR}/Tools/scripts/deepfreeze.py)
-  endif()
-  add_custom_command(
-    OUTPUT ${LIBPYTHON_DEEPFREEZE_SOURCES}
-    COMMAND
-      ${Python3_EXECUTABLE} ${DEEPFREEZE_PY}
-        "${SRC_DIR}/Python/frozen_modules/importlib._bootstrap.h:importlib._bootstrap"
-        "${SRC_DIR}/Python/frozen_modules/importlib._bootstrap_external.h:importlib._bootstrap_external"
-        "${SRC_DIR}/Python/frozen_modules/zipimport.h:zipimport"
-        "${SRC_DIR}/Python/frozen_modules/abc.h:abc"
-        "${SRC_DIR}/Python/frozen_modules/codecs.h:codecs"
-        "${SRC_DIR}/Python/frozen_modules/io.h:io"
-        "${SRC_DIR}/Python/frozen_modules/_collections_abc.h:_collections_abc"
-        "${SRC_DIR}/Python/frozen_modules/_sitebuiltins.h:_sitebuiltins"
-        "${SRC_DIR}/Python/frozen_modules/genericpath.h:genericpath"
-        "${SRC_DIR}/Python/frozen_modules/ntpath.h:ntpath"
-        "${SRC_DIR}/Python/frozen_modules/posixpath.h:posixpath"
-        "${SRC_DIR}/Python/frozen_modules/os.h:os"
-        "${SRC_DIR}/Python/frozen_modules/site.h:site"
-        "${SRC_DIR}/Python/frozen_modules/stat.h:stat"
-        "${SRC_DIR}/Python/frozen_modules/importlib.util.h:importlib.util"
-        "${SRC_DIR}/Python/frozen_modules/importlib.machinery.h:importlib.machinery"
-        "${SRC_DIR}/Python/frozen_modules/runpy.h:runpy"
-        "${SRC_DIR}/Python/frozen_modules/__hello__.h:__hello__"
-        "${SRC_DIR}/Python/frozen_modules/__phello__.h:__phello__"
-        "${SRC_DIR}/Python/frozen_modules/__phello__.ham.h:__phello__.ham"
-        "${SRC_DIR}/Python/frozen_modules/__phello__.ham.eggs.h:__phello__.ham.eggs"
-        "${SRC_DIR}/Python/frozen_modules/__phello__.spam.h:__phello__.spam"
-        "${SRC_DIR}/Python/frozen_modules/frozen_only.h:frozen_only"
-        "-o" "${LIBPYTHON_DEEPFREEZE_SOURCES}"
-    DEPENDS
-      ${DEEPFREEZE_PY}
-      ${LIBPYTHON_FROZEN_SOURCES}
-  )
+    if(PY_VERSION VERSION_LESS "3.13")
+        if(PY_VERSION VERSION_EQUAL "3.12")
+            set(DEEPFREEZE_PY ${SRC_DIR}/Tools/build/deepfreeze.py)
+        else()
+            set(DEEPFREEZE_PY ${SRC_DIR}/Tools/scripts/deepfreeze.py)
+        endif()
+        add_custom_command(
+            OUTPUT ${LIBPYTHON_DEEPFREEZE_SOURCES}
+            COMMAND
+            ${Python3_EXECUTABLE} ${DEEPFREEZE_PY}
+                "${SRC_DIR}/Python/frozen_modules/importlib._bootstrap.h:importlib._bootstrap"
+                "${SRC_DIR}/Python/frozen_modules/importlib._bootstrap_external.h:importlib._bootstrap_external"
+                "${SRC_DIR}/Python/frozen_modules/zipimport.h:zipimport"
+                "${SRC_DIR}/Python/frozen_modules/abc.h:abc"
+                "${SRC_DIR}/Python/frozen_modules/codecs.h:codecs"
+                "${SRC_DIR}/Python/frozen_modules/io.h:io"
+                "${SRC_DIR}/Python/frozen_modules/_collections_abc.h:_collections_abc"
+                "${SRC_DIR}/Python/frozen_modules/_sitebuiltins.h:_sitebuiltins"
+                "${SRC_DIR}/Python/frozen_modules/genericpath.h:genericpath"
+                "${SRC_DIR}/Python/frozen_modules/ntpath.h:ntpath"
+                "${SRC_DIR}/Python/frozen_modules/posixpath.h:posixpath"
+                "${SRC_DIR}/Python/frozen_modules/os.h:os"
+                "${SRC_DIR}/Python/frozen_modules/site.h:site"
+                "${SRC_DIR}/Python/frozen_modules/stat.h:stat"
+                "${SRC_DIR}/Python/frozen_modules/importlib.util.h:importlib.util"
+                "${SRC_DIR}/Python/frozen_modules/importlib.machinery.h:importlib.machinery"
+                "${SRC_DIR}/Python/frozen_modules/runpy.h:runpy"
+                "${SRC_DIR}/Python/frozen_modules/__hello__.h:__hello__"
+                "${SRC_DIR}/Python/frozen_modules/__phello__.h:__phello__"
+                "${SRC_DIR}/Python/frozen_modules/__phello__.ham.h:__phello__.ham"
+                "${SRC_DIR}/Python/frozen_modules/__phello__.ham.eggs.h:__phello__.ham.eggs"
+                "${SRC_DIR}/Python/frozen_modules/__phello__.spam.h:__phello__.spam"
+                "${SRC_DIR}/Python/frozen_modules/frozen_only.h:frozen_only"
+                "-o" "${LIBPYTHON_DEEPFREEZE_SOURCES}"
+            DEPENDS
+            ${DEEPFREEZE_PY}
+            ${LIBPYTHON_FROZEN_SOURCES}
+        )
+    endif()
 endif()
 
 # This is a convenience target allowing to regenerate
