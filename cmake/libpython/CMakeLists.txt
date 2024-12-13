@@ -244,6 +244,13 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.10")
         ${SRC_DIR}/Objects/unionobject.c
     )
 endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+    if(WIN32)
+        # mimalloc is enabled for Windows
+        # TODO: enable this for other platforms via switches
+        include_directories(${SRC_DIR}/Include/internal/mimalloc)
+    endif()
+endif()
 
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
     foreach(filename class complex float int method string type unicode weakref)
