@@ -413,6 +413,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
 endif()
 if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
     list(APPEND PYTHON_COMMON_SOURCES
+        ${SRC_DIR}/Python/brc.c
         ${SRC_DIR}/Python/critical_section.c
         ${SRC_DIR}/Python/crossinterp.c
         ${SRC_DIR}/Python/gc.c
