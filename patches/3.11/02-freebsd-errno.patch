@@ -1,16 +1,16 @@
 diff --git a/Include/Python.h b/Include/Python.h
-index 52a7aac6ba6..54fc034b90c 100644
+index fb2d32d7110..5b684c7079d 100644
 --- a/Include/Python.h
 +++ b/Include/Python.h
-@@ -23,6 +23,11 @@
- #  include <stdlib.h>
- #  include <stdio.h>              // FILE*
+@@ -34,6 +34,11 @@
+ // version 3.13 and newer.
+ #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 < 0x030b0000
  #  include <errno.h>              // errno
 +#  if defined(__FreeBSD__)
 +#    ifndef EWOULDBLOCK
-+#       define EWOULDBLOCK EAGAIN
++#      define EWOULDBLOCK     EAGAIN          /* Operation would block */
 +#    endif
 +#  endif
+ #  include <stdio.h>              // FILE*
+ #  include <stdlib.h>             // getenv()
  #  include <string.h>             // memcpy()
- #endif
- #ifndef MS_WINDOWS
