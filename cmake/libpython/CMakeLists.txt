@@ -2,8 +2,20 @@ add_definitions(-DPy_BUILD_CORE)
 add_definitions(-DPy_BUILD_CORE_BUILTIN)
 add_definitions(-DNDEBUG)
 
-if(WITH_FREE_THREADING)
-    add_definitions(-DPy_GIL_DISABLED)
+if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+    if(WITH_FREE_THREADING)
+        add_definitions(-DPy_GIL_DISABLED)
+        set(WITH_MIMALLOC ON)
+    endif()
+
+    if(WIN32)
+        set(WITH_MIMALLOC ON)
+    endif()
+
+    if(WITH_MIMALLOC)
+        add_definitions(-DWITH_MIMALLOC)
+        include_directories(${SRC_DIR}/Include/internal/mimalloc)
+    endif()
 endif()
 
 set(MODULE_SOURCES # Equivalent to MODULE_OBJS in Makefile.pre
@@ -243,13 +255,6 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.10")
     list(APPEND OBJECT_COMMON_SOURCES
         ${SRC_DIR}/Objects/unionobject.c
     )
-endif()
-if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
-    if(WIN32)
-        # mimalloc is enabled for Windows
-        # TODO: enable this for other platforms via switches
-        include_directories(${SRC_DIR}/Include/internal/mimalloc)
-    endif()
 endif()
 
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
