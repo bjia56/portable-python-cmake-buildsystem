@@ -19,6 +19,10 @@ if(WITH_FREE_THREADING)
     add_definitions(-DPy_GIL_DISABLED)
 endif()
 
+if(WITH_MIMALLOC)
+    add_definitions(-DWITH_MIMALLOC)
+endif()
+
 add_python_extension(array ${WIN32_BUILTIN} SOURCES arraymodule.c)
 if(PY_VERSION VERSION_LESS "3.13")
     add_python_extension(audioop ${WIN32_BUILTIN} REQUIRES HAVE_LIBM SOURCES audioop.c LIBRARIES ${M_LIBRARIES})
