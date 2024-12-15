@@ -164,7 +164,11 @@ else()
 endif()
 if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
     option(WITH_FREE_THREADING "Enable experimental free-threaded build and disables the GIL" OFF)
-    option(WITH_MIMALLOC "Enable mimalloc allocator" OFF)
+    if(WITH_FREE_THREADING OR WIN32)
+        set(WITH_MIMALLOC ON)
+    else()
+        option(WITH_MIMALLOC "Enable mimalloc allocator" OFF)
+    endif()
 endif()
 
 # Detect source directory
