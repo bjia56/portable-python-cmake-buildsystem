@@ -549,7 +549,7 @@ set(PYTHONHOME "${LIBDIR}")
 if(UNIX)
     set(PYTHONHOME "${PYTHONHOME}/${LIBPYTHON}")
     if(WITH_FREE_THREADING)
-        set(PYTHONHOME "${PYTHONHOME}/${LIBPYTHON}t")
+        set(PYTHONHOME "${PYTHONHOME}t")
     endif()
 endif()
 
