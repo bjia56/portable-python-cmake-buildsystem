@@ -548,6 +548,9 @@ endif()
 set(PYTHONHOME "${LIBDIR}")
 if(UNIX)
     set(PYTHONHOME "${PYTHONHOME}/${LIBPYTHON}")
+    if(WITH_FREE_THREADING)
+        set(PYTHONHOME "${PYTHONHOME}/${LIBPYTHON}t")
+    endif()
 endif()
 
 # Install tree directory
