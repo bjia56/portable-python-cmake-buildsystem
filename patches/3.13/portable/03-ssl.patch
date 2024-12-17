@@ -9,7 +9,7 @@ index cb5ec51681..43ae9889e6 100644
 +if os.name == "nt":
 +    _portable_python_certifi_path = os.path.join(sys.prefix, "Lib", "site-packages", "certifi", "cacert.pem")
 +else:
-+    _portable_python_certifi_path = os.path.join(sys.prefix, "lib", f"python{sys.version_info.major}.{sys.version_info.minor}", "site-packages", "certifi", "cacert.pem")
++    _portable_python_certifi_path = os.path.join(sys.prefix, "lib", f"python{sys.version_info.major}.{sys.version_info.minor}{sys.abiflags}", "site-packages", "certifi", "cacert.pem")
  
  _IntEnum._convert_(
      '_SSLMethod', __name__,
