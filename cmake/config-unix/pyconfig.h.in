@@ -1613,7 +1613,7 @@
 #cmakedefine Py_ENABLE_SHARED
 
 /* Define if you want to disable the GIL */
-#cmakedefine Py_GIL_DISABLED
+#cmakedefine Py_GIL_DISABLED 1
 
 /* Define as the size of the unicode type. [Python 2.7] */
 #cmakedefine Py_UNICODE_SIZE @Py_UNICODE_SIZE@
