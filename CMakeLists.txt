@@ -169,6 +169,11 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
     else()
         option(WITH_MIMALLOC "Enable mimalloc allocator" OFF)
     endif()
+    if(WITH_FREE_THREADING)
+        set(Py_GIL_DISABLED ON)
+    else()
+        set(Py_GIL_DISABLED OFF)
+    endif()
 endif()
 
 # Detect source directory

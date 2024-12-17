@@ -3,10 +3,6 @@ add_definitions(-DPy_BUILD_CORE_BUILTIN)
 add_definitions(-DNDEBUG)
 
 if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
-    if(WITH_FREE_THREADING)
-        add_definitions(-DPy_GIL_DISABLED)
-    endif()
-
     if(WITH_MIMALLOC)
         add_definitions(-DWITH_MIMALLOC)
         include_directories(${SRC_DIR}/Include/internal/mimalloc)
