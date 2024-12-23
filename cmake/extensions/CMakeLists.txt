@@ -817,8 +817,12 @@ add_python_extension(${bz2_${PY_VERSION_MAJOR}_NAME}
 set(curses_common_REQUIRES CURSES_LIBRARIES)
 set(curses_common_LIBRARIES ${CURSES_LIBRARIES})
 if(WITH_STATIC_DEPENDENCIES)
-    list(APPEND curses_common_REQUIRES TINFO_LIBRARY GPM_LIBRARY)
-    list(APPEND curses_common_LIBRARIES ${TINFO_LIBRARY} ${GPM_LIBRARY})
+    list(APPEND curses_common_REQUIRES TINFO_LIBRARY)
+    list(APPEND curses_common_LIBRARIES ${TINFO_LIBRARY})
+    if(GPM_LIBRARY)
+        list(APPEND curses_common_REQUIRES GPM_LIBRARY)
+        list(APPEND curses_common_LIBRARIES ${GPM_LIBRARY})
+    endif()
 endif()
 add_python_extension(_curses_panel
     REQUIRES ${curses_common_REQUIRES} PANEL_LIBRARIES "HAVE_PANEL_H OR HAVE_NCURSES_PANEL_H"
