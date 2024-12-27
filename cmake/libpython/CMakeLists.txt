@@ -993,6 +993,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
     else()
         list(APPEND LIBPYTHON_SOURCES
             ${SRC_DIR}/Modules/_interpretersmodule.c
+            ${SRC_DIR}/Modules/_sysconfig.c
         )
     endif()
     list(APPEND LIBPYTHON_SOURCES
