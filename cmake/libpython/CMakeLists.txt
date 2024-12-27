@@ -985,35 +985,10 @@ elseif(UNIX)
         ${SRC_DIR}/Python/frozen.c
     )
 endif()
-if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
-    if(PY_VERSION VERSION_LESS "3.13")
-        list(APPEND LIBPYTHON_SOURCES
-            ${SRC_DIR}/Modules/_xxinterpchannelsmodule.c
-        )
-    else()
-        list(APPEND LIBPYTHON_SOURCES
-            ${SRC_DIR}/Modules/_interpretersmodule.c
-            ${SRC_DIR}/Modules/_sysconfig.c
-        )
-    endif()
-    list(APPEND LIBPYTHON_SOURCES
-        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_MD5.c
-        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA1.c
-        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA2.c
-        ${SRC_DIR}/Modules/_hacl/Hacl_Hash_SHA3.c
-        ${SRC_DIR}/Modules/md5module.c
-        ${SRC_DIR}/Modules/sha1module.c
-        ${SRC_DIR}/Modules/sha2module.c
-        ${SRC_DIR}/Modules/sha3module.c
-    )
-endif()
 
 # Build python libraries
 function(add_libpython name type install component)
     add_library(${name} ${type} ${LIBPYTHON_SOURCES})
-    if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
-        target_include_directories(${name} PRIVATE ${SRC_DIR}/Modules/_hacl/include)
-    endif()
     target_link_libraries(${name} ${LIBPYTHON_TARGET_LIBRARIES})
 
     if(MSVC)

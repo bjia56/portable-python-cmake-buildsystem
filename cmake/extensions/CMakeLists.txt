@@ -745,28 +745,33 @@ endif()
 
 if(IS_PY2)
 
-# If openssl is NOT available then build some other hash implementations on UNIX
-set(HASH_NOT_AVAILABLE ON)
-if(NOT WIN32 AND OPENSSL_LIBRARIES)
-  set(HASH_NOT_AVAILABLE OFF)
-endif()
+    # If openssl is NOT available then build some other hash implementations on UNIX
+    set(HASH_NOT_AVAILABLE ON)
+    if(NOT WIN32 AND OPENSSL_LIBRARIES)
+        set(HASH_NOT_AVAILABLE OFF)
+    endif()
 
-add_python_extension(_md5 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES md5.c md5module.c)
-add_python_extension(_sha REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES shamodule.c)
-add_python_extension(_sha256 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES sha256module.c)
-add_python_extension(_sha512 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES sha512module.c)
+    add_python_extension(_md5 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES md5.c md5module.c)
+    add_python_extension(_sha REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES shamodule.c)
+    add_python_extension(_sha256 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES sha256module.c)
+    add_python_extension(_sha512 REQUIRES HASH_NOT_AVAILABLE ${WIN32_BUILTIN} SOURCES sha512module.c)
 
 else()
 
-if(PY_VERSION VERSION_LESS "3.12")
-    # We always compile these even when OpenSSL is available (issue #14693).
-    # It's harmless and the object code is tiny (40-50 KB per module,
-    # only loaded when actually used).
-    add_python_extension(_md5 ${WIN32_BUILTIN} SOURCES md5module.c)
-    add_python_extension(_sha1 ${WIN32_BUILTIN} SOURCES sha1module.c)
-    add_python_extension(_sha256 ${WIN32_BUILTIN} SOURCES sha256module.c)
-    add_python_extension(_sha512 ${WIN32_BUILTIN} SOURCES sha512module.c)
-endif()
+    if(PY_VERSION VERSION_LESS "3.12")
+        # We always compile these even when OpenSSL is available (issue #14693).
+        # It's harmless and the object code is tiny (40-50 KB per module,
+        # only loaded when actually used).
+        add_python_extension(_md5 ${WIN32_BUILTIN} SOURCES md5module.c)
+        add_python_extension(_sha1 ${WIN32_BUILTIN} SOURCES sha1module.c)
+        add_python_extension(_sha256 ${WIN32_BUILTIN} SOURCES sha256module.c)
+        add_python_extension(_sha512 ${WIN32_BUILTIN} SOURCES sha512module.c)
+    else()
+        add_python_extension(_md5 ${WIN32_BUILTIN} SOURCES md5module.c _hacl/Hacl_Hash_MD5.c INCLUDEDIRS _hacl/include)
+        add_python_extension(_sha1 ${WIN32_BUILTIN} SOURCES sha1module.c _hacl/Hacl_Hash_SHA1.c INCLUDEDIRS _hacl/include)
+        add_python_extension(_sha2 ${WIN32_BUILTIN} SOURCES sha2module.c _hacl/Hacl_Hash_SHA2.c INCLUDEDIRS _hacl/include)
+        add_python_extension(_sha3 ${WIN32_BUILTIN} SOURCES sha3module.c _hacl/Hacl_Hash_SHA3.c INCLUDEDIRS _hacl/include)
+    endif()
 
 endif()
 
@@ -779,6 +784,21 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.12")
         SOURCES _typingmodule.c
         ALWAYS_BUILTIN
     )
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
+        add_python_extension(_interpreters
+            SOURCES _interpretersmodule.c
+            ALWAYS_BUILTIN
+        )
+        add_python_extension(_sysconfig
+            SOURCES _sysconfig.c
+            ALWAYS_BUILTIN
+        )
+    else()
+        add_python_extension(_xxinterpchannels
+            SOURCES _xxinterpchannelsmodule.c
+            ALWAYS_BUILTIN
+        )
+    endif()
 endif()
 
 # Extensions that depend on other libraries
