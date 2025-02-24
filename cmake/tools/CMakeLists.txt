@@ -7,7 +7,9 @@ list(APPEND files
 endif()
 
 foreach(file IN LISTS files)
-  get_filename_component(path ${file} PATH)
-  file(COPY ${SRC_DIR}/${file} DESTINATION ${PROJECT_BINARY_DIR}/${LIBDIR}/${path})
-  install(FILES ${SRC_DIR}/${file} DESTINATION ${LIBDIR}/${path})
+  if (EXISTS "${SRC_DIR}/${file}")
+    get_filename_component(path ${file} PATH)
+    file(COPY ${SRC_DIR}/${file} DESTINATION ${PROJECT_BINARY_DIR}/${LIBDIR}/${path})
+    install(FILES ${SRC_DIR}/${file} DESTINATION ${LIBDIR}/${path})
+  endif()
 endforeach()
