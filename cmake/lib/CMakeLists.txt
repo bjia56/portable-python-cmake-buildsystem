@@ -43,6 +43,15 @@ endif()
 
 # Generate grammar tables in install directory
 # XXX Should a custom target be added to generate file at built time ?
+set(lib2to3code "")
+if(PY_VERSION VERSION_LESS "3.13")
+  set(lib2to3code "
+  execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
+    \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/Grammar.txt)
+  execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
+    \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/PatternGrammar.txt)
+")
+endif()
 install(CODE "find_program(
   PYTHON_EXECUTABLE python
   HINTS \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${BIN_INSTALL_DIR}
@@ -55,8 +64,5 @@ if(UNIX)
   endif()
   set(wrapper env \${_envvar}=\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${LIBPYTHON_LIBDIR})
 endif()
-execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
-  \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/Grammar.txt)
-execute_process(COMMAND \${wrapper} \${PYTHON_EXECUTABLE} -m lib2to3.pgen2.driver
-  \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PYTHONHOME}/lib2to3/PatternGrammar.txt)
+${lib2to3code}
 ")
