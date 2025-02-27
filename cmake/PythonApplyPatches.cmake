@@ -9,12 +9,41 @@ if(NOT DEFINED PATCH_COMMAND)
   if(Patch_FOUND OR PATCH_FOUND)
     # Since support for git diffs which copy or rename files was
     # added in patch 2.7, we can not use older version.
+    if ("${Patch_VERSION}" STREQUAL "")
+      set(Patch_VERSION "${PATCH_VERSION}")
+    endif()
     if("${Patch_VERSION}" VERSION_GREATER_EQUAL "2.7.0")
       set(PATCH_COMMAND ${Patch_EXECUTABLE} --quiet -p1 -i)
     else()
       set(_reason "Found Patch executable [${Patch_EXECUTABLE}] version [${Patch_VERSION}] older than 2.7.0 missing support for copy or rename files.")
     endif()
   endif()
+endif()
+
+if (NOT DEFINED PATCH_COMMAND AND APPLE)
+  find_program(gpatch_path gpatch HINTS "/opt/homebrew/bin")
+  if (gpatch_path)
+    execute_process(COMMAND "${gpatch_path}" --version
+      OUTPUT_VARIABLE gpatch_version
+      RESULT_VARIABLE gpatch_result
+      ERROR_QUIET
+    )
+    if (${gpatch_result} EQUAL 0)
+      string(REGEX MATCH "[ \t\n]+([0-9]+)[.]([0-9]+)[.]([0-9]+)[ \t\n]+" gpatch_version "${gpatch_version}")
+      if (NOT "${gpatch_version}" STREQUAL "")
+        string(STRIP "${gpatch_version}" gpatch_version)
+        if("${gpatch_version}" VERSION_GREATER_EQUAL "2.7.0")
+          set(PATCH_COMMAND ${gpatch_path} --quiet -p1 -i)
+        else()
+          set(_reason "Found Patch executable [${gpatch_path}] version [${gpatch_version}] older than 2.7.0 missing support for copy or rename files.")
+        endif()
+      endif()
+    endif()
+  endif()
+endif()
+
+if (NOT DEFINED PATCH_COMMAND AND APPLE)
+  string(APPEND _reason "\n(hint: brew install gpatch)")
 endif()
 
 if(NOT DEFINED PATCH_COMMAND)
