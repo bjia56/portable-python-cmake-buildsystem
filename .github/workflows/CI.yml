@@ -53,3 +53,10 @@ jobs:
         ./python-install/bin/python -m ensurepip || true
         ./python-install/bin/python -m pip install certifi || true
         ./python-install/bin/python -m test -v --timeout 60 || true
+
+  all_tests_passed:
+    needs: tests
+    runs-on: ubuntu-latest
+    name: All tests passed
+    steps:
+      - run: echo "Success"
