@@ -607,11 +607,13 @@ else()
         )
     endif()
     if(WIN32)
-        if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-            enable_language(ASM_MASM)
-            list(APPEND _decimal_EXTRA_SOURCES
-                _decimal/libmpdec/vcdiv64.asm
-            )
+        if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "amd64")
+            if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+                enable_language(ASM_MASM)
+                list(APPEND _decimal_EXTRA_SOURCES
+                    _decimal/libmpdec/vcdiv64.asm
+                )
+            endif()
         endif()
     endif()
     set(_decimal_INCLUDEDIRS INCLUDEDIRS ${SRC_DIR}/Modules/_decimal/libmpdec)
