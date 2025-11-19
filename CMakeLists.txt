@@ -310,6 +310,7 @@ set(_download_3.9.21_md5 "e61b3568082b57d55fd74cfc7ca020b4")
 set(_download_3.9.22_md5 "8fe76e248a0e149ac23e8e4886397475")
 set(_download_3.9.23_md5 "e6c3c5ba679cc6a1e2932b2fdcafbc3d")
 set(_download_3.9.24_md5 "86920338d557f26b01c9c4ebe1a1db09")
+set(_download_3.9.25_md5 "530c60aacc0d4ad8a683b6c5f0691fc8")
 # 3.10.x
 set(_download_3.10.0_md5 "729e36388ae9a832b01cf9138921b383")
 set(_download_3.10.1_md5 "91822157a97da16203877400c810d93e")
