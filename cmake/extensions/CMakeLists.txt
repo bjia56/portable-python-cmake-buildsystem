@@ -205,12 +205,22 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.6")
     # asyncio speedups
     add_python_extension(_asyncio SOURCES _asynciomodule.c)
     # blake module
-    set(_blake2_SOURCES
-        _blake2/blake2module.c
-        _blake2/blake2b_impl.c
-        _blake2/blake2s_impl.c
-    )
-    add_python_extension(_blake2 ${WIN32_BUILTIN} SOURCES ${_blake2_SOURCES})
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
+        # Python 3.14+ uses HACL* implementation
+        # TODO: add Hacl_Hash_Blake2b_Simd256 and Hacl_Hash_Blake2s_Simd128
+        add_python_extension(_blake2 ${WIN32_BUILTIN}
+            SOURCES blake2module.c
+                    _hacl/Hacl_Hash_Blake2b.c
+                    _hacl/Hacl_Hash_Blake2s.c
+            INCLUDEDIRS ${SRC_DIR}/Modules/_hacl ${SRC_DIR}/Modules/_hacl/include)
+    else()
+        set(_blake2_SOURCES
+            _blake2/blake2module.c
+            _blake2/blake2b_impl.c
+            _blake2/blake2s_impl.c
+        )
+        add_python_extension(_blake2 ${WIN32_BUILTIN} SOURCES ${_blake2_SOURCES})
+    endif()
     if(PY_VERSION VERSION_LESS "3.12")
         add_python_extension(_sha3 ${WIN32_BUILTIN} SOURCES _sha3/sha3module.c)
     endif()
@@ -220,7 +230,11 @@ endif()
 # Python 3.7
 if(PY_VERSION VERSION_GREATER_EQUAL "3.7")
     add_python_extension(_abc BUILTIN SOURCES _abc.c)
-    add_python_extension(_contextvars ${WIN32_BUILTIN} SOURCES _contextvarsmodule.c)
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
+        add_python_extension(_contextvars ${WIN32_BUILTIN} SOURCES ${SRC_DIR}/Python/_contextvars.c)
+    else()
+        add_python_extension(_contextvars ${WIN32_BUILTIN} SOURCES _contextvarsmodule.c)
+    endif()
     add_python_extension(_queue SOURCES _queuemodule.c)
     add_python_extension(_uuid REQUIRES UUID_LIBRARY "HAVE_UUID_H OR HAVE_UUID_UUID_H" SOURCES _uuidmodule.c LIBRARIES ${UUID_LIBRARY})
     add_python_extension(_xxtestfuzz SOURCES _xxtestfuzz/_xxtestfuzz.c

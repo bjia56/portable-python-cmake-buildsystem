@@ -369,13 +369,21 @@ if(PY_VERSION VERSION_LESS "3.10")
 endif()
 if(PY_VERSION VERSION_GREATER_EQUAL "3.7")
     list(APPEND PYTHON_COMMON_SOURCES
-        ${SRC_DIR}/Python/ast_opt.c
         ${SRC_DIR}/Python/ast_unparse.c
         ${SRC_DIR}/Python/bootstrap_hash.c
         ${SRC_DIR}/Python/context.c
         ${SRC_DIR}/Python/hamt.c
         ${SRC_DIR}/Python/pathconfig.c
     )
+    if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
+        list(APPEND PYTHON_COMMON_SOURCES
+            ${SRC_DIR}/Python/ast_preprocess.c
+        )
+    else()
+        list(APPEND PYTHON_COMMON_SOURCES
+            ${SRC_DIR}/Python/ast_opt.c
+        )
+    endif()
 else()
     list(APPEND PYTHON_COMMON_SOURCES
         ${SRC_DIR}/Python/random.c
