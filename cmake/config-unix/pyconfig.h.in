@@ -171,6 +171,15 @@
 /* Define to 1 if you have the `clock_settime' function. [Python 3.6] */
 #cmakedefine HAVE_CLOCK_SETTIME 1
 
+/* Define to 1 if the system has the type `clock_t'. [Python 3.13] */
+#cmakedefine HAVE_CLOCK_T 1
+
+/* Define to 1 if you have the `closefrom' function. [Python 3.13] */
+#cmakedefine HAVE_CLOSEFROM 1
+
+/* Define to 1 if you have the `close_range' function. [Python 3.10] */
+#cmakedefine HAVE_CLOSE_RANGE 1
+
 /* Define if the C compiler supports computed gotos. */
 #cmakedefine HAVE_COMPUTED_GOTOS 1
 
@@ -352,6 +361,9 @@
 /* Define to 1 if you have the <errno.h> header file. */
 #cmakedefine HAVE_ERRNO_H 1
 
+/* Define if you have the 'eventfd' function. [Python 3.10] */
+#cmakedefine HAVE_EVENTFD 1
+
 /* Define to 1 if you have the `execv' function. */
 #cmakedefine HAVE_EXECV 1
 
@@ -509,6 +521,9 @@
 /* Define to 1 if you have the `getgid' function. [Python 3.1] */
 #cmakedefine HAVE_GETGID 1
 
+/* Define to 1 if you have the `getgrent' function. [Python 3.13] */
+#cmakedefine HAVE_GETGRENT 1
+
 /* Define to 1 if you have the `getgrgid' function. [Python 3.11] */
 #cmakedefine HAVE_GETGRGID 1
 
@@ -638,6 +653,9 @@
 /* Define if glibc has incorrect _FORTIFY_SOURCE wrappers for memmove and
    bcopy. [Python 3] */
 #cmakedefine HAVE_GLIBC_MEMMOVE_BUG 1
+
+/* Define to 1 if you have the `grantpt' function. [Python 3.13] */
+#cmakedefine HAVE_GRANTPT 1
 
 /* Define to 1 if you have the <grp.h> header file. */
 #cmakedefine HAVE_GRP_H 1
@@ -894,17 +912,32 @@
 /* Define to 1 if you have the `nanosleep' function. [Python 3.11] */
 #cmakedefine HAVE_NANOSLEEP 1
 
+/* Define if you have the 'ncurses' library [Python 3.13] */
+#cmakedefine HAVE_NCURSES 1
+
 /* Define to 1 if you have the `ncursesw' library. [Python 3.12] */
 #cmakedefine HAVE_NCURSESW 1
+
+/* Define to 1 if you have the <ncursesw/curses.h> header file. [Python 3.13] */
+#cmakedefine HAVE_NCURSESW_CURSES_H 1
+
+/* Define to 1 if you have the <ncursesw/ncurses.h> header file. [Python 3.13] */
+#cmakedefine HAVE_NCURSESW_NCURSES_H 1
+
+/* Define to 1 if you have the <ncursesw/panel.h> header file. [Python 3.13] */
+#cmakedefine HAVE_NCURSESW_PANEL_H 1
+
+/* Define to 1 if you have the <ncurses/curses.h> header file. [Python 3.13] */
+#cmakedefine HAVE_NCURSES_CURSES_H 1
 
 /* Define to 1 if you have the <ncurses.h> header file. */
 #cmakedefine HAVE_NCURSES_H 1
 
-/* Define to 1 if you have the <ncurses/panel.h> header file. */
-#cmakedefine HAVE_NCURSES_PANEL_H 1
+/* Define to 1 if you have the <ncurses/ncurses.h> header file. [Python 3.13] */
+#cmakedefine HAVE_NCURSES_NCURSES_H 1
 
-/* Define to 1 if you have the <ncursesw/panel.h> header file. */
-#cmakedefine HAVE_NCURSESW_PANEL_H 1
+/* Define to 1 if you have the <ncurses/panel.h> header file. [Python 3.13] */
+#cmakedefine HAVE_NCURSES_PANEL_H 1
 
 /* Define to 1 if you have the <ndbm.h> header file. [Python 3.11] */
 #cmakedefine HAVE_NDBM_H 1
@@ -920,6 +953,9 @@
 
 /* Define to 1 if you have the <netinet/in.h> header file. [Python 3.11] */
 #cmakedefine HAVE_NETINET_IN_H 1
+
+/* Define to 1 if you have the <netlink/netlink.h> header file. [Python 3.13] */
+#cmakedefine HAVE_NETLINK_NETLINK_H 1
 
 /* Define to 1 if you have the <netpacket/packet.h> header file. */
 #cmakedefine HAVE_NETPACKET_PACKET_H 1
@@ -948,6 +984,12 @@
 
 /* Define if compiling using MacOS X 10.5 SDK or later. */
 #cmakedefine HAVE_OSX105_SDK 1
+
+/* Define if you have the 'panel' library [Python 3.13] */
+#cmakedefine HAVE_PANEL 1
+
+/* Define if you have the 'panelw' library  [Python 3.13] */
+#cmakedefine HAVE_PANELW 1
 
 /* Define to 1 if you have the <panel.h> header file. [Python 3.12] */
 #cmakedefine HAVE_PANEL_H 1
@@ -979,11 +1021,18 @@
 /* Define to 1 if you have the `posix_fallocate' function. [Python 3] */
 #cmakedefine HAVE_POSIX_FALLOCATE 1
 
+/* Define to 1 if you have the `posix_openpt' function. [Python 3.13] */
+#cmakedefine HAVE_POSIX_OPENPT 1
+
 /* Define to 1 if you have the `posix_spawn' function. [Python 3.7] */
 #cmakedefine HAVE_POSIX_SPAWN 1
 
 /* Define to 1 if you have the `posix_spawnp' function. [Python 3.8] */
 #cmakedefine HAVE_POSIX_SPAWNP 1
+
+/* Define to 1 if you have the `posix_spawn_file_actions_addclosefrom_np'
+   function. [Python 3.13] */
+#cmakedefine HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCLOSEFROM_NP 1
 
 /* Define to 1 if you have the `pread' function. [Python 3] */
 #cmakedefine HAVE_PREAD 1
@@ -1003,6 +1052,9 @@
 /* Define to 1 if you have the <process.h> header file. */
 #cmakedefine HAVE_PROCESS_H 1
 
+/* Define to 1 if you have the `process_vm_readv' function. [Python 3.13] */
+#cmakedefine HAVE_PROCESS_VM_READV 1
+
 /* Define if your compiler supports function prototype */
 #cmakedefine HAVE_PROTOTYPES 1
 
@@ -1014,6 +1066,9 @@
 
 /* Define to 1 if you have the `pthread_condattr_setclock' function. [Python 3.8] */
 #cmakedefine HAVE_PTHREAD_CONDATTR_SETCLOCK 1
+
+/* Define to 1 if you have the `pthread_cond_timedwait_relative_np' function. [Python 3.13] */
+#cmakedefine HAVE_PTHREAD_COND_TIMEDWAIT_RELATIVE_NP 1
 
 /* Defined for Solaris 2.6 bug in pthread header. */
 #cmakedefine HAVE_PTHREAD_DESTRUCTOR 1
@@ -1035,6 +1090,12 @@
 
 /* Define if platform requires stubbed pthreads support [Python 3.11] */
 #cmakedefine HAVE_PTHREAD_STUBS 1
+
+/* Define to 1 if you have the `ptsname' function. [Python 3.13] */
+#cmakedefine HAVE_PTSNAME 1
+
+/* Define to 1 if you have the `ptsname_r' function. [Python 3.13] */
+#cmakedefine HAVE_PTSNAME_R 1
 
 /* Define to 1 if you have the <pty.h> header file. */
 #cmakedefine HAVE_PTY_H 1
@@ -1282,8 +1343,14 @@
 /* Define if you have the 'socketpair' function. */
 #cmakedefine HAVE_SOCKETPAIR 1
 
+/* Define to 1 if the system has the type `socklen_t'. [Python 3.13] */
+#cmakedefine HAVE_SOCKLEN_T 1
+
 /* Define to 1 if you have the <spawn.h> header file. */
 #cmakedefine HAVE_SPAWN_H 1
+
+/* Define to 1 if you have the `splice' function. [Python 3.10] */
+#cmakedefine HAVE_SPLICE 1
 
 /* Define if your compiler provides ssize_t */
 #cmakedefine HAVE_SSIZE_T 1
@@ -1411,6 +1478,9 @@
 /* Define to 1 if you have the <sys/epoll.h> header file. */
 #cmakedefine HAVE_SYS_EPOLL_H 1
 
+/* Define to 1 if you have the <sys/eventfd.h> header file. [Python 3.10] */
+#cmakedefine HAVE_SYS_EVENTFD_H 1
+
 /* Define to 1 if you have the <sys/event.h> header file. */
 #cmakedefine HAVE_SYS_EVENT_H 1
 
@@ -1487,6 +1557,9 @@
 /* Define to 1 if you have the <sys/termio.h> header file. */
 #cmakedefine HAVE_SYS_TERMIO_H 1
 
+/* Define to 1 if you have the <sys/timerfd.h> header file. [Python 3.13] */
+#cmakedefine HAVE_SYS_TIMERFD_H 1
+
 /* Define to 1 if you have the <sys/times.h> header file. */
 #cmakedefine HAVE_SYS_TIMES_H 1
 
@@ -1534,6 +1607,9 @@
 
 /* Define to 1 if you have the `timegm' function. */
 #cmakedefine HAVE_TIMEGM 1
+
+/* Define if you have the 'timerfd_create' function. [Python 3.13] */
+#cmakedefine HAVE_TIMERFD_CREATE 1
 
 /* Define to 1 if you have the `times' function. */
 #cmakedefine HAVE_TIMES 1
@@ -1585,6 +1661,9 @@
 /* Define to 1 if you have the `unlinkat' function. [Python 3] */
 #cmakedefine HAVE_UNLINKAT 1
 
+/* Define to 1 if you have the `unlockpt' function. [Python 3.13] */
+#cmakedefine HAVE_UNLOCKPT 1
+
 /* Define to 1 if you have the `unshare' function. [Python 3.12] */
 #cmakedefine HAVE_UNSHARE 1
 
@@ -1625,6 +1704,9 @@
 
 /* Define to 1 if you have the <uuid/uuid.h> header file. [Python 3.7] */
 #cmakedefine HAVE_UUID_UUID_H 1
+
+/* Define to 1 if you have the `vfork' function. [Python 3.10] */
+#cmakedefine HAVE_VFORK 1
 
 /* Define to 1 if you have the `wait' function. [Python 3.11] */
 #cmakedefine HAVE_WAIT 1
@@ -1674,6 +1756,9 @@
 
 /* Define to 1 if you have the `_getpty' function. */
 #cmakedefine HAVE__GETPTY 1
+
+/* Define to 1 if the system has the type `__uint128_t'. [Python 3.13] */
+#cmakedefine HAVE___UINT128_T 1
 
 /* Define if you are using Mach cthreads directly under /include [Python 2.7] */
 #cmakedefine HURD_C_THREADS 1
@@ -1762,7 +1847,7 @@
 /* Defined if Python is built as a shared library. */
 #cmakedefine Py_ENABLE_SHARED
 
-/* Define if you want to disable the GIL */
+/* Define if you want to disable the GIL [Python 3.13] */
 #cmakedefine Py_GIL_DISABLED 1
 
 /* Define as the size of the unicode type. [Python 2.7] */
@@ -1777,6 +1862,9 @@
 /* Define hash algorithm for str, bytes and memoryview. SipHash24: 1, FNV: 2,
    externally defined: 0 [Python 3] */
 #cmakedefine Py_HASH_ALGORITHM 1
+
+/* Define if rl_startup_hook takes arguments [Python 3.13] */
+#cmakedefine Py_RL_STARTUP_HOOK_TAKES_ARGS 1
 
 /* Define if you want to enable internal statistics gathering. [Python 3.11] */
 #cmakedefine Py_STATS 1
@@ -1872,6 +1960,9 @@
 /* Define if tanh(-0.) is -0., or if platform doesn't have signed zeros */
 #cmakedefine TANH_PRESERVES_ZERO_SIGN 1
 
+/* Custom thread stack size depending on chosen sanitizer runtimes. [Python 3.10] */
+#cmakedefine THREAD_STACK_SIZE @THREAD_STACK_SIZE@
+
 /* Library needed by timemodule.c: librt may be needed for clock_gettime() */
 #cmakedefine TIMEMODULE_LIB 1
 
@@ -1940,7 +2031,7 @@
    Dyld is necessary to support frameworks. */
 #cmakedefine WITH_DYLD 1
 
-/* Define to build the readline module against Editline. */
+/* Define to build the readline module against Editline. [Python 3.10] */
 #cmakedefine WITH_EDITLINE 1
 
 /* Define if you want to compile in object freelists optimization */
@@ -1948,6 +2039,9 @@
 
 /* Define to 1 if libintl is needed for locale functions. */
 #cmakedefine WITH_LIBINTL 1
+
+/* Define if you want to compile in mimalloc memory allocator. [Python 3.13] */
+#cmakedefine WITH_MIMALLOC 1
 
 /* Define if you want to produce an OpenStep/Rhapsody framework (shared
    library plus accessory files). */
