@@ -385,12 +385,18 @@ if(NOT EXISTS ${SRC_DIR}/${_landmark} AND DOWNLOAD_SOURCES)
         message(STATUS "${_filename} already downloaded")
     else()
         message(STATUS "Downloading ${_download_link}")
-        if(NOT DEFINED _download_${PY_VERSION}_md5)
-            message(FATAL_ERROR "Selected PY_VERSION [${PY_VERSION}] is not associated with any checksum. Consider updating this CMakeLists.txt setting _download_${PY_VERSION}_md5 variable")
+        if(DEFINED _download_${PY_VERSION}_sha256)
+            set(_checksum_args EXPECTED_HASH SHA256=${_download_${PY_VERSION}_sha256})
+        elseif(DEFINED _download_${PY_VERSION}_md5)
+            set(_checksum_args EXPECTED_MD5 ${_download_${PY_VERSION}_md5})
+        else()
+            message(FATAL_ERROR "Selected PY_VERSION [${PY_VERSION}] is not associated with any checksum. "
+                "Consider updating this CMakeLists.txt by setting _download_${PY_VERSION}_sha256 "
+                "(preferred) or _download_${PY_VERSION}_md5.")
         endif()
         file(
           DOWNLOAD ${_download_link} ${_archive_filepath}
-          EXPECTED_MD5 ${_download_${PY_VERSION}_md5}
+          ${_checksum_args}
           SHOW_PROGRESS
           )
     endif()

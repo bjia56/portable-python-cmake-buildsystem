@@ -94,7 +94,7 @@ options on the commandline with `-DOPTION=VALUE`, or use the "ccmake" gui.
     Path in which to install Python.
 
   DOWNLOAD_SOURCES=ON|OFF      (defaults to ON)
-    Download, check MD5 sum and extract python sources in the parent directory.
+    Download, check SHA256 or MD5 checksum and extract python sources in the parent directory.
     Source archive is downloaded from http://www.python.org/ftp/python
 
   BUILD_LIBPYTHON_SHARED=ON|OFF (defaults to OFF)
