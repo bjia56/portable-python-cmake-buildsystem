@@ -1,0 +1,7 @@
+egress:
+  - host: deb.debian.org
+    ports: [80, 443]
+  - host: security.debian.org
+    ports: [80, 443]
+  - host: www.python.org
+    ports: [80, 443]
