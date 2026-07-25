@@ -489,6 +489,8 @@ list(APPEND MODULE_SOURCES
     ${SRC_DIR}/Modules/signalmodule.c
 )
 if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
+    # Python 3.14+ compiles _datetimemodule into libpython (PY_STDLIB_MOD_SIMPLE)
+    # The extension build is skipped for 3.14+ to avoid ODR violation
     list(APPEND MODULE_SOURCES
         ${SRC_DIR}/Modules/_datetimemodule.c
     )

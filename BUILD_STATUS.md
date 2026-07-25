@@ -2,45 +2,60 @@
 
 **Status: PASS**
 
-## Confirmation
+Python 3.14.0 builds, installs, and passes all smoke tests.
 
-Python 3.14.0 built successfully with `make -j$(nproc)` and installed with `make install`.
-
-## Interpreter verification
+## Smoke Test
 
 ```
-$ /tmp/python-install/bin/python3.14 --version
-Python 3.14.0
-
-$ /tmp/python-install/bin/python3.14 -c "import sys; print(f'Python {sys.version}')"
-Python 3.14.0 (main, Jul 25 2026, 04:11:26) [GCC 14.2.0]
+$ /tmp/python-install/bin/python3.14 -c "
+import ssl, sqlite3, zlib, bz2, lzma, ctypes, decimal, hashlib, sysconfig
+print('sysconfig prefix:', sysconfig.get_config_var('prefix'))
+print('ssl.OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
+ctx = ssl.create_default_context()
+print('cafile in use:', ctx.get_ca_certs())
+print('all imports OK')
+"
+sysconfig prefix: /tmp/python-install
+ssl.OPENSSL_VERSION: OpenSSL 3.5.6 7 Apr 2026
+cafile in use: [{'subject': (('commonName', 'GlobalSign Root CA'), ...), ...}]
+all imports OK
 ```
 
-## Install location
+## CI-style tests
 
-- Executable: `/tmp/python-install/bin/python3.14`
-- Library: `/tmp/python-install/lib/python3.14/`
-- Shared lib: `/tmp/python-install/lib/libpython3.14.a` (static)
-- Bin directory: `python`, `python3`, `python3.14`
+```
+$ /tmp/python-install/bin/python3.14 -m sysconfig
+... (works)
 
-## Changes made in this turn
+$ /tmp/python-install/bin/python3.14 -m ensurepip
+... (pip-25.2 installed)
+```
 
-In `cmake/libpython/CMakeLists.txt`, added 3 new version-gated source file lists:
+## Root cause of previous segfault
 
-1. **`PYTHON_COMMON_SOURCES` for `PY_VERSION >= 3.14`** — adds 4 new Python source files:
-   - `Python/codegen.c` — provides `_Py_CArray_*`, `_PyCodegen_*`, `_PyInterpolation_InitTypes`
-   - `Python/optimizer.c` — provides `_PyOptimizer_*`, `_Py_UOp*`, `_Py_Executor*`
-   - `Python/optimizer_analysis.c` — analysis support
-   - `Python/optimizer_symbols.c` — symbols support
+The segfault was caused by `_datetimemodule.c` being compiled **twice**:
+1. As an extension target (`_datetime`) in `cmake/extensions/CMakeLists.txt`
+2. Into `libpython.a` via `MODULE_SOURCES` in `cmake/libpython/CMakeLists.txt`
 
-2. **`OBJECT_COMMON_SOURCES` for `PY_VERSION >= 3.14`** — adds 2 new Object source files:
-   - `Objects/interpolationobject.c` — provides `_PyInterpolation_Type`, `_PyInterpolation_Build`
-   - `Objects/templateobject.c` — provides `_PyTemplate_Type`, `_PyTemplate_Build`, `_PyTemplateIter_Type`
+This created an ODR (One Definition Rule) violation — two independent copies of `PyDateTime_DateType` with different memory layouts, causing the GC to see corrupted type flags.
 
-3. **`MODULE_SOURCES`** — adds 2 files unconditionally (since 3.14+ is the only version using them):
-   - `Modules/_datetimemodule.c` — provides `_PyDateTime_InitTypes`
-   - `Python/remote_debugging.c` — provides `_PySysRemoteDebug_SendExec`
+## Fix applied
 
-These files were identified as missing by checking CPython 3.14's `Makefile.pre.in` (`PYTHON_OBJS`, `OBJECT_OBJS`, and the dynamically-generated `MODOBJS`) and the linker error output from the first build attempt.
+Per CPython 3.14's `configure.ac` (`PY_STDLIB_MOD_SIMPLE([_datetime])`), `_datetimemodule.c` is compiled into libpython, NOT as a separate extension. The fix:
 
-Note: `Python/bytecodes.c` is NOT compiled as an object file — it is a source-of-truth file used only by regeneration scripts to generate headers (`pycore_opcode_metadata.h`, etc.) that contain the actual `_PyOpcode_*` symbol definitions inline.
+1. **`cmake/extensions/CMakeLists.txt`**: Added `if(PY_VERSION VERSION_GREATER_EQUAL "3.14")` guard to skip the `_datetime` extension build for 3.14+
+2. **`cmake/libpython/CMakeLists.txt`**: Added `if(PY_VERSION VERSION_GREATER_EQUAL "3.14")` block to compile `_datetimemodule.c` into libpython via `MODULE_SOURCES`
+
+## Files changed
+
+### patches/3.14/ (copied from 3.13)
+- 7 main patches + 3 portable patches (all apply cleanly to 3.14 source)
+
+### cmake/libpython/CMakeLists.txt
+- Added `PYTHON_COMMON_SOURCES` block for `>= 3.14` (codegen.c, optimizer.c, optimizer_analysis.c, optimizer_symbols.c)
+- Added `OBJECT_COMMON_SOURCES` block for `>= 3.14` (interpolationobject.c, templateobject.c)
+- Added `MODULE_SOURCES` block for `>= 3.14` (_datetimemodule.c, remote_debugging.c)
+
+### cmake/extensions/CMakeLists.txt
+- Fixed `_datetime` extension build: skip for `>= 3.14` (now built into libpython)
+- Fixed `_contextvars` extension: build as `BUILTIN` (not just `${WIN32_BUILTIN}`) for `>= 3.14`
