@@ -1,0 +1,14 @@
+diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
+index bd2a7fbf53..ed39ee6615 100644
+--- a/Modules/posixmodule.c
++++ b/Modules/posixmodule.c
+@@ -321,6 +321,9 @@ corresponding Unix manual entries for more information on calls.");
+ #ifdef HAVE_LINUX_RANDOM_H
+ #  include <linux/random.h>
+ #endif
++#if defined(HAVE_SYS_RANDOM_H) && defined(__COSMOPOLITAN__)
++#  include <sys/random.h>
++#endif
+ #ifdef HAVE_GETRANDOM_SYSCALL
+ #  include <sys/syscall.h>
+ #endif

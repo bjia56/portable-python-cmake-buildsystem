@@ -1,0 +1,14 @@
+diff --git a/Modules/getpath_noop.c b/Modules/getpath_noop.c
+index c10e41d07f..16d75834c3 100644
+--- a/Modules/getpath_noop.c
++++ b/Modules/getpath_noop.c
+@@ -8,3 +8,9 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
+ {
+     return PyStatus_Error("path configuration is unsupported");
+ }
++
++PyObject *
++_Py_Get_Getpath_CodeObject(void)
++{
++    return NULL;
++}
