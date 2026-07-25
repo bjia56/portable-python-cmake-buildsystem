@@ -219,6 +219,7 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.6")
             SOURCES blake2module.c
                     _hacl/Hacl_Hash_Blake2b.c
                     _hacl/Hacl_Hash_Blake2s.c
+                    _hacl/Lib_Memzero0.c
             INCLUDEDIRS ${SRC_DIR}/Modules/_hacl ${SRC_DIR}/Modules/_hacl/include)
     else()
         set(_blake2_SOURCES
