@@ -493,11 +493,9 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
     # The extension build is skipped for 3.14+ to avoid ODR violation
     list(APPEND MODULE_SOURCES
         ${SRC_DIR}/Modules/_datetimemodule.c
+        ${SRC_DIR}/Python/remote_debugging.c
     )
 endif()
-list(APPEND MODULE_SOURCES
-    ${SRC_DIR}/Python/remote_debugging.c
-)
 
 set(LIBPYTHON_OMIT_FROZEN_SOURCES
     ${SRC_DIR}/Modules/getbuildinfo.c
