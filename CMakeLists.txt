@@ -373,6 +373,9 @@ set(_download_3.13.6_md5 "d74ea44a15333e1bd161d1844078d4c5")
 set(_download_3.13.7_md5 "138c2e19c835ead10499571e0d4cf189")
 set(_download_3.13.8_md5 "bf0c29867b0c00aa7e9ec3394c979b9a")
 set(_download_3.13.9_md5 "e1791b3b51d412ececd3b95c30573c46")
+set(_download_3.13.10_md5 "cc68814bb8d14a70725d643c64315f9b")
+set(_download_3.13.11_md5 "b0bea9e599a10ab3593ab60ace27b25d")
+set(_download_3.13.12_sha256 "12e7cb170ad2d1a69aee96a1cc7fc8de5b1e97a2bdac51683a3db016ec9a2996")
 # 3.14.x
 set(_download_3.14.0_md5 "2ba6baae1e7c56f652195327d3becd64")
 
@@ -385,12 +388,18 @@ if(NOT EXISTS ${SRC_DIR}/${_landmark} AND DOWNLOAD_SOURCES)
         message(STATUS "${_filename} already downloaded")
     else()
         message(STATUS "Downloading ${_download_link}")
-        if(NOT DEFINED _download_${PY_VERSION}_md5)
-            message(FATAL_ERROR "Selected PY_VERSION [${PY_VERSION}] is not associated with any checksum. Consider updating this CMakeLists.txt setting _download_${PY_VERSION}_md5 variable")
+        if(DEFINED _download_${PY_VERSION}_sha256)
+            set(_checksum_args EXPECTED_HASH SHA256=${_download_${PY_VERSION}_sha256})
+        elseif(DEFINED _download_${PY_VERSION}_md5)
+            set(_checksum_args EXPECTED_MD5 ${_download_${PY_VERSION}_md5})
+        else()
+            message(FATAL_ERROR "Selected PY_VERSION [${PY_VERSION}] is not associated with any checksum. "
+                "Consider updating this CMakeLists.txt by setting _download_${PY_VERSION}_sha256 "
+                "(preferred) or _download_${PY_VERSION}_md5.")
         endif()
         file(
           DOWNLOAD ${_download_link} ${_archive_filepath}
-          EXPECTED_MD5 ${_download_${PY_VERSION}_md5}
+          ${_checksum_args}
           SHOW_PROGRESS
           )
     endif()
