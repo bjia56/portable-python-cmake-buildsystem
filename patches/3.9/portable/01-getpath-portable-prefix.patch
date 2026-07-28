@@ -2,7 +2,7 @@ diff --git a/Modules/getpath.c b/Modules/getpath.c
 index 5dbe57c950..47b67e4ccb 100644
 --- a/Modules/getpath.c
 +++ b/Modules/getpath.c
-@@ -9,6 +9,120 @@
+@@ -9,6 +9,171 @@
  #include <sys/types.h>
  #include <string.h>
  
@@ -105,7 +105,58 @@ index 5dbe57c950..47b67e4ccb 100644
 +
 +#endif
 +
-+#if defined(__linux__) || defined(__APPLE__)
++#ifdef __COSMOPOLITAN__
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <limits.h>
++#include <errno.h>
++#include <pthread.h>
++#include <cosmo.h>
++
++pthread_mutex_t portable_python_prefix_mutex = PTHREAD_MUTEX_INITIALIZER;
++char portable_python_prefix[PATH_MAX] = {0};
++
++static char* portable_python_get_install_prefix() {
++    pthread_mutex_lock(&portable_python_prefix_mutex);
++
++    if (portable_python_prefix[0] != '\0') {
++        pthread_mutex_unlock(&portable_python_prefix_mutex);
++        return portable_python_prefix;
++    }
++
++    // Standalone build: the stdlib is bundled into this executable's
++    // own zip store, which Cosmopolitan mounts at /zip.
++    if (access("/zip/lib", F_OK) == 0) {
++        strcpy(portable_python_prefix, "/zip");
++        pthread_mutex_unlock(&portable_python_prefix_mutex);
++        return portable_python_prefix;
++    }
++
++    // Directory-mode build: the stdlib sits in ../lib relative to
++    // this executable on disk. /proc/self/exe isn't available on every
++    // platform Cosmopolitan runs on, so use the native APE accessor
++    // instead of readlink().
++    char *exe = GetProgramExecutableName();
++    if (exe == NULL) {
++        fprintf(stderr, "Error getting executable path\n");
++        exit(EXIT_FAILURE);
++    }
++    strncpy(portable_python_prefix, exe, PATH_MAX - 1);
++    portable_python_prefix[PATH_MAX - 1] = '\0';
++
++    _portable_python_trim_to_parent_directory(portable_python_prefix); // bin directory
++    _portable_python_trim_to_parent_directory(portable_python_prefix); // root directory
++
++    pthread_mutex_unlock(&portable_python_prefix_mutex);
++    return portable_python_prefix;
++}
++
++#endif
++
++#if defined(__linux__) || defined(__APPLE__) || defined(__COSMOPOLITAN__)
 +
 +#ifdef PREFIX
 +# undef PREFIX
