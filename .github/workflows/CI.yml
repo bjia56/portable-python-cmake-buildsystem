@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: [3.9.25, 3.10.19, 3.11.14, 3.12.12, 3.13.9, 3.14.0]
+        python-version: [3.9.25, 3.10.19, 3.11.14, 3.12.12, 3.13.12, 3.14.0]
         os: [ubuntu]
         include:
           - os: ubuntu
@@ -25,10 +25,10 @@ jobs:
 
     name: ${{ matrix.os }}-${{ matrix.python-version }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
 
     - name: Setup cmake
-      uses: jwlawson/actions-setup-cmake@v1.13.1
+      uses: jwlawson/actions-setup-cmake@65b272e1213f99771fbba0c237e0b3312270e0c9 # v1.13.1
       with:
         cmake-version: 3.13.5
 

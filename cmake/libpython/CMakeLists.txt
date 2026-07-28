@@ -251,6 +251,12 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.10")
         ${SRC_DIR}/Objects/unionobject.c
     )
 endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
+    list(APPEND OBJECT_COMMON_SOURCES
+        ${SRC_DIR}/Objects/interpolationobject.c
+        ${SRC_DIR}/Objects/templateobject.c
+    )
+endif()
 
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
     foreach(filename class complex float int method string type unicode weakref)
@@ -435,6 +441,14 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.13")
         ${SRC_DIR}/Python/qsbr.c
     )
 endif()
+if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
+    list(APPEND PYTHON_COMMON_SOURCES
+        ${SRC_DIR}/Python/codegen.c
+        ${SRC_DIR}/Python/optimizer.c
+        ${SRC_DIR}/Python/optimizer_analysis.c
+        ${SRC_DIR}/Python/optimizer_symbols.c
+    )
+endif()
 
 if(UNIX)
     list(APPEND PYTHON_COMMON_SOURCES
@@ -474,6 +488,14 @@ endif()
 list(APPEND MODULE_SOURCES
     ${SRC_DIR}/Modules/signalmodule.c
 )
+if(PY_VERSION VERSION_GREATER_EQUAL "3.14")
+    # Python 3.14+ compiles _datetimemodule into libpython (PY_STDLIB_MOD_SIMPLE)
+    # The extension build is skipped for 3.14+ to avoid ODR violation
+    list(APPEND MODULE_SOURCES
+        ${SRC_DIR}/Modules/_datetimemodule.c
+        ${SRC_DIR}/Python/remote_debugging.c
+    )
+endif()
 
 set(LIBPYTHON_OMIT_FROZEN_SOURCES
     ${SRC_DIR}/Modules/getbuildinfo.c

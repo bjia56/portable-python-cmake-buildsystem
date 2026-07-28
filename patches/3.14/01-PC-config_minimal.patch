@@ -1,0 +1,17 @@
+diff --git a/PC/config_minimal.c b/PC/config_minimal.c
+index 928a4efd32..e541204c79 100644
+--- a/PC/config_minimal.c
++++ b/PC/config_minimal.c
+@@ -8,6 +8,12 @@
+ /* Define extern variables omitted from minimal builds */
+ void *PyWin_DLLhModule = NULL;
+ 
++#if !defined(MS_DLL_ID)
++# error MS_DLL_ID must be defined
++#endif
++
++const char *PyWin_DLLVersionString = MS_DLL_ID;
++
+ 
+ extern PyObject* PyInit_faulthandler(void);
+ extern PyObject* PyInit__tracemalloc(void);
