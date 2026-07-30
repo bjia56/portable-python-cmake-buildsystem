@@ -7,7 +7,7 @@ index 5dbe57c950..47b67e4ccb 100644
  #include <string.h>
  
 +
-+#if defined(__linux__) || defined(__APPLE__)
++#if defined(__linux__) || defined(__APPLE__) || defined(__COSMOPOLITAN__)
 +char _portable_python_path_sep = '/';
 +#else
 +char _portable_python_path_sep = '\\';
