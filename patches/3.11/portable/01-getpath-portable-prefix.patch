@@ -16,7 +16,7 @@ index 5dbe57c950..47b67e4ccb 100644
 +static void _portable_python_trim_to_parent_directory(char* path) {
 +    char* last_slash = strrchr(path, _portable_python_path_sep);
 +    if (last_slash == NULL) {
-+        fprintf(stderr, "Invalid path: No parent directory found\n");
++        fprintf(stderr, "Invalid path: No parent directory found: %s\n", path);
 +        exit(EXIT_FAILURE);
 +    }
 +
