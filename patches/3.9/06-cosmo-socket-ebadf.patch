@@ -1,0 +1,27 @@
+diff --git a/Modules/socketmodule.c b/Modules/socketmodule.c
+index 9e0223b..d7c1cad 100644
+--- a/Modules/socketmodule.c
++++ b/Modules/socketmodule.c
+@@ -103,6 +103,10 @@ Local naming conventions:
+ #include "Python.h"
+ #include "structmember.h"         // PyMemberDef
+ 
++#ifdef __COSMOPOLITAN__
++#include <cosmo.h>
++#endif
++
+ #ifdef _Py_MEMORY_SANITIZER
+ # include <sanitizer/msan_interface.h>
+ #endif
+@@ -5236,7 +5240,11 @@ sock_initobj(PyObject *self, PyObject *args, PyObject *kwds)
+                 if (family == -1 || CHECK_ERRNO(ENOTSOCK)) {
+ #else
+                 /* getsockname() is not supported for SOL_ALG on Linux. */
++#ifdef __COSMOPOLITAN__
++                if (family == -1 || (!IsWindows() && CHECK_ERRNO(EBADF)) || CHECK_ERRNO(ENOTSOCK)) {
++#else
+                 if (family == -1 || CHECK_ERRNO(EBADF) || CHECK_ERRNO(ENOTSOCK)) {
++#endif
+ #endif
+                     set_error();
+                     return -1;
