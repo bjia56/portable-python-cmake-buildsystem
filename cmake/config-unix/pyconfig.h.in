@@ -1428,6 +1428,9 @@
 /* Define to 1 if you have the `ttyname' function. */
 #cmakedefine HAVE_TTYNAME 1
 
+/* Define to 1 if you have the `ttyname_r' function. */
+#cmakedefine HAVE_TTYNAME_R 1
+
 /* Define to 1 if you don't have `tm_zone' but do have the external array
    `tzname'. */
 #cmakedefine HAVE_TZNAME 1
