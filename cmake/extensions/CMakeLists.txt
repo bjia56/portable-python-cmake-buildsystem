@@ -457,6 +457,15 @@ if(
         # This changed in https://github.com/python/cpython/commit/38f331d4656394ae0f425568e26790ace778e076
         set(ctypes_extra_definitions FFI_BUILDING)
     endif()
+    if(Cosmopolitan)
+        set(COSMO_CTYPES_GENERATED_DIR ${CMAKE_CURRENT_BINARY_DIR}/cosmo_ctypes)
+        file(MAKE_DIRECTORY ${COSMO_CTYPES_GENERATED_DIR})
+        include(${PROJECT_SOURCE_DIR}/cmake/cosmo_ctypes/GenerateSymtab.cmake)
+        list(APPEND ctypes_COMMON_SOURCES
+            ${COSMO_CTYPES_GENERATED_DIR}/cosmo_symtab.c
+            ${PROJECT_SOURCE_DIR}/cmake/cosmo_ctypes/dlfcn_shim.c)
+        list(APPEND ctypes_extra_definitions COSMO_CTYPES)
+    endif()
     add_python_extension(_ctypes
         REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
         SOURCES ${ctypes_COMMON_SOURCES}
