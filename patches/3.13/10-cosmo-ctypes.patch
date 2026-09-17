@@ -1,12 +1,16 @@
 diff --git a/Modules/_ctypes/_ctypes.c b/Modules/_ctypes/_ctypes.c
-index 236adaf..093f7d5 100644
+index 236adaf..dfcbf43 100644
 --- a/Modules/_ctypes/_ctypes.c
 +++ b/Modules/_ctypes/_ctypes.c
-@@ -119,6 +119,15 @@ bytes(cdata)
+@@ -119,6 +119,19 @@ bytes(cdata)
  #ifndef IS_INTRESOURCE
  #define IS_INTRESOURCE(x) (((size_t)(x) >> 16) == 0)
  #endif
 +#elif defined(COSMO_CTYPES)
++#define RTLD_LOCAL  0
++#define RTLD_LAZY   1
++#define RTLD_NOW    2
++#define RTLD_GLOBAL 256
 +extern void *cosmo_ctypes_dlopen(const char *, int);
 +extern void *cosmo_ctypes_dlsym(void *, const char *);
 +extern int cosmo_ctypes_dlclose(void *);
@@ -19,14 +23,18 @@ index 236adaf..093f7d5 100644
  #include <dlfcn.h>
  #endif
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index cbed2f3..a6826f7 100644
+index cbed2f3..1dc4334 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
-@@ -71,6 +71,15 @@ module _ctypes
+@@ -71,6 +71,19 @@ module _ctypes
  #ifdef MS_WIN32
  #include <windows.h>
  #include <tchar.h>
 +#elif defined(COSMO_CTYPES)
++#define RTLD_LOCAL  0
++#define RTLD_LAZY   1
++#define RTLD_NOW    2
++#define RTLD_GLOBAL 256
 +extern void *cosmo_ctypes_dlopen(const char *, int);
 +extern void *cosmo_ctypes_dlsym(void *, const char *);
 +extern int cosmo_ctypes_dlclose(void *);

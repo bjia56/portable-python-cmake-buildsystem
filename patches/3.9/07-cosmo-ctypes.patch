@@ -1,12 +1,17 @@
 diff --git a/Modules/_ctypes/ctypes_dlfcn.h b/Modules/_ctypes/ctypes_dlfcn.h
-index 54cdde9..fbf2d48 100644
+index 54cdde9..35bc281 100644
 --- a/Modules/_ctypes/ctypes_dlfcn.h
 +++ b/Modules/_ctypes/ctypes_dlfcn.h
-@@ -7,6 +7,20 @@ extern "C" {
+@@ -7,6 +7,31 @@ extern "C" {
  
  #ifndef MS_WIN32
  
 +#if defined(COSMO_CTYPES)
++
++#define RTLD_LOCAL  0
++#define RTLD_LAZY   1
++#define RTLD_NOW    2
++#define RTLD_GLOBAL 256
 +
 +extern void *cosmo_ctypes_dlopen(const char *, int);
 +extern void *cosmo_ctypes_dlsym(void *, const char *);
@@ -18,12 +23,18 @@ index 54cdde9..fbf2d48 100644
 +#define ctypes_dlopen cosmo_ctypes_dlopen
 +#define ctypes_dlclose cosmo_ctypes_dlclose
 +
++/* some call sites use the plain names directly, not the ctypes_ prefix */
++#define dlsym cosmo_ctypes_dlsym
++#define dlerror cosmo_ctypes_dlerror
++#define dlopen cosmo_ctypes_dlopen
++#define dlclose cosmo_ctypes_dlclose
++
 +#else
 +
  #include <dlfcn.h>
  
  #ifndef CTYPES_DARWIN_DLFCN
-@@ -19,6 +33,8 @@ extern "C" {
+@@ -19,6 +44,8 @@ extern "C" {
  
  #endif /* !CTYPES_DARWIN_DLFCN */
  
