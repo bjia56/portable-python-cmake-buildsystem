@@ -620,16 +620,34 @@ if(PY_VERSION VERSION_GREATER_EQUAL "3.11")
 else()
     set(_freeze_importlib_SOURCE ${SRC_DIR}/Programs/_freeze_importlib.c)
 endif()
+set(_freeze_importlib_omit_sources ${LIBPYTHON_OMIT_FROZEN_SOURCES})
+set(_freeze_importlib_link_libraries ${LIBPYTHON_TARGET_LIBRARIES})
+if(Cosmopolitan)
+    # _ctypes/libffi crash _freeze_importlib at runtime on cosmo; it never
+    # imports anything anyway, so exclude them there.
+    get_property(_freeze_importlib_ctypes_sources GLOBAL PROPERTY extension__ctypes_sources)
+    if(_freeze_importlib_ctypes_sources)
+        list(REMOVE_ITEM _freeze_importlib_omit_sources ${_freeze_importlib_ctypes_sources})
+        list(APPEND _freeze_importlib_SOURCE
+            ${PROJECT_SOURCE_DIR}/cmake/cosmo_ctypes/freeze_importlib_stub.c)
+    endif()
+
+    get_property(_freeze_importlib_ctypes_link_libraries GLOBAL PROPERTY extension__ctypes_link_libraries)
+    if(_freeze_importlib_ctypes_link_libraries)
+        list(REMOVE_ITEM _freeze_importlib_link_libraries ${_freeze_importlib_ctypes_link_libraries})
+    endif()
+endif()
+
 add_executable(_freeze_importlib
   ${_freeze_importlib_SOURCE}
-  ${LIBPYTHON_OMIT_FROZEN_SOURCES}
+  ${_freeze_importlib_omit_sources}
 )
 if(CMAKE_DEBUG_POSTFIX)
   set_target_properties(_freeze_importlib PROPERTIES
     DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
   )
 endif()
-target_link_libraries(_freeze_importlib ${LIBPYTHON_TARGET_LIBRARIES})
+target_link_libraries(_freeze_importlib ${_freeze_importlib_link_libraries})
 if(builtin_compile_definitions_without_py_limited_api)
   target_compile_definitions(_freeze_importlib PUBLIC ${builtin_compile_definitions_without_py_limited_api})
 endif()
