@@ -96,5 +96,9 @@ nanosleep
 usleep
 sleep
 
+pthread_self
+pthread_setname_np
+pthread_getname_np
+
 # errno access goes through ctypes' existing use_errno/use_last_error
 # machinery, not this table.
