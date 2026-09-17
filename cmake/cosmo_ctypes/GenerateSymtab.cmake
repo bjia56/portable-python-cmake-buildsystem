@@ -14,11 +14,25 @@ endforeach()
 
 list(SORT _cosmo_ctypes_symbols)
 
+set(_trampolines "")
 set(_entries "")
 foreach(_sym ${_cosmo_ctypes_symbols})
-    string(APPEND _entries "    {\"${_sym}\", (void *)${_sym}},\n")
+    string(APPEND _trampolines
+        "extern void cosmo_wrap_${_sym}(void);\n"
+        "#if defined(__aarch64__)\n"
+        "__asm__(\".global cosmo_wrap_${_sym}\\n\"\n"
+        "        \"cosmo_wrap_${_sym}:\\n\"\n"
+        "        \"\\tb ${_sym}\\n\");\n"
+        "#else\n"
+        "__asm__(\".global cosmo_wrap_${_sym}\\n\"\n"
+        "        \"cosmo_wrap_${_sym}:\\n\"\n"
+        "        \"\\tjmp ${_sym}\\n\");\n"
+        "#endif\n"
+    )
+    string(APPEND _entries "    {\"${_sym}\", (void *)cosmo_wrap_${_sym}},\n")
 endforeach()
 
+set(COSMO_CTYPES_SYMTAB_TRAMPOLINES "${_trampolines}")
 set(COSMO_CTYPES_SYMTAB_ENTRIES "${_entries}")
 
 configure_file(

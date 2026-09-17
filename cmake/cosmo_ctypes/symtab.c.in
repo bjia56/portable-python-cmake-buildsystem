@@ -15,6 +15,16 @@ typedef struct {
     void *addr;
 } CosmoSym;
 
+/*
+ * Taking &libc_function directly is unsafe here: several of these symbols
+ * are __vex-dispatched (GCC target_clones ifuncs), and cosmo's fixupobj
+ * only patches ifunc references at call/jump sites -- a plain address-of
+ * used as data resolves to garbage. Each symbol gets a tail-call trampoline
+ * instead, so the reference to the real function is a jump (a supported
+ * call-site), not a data load.
+ */
+@COSMO_CTYPES_SYMTAB_TRAMPOLINES@
+
 static const CosmoSym cosmo_ctypes_symtab[] = {
 @COSMO_CTYPES_SYMTAB_ENTRIES@
 };
