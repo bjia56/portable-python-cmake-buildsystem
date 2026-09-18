@@ -1,0 +1,49 @@
+#include <stddef.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <time.h>
+#include <pthread.h>
+
+typedef struct {
+    const char *name;
+    void *addr;
+} CosmoSym;
+
+/*
+ * Taking &libc_function directly is unsafe here: several of these symbols
+ * are __vex-dispatched (GCC target_clones ifuncs), and cosmo's fixupobj
+ * only patches ifunc references at call/jump sites -- a plain address-of
+ * used as data resolves to garbage. Each symbol gets a tail-call trampoline
+ * instead, so the reference to the real function is a jump (a supported
+ * call-site), not a data load.
+ */
+@COSMO_CTYPES_SYMTAB_TRAMPOLINES@
+
+static const CosmoSym cosmo_ctypes_symtab[] = {
+@COSMO_CTYPES_SYMTAB_ENTRIES@
+};
+
+static const size_t cosmo_ctypes_symtab_count =
+    sizeof(cosmo_ctypes_symtab) / sizeof(cosmo_ctypes_symtab[0]);
+
+/* symbols.txt is kept sorted, so this is a real binary search. */
+void *cosmo_symtab_lookup(const char *name) {
+    size_t lo = 0, hi = cosmo_ctypes_symtab_count;
+    while (lo < hi) {
+        size_t mid = lo + (hi - lo) / 2;
+        int cmp = strcmp(name, cosmo_ctypes_symtab[mid].name);
+        if (cmp == 0)
+            return cosmo_ctypes_symtab[mid].addr;
+        if (cmp < 0)
+            hi = mid;
+        else
+            lo = mid + 1;
+    }
+    return NULL;
+}

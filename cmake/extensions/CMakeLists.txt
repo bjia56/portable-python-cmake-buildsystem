@@ -45,7 +45,7 @@ if(PY_VERSION VERSION_LESS "3.13")
 endif()
 add_python_extension(cStringIO ${WIN32_BUILTIN} REQUIRES IS_PY2 SOURCES cStringIO.c)
 add_python_extension(_csv ${WIN32_BUILTIN} SOURCES _csv.c)
-add_python_extension(_ctypes_test NEVER_BUILTIN REQUIRES HAVE_LIBM SOURCES _ctypes/_ctypes_test.c LIBRARIES ${M_LIBRARIES})
+add_python_extension(_ctypes_test NEVER_BUILTIN REQUIRES HAVE_LIBM NOT_COSMOPOLITAN SOURCES _ctypes/_ctypes_test.c LIBRARIES ${M_LIBRARIES})
 set(datetime2_NAME datetime)
 set(datetime2_SOURCES datetimemodule.c)
 set(datetime3_NAME _datetime)
@@ -456,6 +456,15 @@ if(
         # Windows builds want this to be defined in Python prior to 3.11
         # This changed in https://github.com/python/cpython/commit/38f331d4656394ae0f425568e26790ace778e076
         set(ctypes_extra_definitions FFI_BUILDING)
+    endif()
+    if(Cosmopolitan)
+        set(COSMO_CTYPES_GENERATED_DIR ${CMAKE_CURRENT_BINARY_DIR}/cosmo_ctypes)
+        file(MAKE_DIRECTORY ${COSMO_CTYPES_GENERATED_DIR})
+        include(${PROJECT_SOURCE_DIR}/cmake/cosmo_ctypes/GenerateSymtab.cmake)
+        list(APPEND ctypes_COMMON_SOURCES
+            ${COSMO_CTYPES_GENERATED_DIR}/cosmo_symtab.c
+            ${PROJECT_SOURCE_DIR}/cmake/cosmo_ctypes/dlfcn_shim.c)
+        list(APPEND ctypes_extra_definitions COSMO_CTYPES)
     endif()
     add_python_extension(_ctypes
         REQUIRES LibFFI_INCLUDE_DIR LibFFI_LIBRARY
